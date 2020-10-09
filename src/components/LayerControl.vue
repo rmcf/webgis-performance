@@ -3,7 +3,9 @@
     <md-card>
       <md-card-header>
         <div class="md-layout md-alignment-center-center">
-          <div class="md-title md-center">Layer Management</div>
+          <div class="md-center">
+            <span class="md-title">Layer Management</span>
+          </div>
         </div>
       </md-card-header>
       <md-divider></md-divider>
@@ -29,7 +31,7 @@
       </md-card-content>
       <md-divider></md-divider>
       <md-card-content class="md-layout md-alignment-center-center">
-        <h2>Layer number: {{ layer }}</h2>
+        <h2>Layer: {{ layer }}</h2>
       </md-card-content>
     </md-card>
   </div>
