@@ -31,7 +31,7 @@
 export default {
   name: "LayerControl",
   data: () => ({
-    selectedLayer: "",
+    selectedLayer: "none",
     layers: [
       {
         id: 0,
