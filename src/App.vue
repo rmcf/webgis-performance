@@ -2,8 +2,8 @@
   <div id="app">
     <Navbar></Navbar>
     <div class="md-layout">
-      <div class="md-layout-item md-size-25"><LayerControl></LayerControl></div>
-      <div class="md-layout-item md-size-75">Main Content</div>
+      <div class="md-layout-item md-size-20"><LayerControl></LayerControl></div>
+      <div class="md-layout-item md-size-80"><Map></Map></div>
     </div>
   </div>
 </template>
@@ -11,12 +11,14 @@
 <script>
 import Navbar from "./components/Navbar.vue";
 import LayerControl from "./components/LayerControl.vue";
+import Map from "./components/Map.vue";
 
 export default {
   name: "App",
   components: {
     Navbar,
     LayerControl,
+    Map,
   },
 };
 </script>
