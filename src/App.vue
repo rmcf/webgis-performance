@@ -2,8 +2,14 @@
   <div id="app">
     <Navbar></Navbar>
     <div class="md-layout">
-      <div class="md-layout-item md-size-20"><LayerControl></LayerControl></div>
-      <div class="md-layout-item md-size-80"><Map></Map></div>
+      <div class="md-layout-item md-size-20">
+        <!-- Layers management component -->
+        <LayerControl v-on:layer-input="rasterLayer = $event"></LayerControl>
+      </div>
+      <div class="md-layout-item md-size-80">
+        <!-- Map component -->
+        <Map :layer="rasterLayer"></Map>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +26,15 @@ export default {
     LayerControl,
     Map,
   },
+  data: () => ({
+    rasterLayer: {
+      id: 1,
+      name: "Open Street Map",
+      source: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  }),
 };
 </script>
 

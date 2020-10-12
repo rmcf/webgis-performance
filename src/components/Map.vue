@@ -7,8 +7,8 @@
     >
       <vl-view :zoom.sync="zoom" :center.sync="center"></vl-view>
 
-      <vl-layer-tile id="osm">
-        <vl-source-osm></vl-source-osm>
+      <vl-layer-tile>
+        <vl-source-xyz :url="layer.source"></vl-source-xyz>
       </vl-layer-tile>
     </vl-map>
 
@@ -22,6 +22,9 @@
 <script>
 export default {
   name: "Map",
+  props: {
+    layer: Object,
+  },
   data() {
     return {
       zoom: 7,

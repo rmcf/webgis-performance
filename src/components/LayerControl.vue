@@ -10,17 +10,12 @@
       <md-card-content>
         <div v-for="layer in layers" :key="layer.id">
           <md-radio
-            v-model="selectedLayer"
+            @change="$emit('layer-input', layer)"
+            v-model="layerSelected"
             :value="layer.name"
             class="md-primary"
             >{{ layer.name }}</md-radio
           >
-        </div>
-      </md-card-content>
-      <md-divider></md-divider>
-      <md-card-content>
-        <div class="md-layout md-alignment-center-center">
-          <md-button class="md-accent">{{ selectedLayer }}</md-button>
         </div>
       </md-card-content>
     </md-card>
@@ -31,23 +26,30 @@
 export default {
   name: "LayerControl",
   data: () => ({
-    selectedLayer: "none",
+    layerSelected: "Open Street Map",
     layers: [
       {
-        id: 0,
-        name: "none",
-      },
-      {
         id: 1,
-        name: "Raster Tiles",
+        name: "Open Street Map",
+        source: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       },
       {
         id: 2,
-        name: "Vector Tiles",
+        name: "ESRI World Topo Map",
+        source:
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        attribution:
+          "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
       },
       {
         id: 3,
-        name: "GeoJSON",
+        name: "ESRI World Imagery",
+        source:
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attribution:
+          "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
       },
     ],
   }),
