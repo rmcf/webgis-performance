@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <Navbar></Navbar>
+    <Navbar />
     <div class="md-layout">
       <div
         class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
       >
         <!-- Layers management component -->
-        <LayerControl v-on:layer-input="rasterLayer = $event"></LayerControl>
+        <LayerControl v-on:layer-input="rasterLayer = $event" />
       </div>
       <div
         class="md-layout-item md-large-size-80 md-medium-size-80 md-small-size-100 md-xsmall-size-100"
       >
         <!-- Map component -->
-        <Map :layer="rasterLayer"></Map>
+        <Map :layer="rasterLayer" />
       </div>
     </div>
   </div>
