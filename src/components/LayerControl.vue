@@ -64,4 +64,8 @@ export default {
 .card-header-title {
   font-size: 1.3em;
 }
+
+.md-card {
+  margin-bottom: 2em;
+}
 </style>

@@ -2,11 +2,15 @@
   <div id="app">
     <Navbar></Navbar>
     <div class="md-layout">
-      <div class="md-layout-item md-size-20">
+      <div
+        class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
+      >
         <!-- Layers management component -->
         <LayerControl v-on:layer-input="rasterLayer = $event"></LayerControl>
       </div>
-      <div class="md-layout-item md-size-80">
+      <div
+        class="md-layout-item md-large-size-80 md-medium-size-80 md-small-size-100 md-xsmall-size-100"
+      >
         <!-- Map component -->
         <Map :layer="rasterLayer"></Map>
       </div>
