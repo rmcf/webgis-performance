@@ -66,6 +66,6 @@ export default {
 }
 
 .md-card {
-  margin-bottom: 2em;
+  margin-bottom: 1.9em;
 }
 </style>
