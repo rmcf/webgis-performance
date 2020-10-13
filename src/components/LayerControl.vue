@@ -59,7 +59,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .md-card-content {
-  padding: 0.5em 1.5em 0.5em 1.5em;
+  padding: 0.5em 1.5em 1em 1.5em;
 }
 .card-header-title {
   font-size: 1.3em;
