@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <!-- navbar -->
     <Navbar />
+    <!-- page responsive layout -->
     <div class="md-layout">
       <div
         class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
