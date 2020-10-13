@@ -6,12 +6,11 @@
       data-projection="EPSG:4326"
     >
       <vl-view :zoom.sync="zoom" :center.sync="center"></vl-view>
-
+      <!-- tile layers -->
       <vl-layer-tile>
         <vl-source-xyz :url="layer.source"></vl-source-xyz>
       </vl-layer-tile>
     </vl-map>
-
     <div class="inform">
       Zoom: {{ zoom }}<br />
       Center: {{ center }}<br />
@@ -29,6 +28,8 @@ export default {
     return {
       zoom: 7,
       center: [25.371622547063208, 58.602373945187594],
+      url:
+        "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil?f=json",
     };
   },
 };

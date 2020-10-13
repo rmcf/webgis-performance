@@ -3,7 +3,7 @@
     <md-card>
       <md-card-header>
         <div class="md-layout md-alignment-center-center">
-          <h3>Layer Management</h3>
+          <span class="card-header-title">LAYERS:</span>
         </div>
       </md-card-header>
       <md-divider></md-divider>
@@ -60,5 +60,8 @@ export default {
 <style scoped>
 .md-card-content {
   padding: 0.5em 1.5em 0.5em 1.5em;
+}
+.card-header-title {
+  font-size: 1.3em;
 }
 </style>
