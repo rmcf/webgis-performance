@@ -10,11 +10,16 @@
       <vl-layer-tile>
         <vl-source-xyz :url="layer.source"></vl-source-xyz>
       </vl-layer-tile>
+
+      <!-- vector layer just with URL props -->
+      <!-- <vl-layer-vector render-mode="image">
+        <vl-source-vector :url="geojsonUrl"></vl-source-vector>
+      </vl-layer-vector> -->
+      <!-- attempt to pass geojson features to vector source -->
+      <vl-layer-vector render-mode="image">
+        <vl-source-vector :features="features"></vl-source-vector>
+      </vl-layer-vector>
     </vl-map>
-    <div class="inform">
-      Zoom: {{ zoom }}<br />
-      Center: {{ center }}<br />
-    </div>
   </div>
 </template>
 
@@ -23,13 +28,18 @@ export default {
   name: "Map",
   props: {
     layer: Object,
+    geojsonUrl: String,
+    features: {
+      type: Array,
+      default: function () {
+        return [];
+      },
+    },
   },
   data() {
     return {
       zoom: 7,
       center: [25.371622547063208, 58.602373945187594],
-      url:
-        "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil?f=json",
     };
   },
 };

@@ -7,20 +7,36 @@
       <div
         class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
       >
+        <div class="md-layout md-alignment-center-center" v-if="loading">
+          <h3>Loading ...</h3>
+        </div>
+        <div class="md-layout md-alignment-center-center" v-else>
+          <h3>Completed!</h3>
+        </div>
+
         <!-- Layers management component -->
         <LayerControl v-on:layer-input="rasterLayer = $event" />
+        <div>{{ info }}</div>
+        <div v-for="country in info" :key="country.properties.id">
+          {{ country.properties.name }}
+        </div>
       </div>
       <div
         class="md-layout-item md-large-size-80 md-medium-size-80 md-small-size-100 md-xsmall-size-100"
       >
         <!-- Map component -->
-        <Map :layer="rasterLayer" />
+        <Map
+          :layer="rasterLayer"
+          :geojsonUrl="vectorLayer.source"
+          :features="info"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+const axios = require("axios");
 import Navbar from "./components/Navbar.vue";
 import LayerControl from "./components/LayerControl.vue";
 import Map from "./components/Map.vue";
@@ -40,7 +56,25 @@ export default {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
+    vectorLayer: {
+      id: 1,
+      name: "GeoJSON features",
+      source:
+        "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+    },
+    info: [],
+    loading: false,
   }),
+  mounted() {
+    this.loading = true;
+    axios
+      .get(
+        "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson"
+      )
+      .then((response) => (this.info = response.data.features))
+      .catch((error) => console.log(error))
+      .finally(() => (this.loading = false));
+  },
 };
 </script>
 
