@@ -12,7 +12,7 @@
       <md-card-content>
         <div v-for="layer in rasterTileLayers" :key="layer.id">
           <md-radio
-            @change="$emit('rasterTileLayer-export', layer)"
+            @change="$emit('rasterTileLayerExport', layer)"
             v-model="rasterTileLayerSelected"
             :value="layer.name"
             class="md-primary"
