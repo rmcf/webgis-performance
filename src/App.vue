@@ -15,7 +15,7 @@
           <h3>Completed!</h3>
         </div>
         <!-- Layers management component -->
-        <LayerControl v-on:rasterTileLayer-export="rasterTileLayer = $event" />
+        <LayerControl v-on:rasterTileLayerExport="rasterTileLayer = $event" />
       </div>
       <!-- main content -->
       <div
