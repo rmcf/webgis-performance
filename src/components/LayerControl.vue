@@ -7,11 +7,13 @@
         </div>
       </md-card-header>
       <md-divider></md-divider>
+      <md-card-content>zzz </md-card-content>
+      <md-divider></md-divider>
       <md-card-content>
-        <div v-for="layer in layers" :key="layer.id">
+        <div v-for="layer in rasterTileLayers" :key="layer.id">
           <md-radio
-            @change="$emit('layer-input', layer)"
-            v-model="layerSelected"
+            @change="$emit('rasterTileLayer-export', layer)"
+            v-model="rasterTileLayerSelected"
             :value="layer.name"
             class="md-primary"
             >{{ layer.name }}</md-radio
@@ -26,8 +28,13 @@
 export default {
   name: "LayerControl",
   data: () => ({
-    layerSelected: "Open Street Map",
-    layers: [
+    // selected layers of different types
+    rasterTileLayerSelected: "Open Street Map",
+    vectorTileLayerSelected: "",
+    geojsonLayerSelected: "",
+    WmsLayerSelected: "",
+    // raster tile layers array
+    rasterTileLayers: [
       {
         id: 1,
         name: "Open Street Map",

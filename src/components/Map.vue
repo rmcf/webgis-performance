@@ -6,19 +6,21 @@
       data-projection="EPSG:4326"
     >
       <vl-view :zoom.sync="zoom" :center.sync="center"></vl-view>
+
+      <!-- attempt to pass geojson features to vector source -->
+      <vl-layer-vector render-mode="image">
+        <vl-source-vector :features="features"></vl-source-vector>
+      </vl-layer-vector>
+
       <!-- tile layers -->
-      <vl-layer-tile>
-        <vl-source-xyz :url="layer.source"></vl-source-xyz>
+      <vl-layer-tile :z-index="-1">
+        <vl-source-xyz :url="rasterTileLayerProp.source"></vl-source-xyz>
       </vl-layer-tile>
 
       <!-- vector layer just with URL props -->
       <!-- <vl-layer-vector render-mode="image">
         <vl-source-vector :url="geojsonUrl"></vl-source-vector>
       </vl-layer-vector> -->
-      <!-- attempt to pass geojson features to vector source -->
-      <vl-layer-vector render-mode="image">
-        <vl-source-vector :features="features"></vl-source-vector>
-      </vl-layer-vector>
     </vl-map>
   </div>
 </template>
@@ -27,7 +29,7 @@
 export default {
   name: "Map",
   props: {
-    layer: Object,
+    rasterTileLayerProp: Object,
     geojsonUrl: String,
     features: {
       type: Array,

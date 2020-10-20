@@ -4,6 +4,7 @@
     <Navbar />
     <!-- page responsive layout -->
     <div class="md-layout">
+      <!-- left side bar -->
       <div
         class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
       >
@@ -13,23 +14,25 @@
         <div class="md-layout md-alignment-center-center" v-else>
           <h3>Completed!</h3>
         </div>
-
         <!-- Layers management component -->
-        <LayerControl v-on:layer-input="rasterLayer = $event" />
-        <div>{{ info }}</div>
-        <div v-for="country in info" :key="country.properties.id">
-          {{ country.properties.name }}
-        </div>
+        <LayerControl v-on:rasterTileLayer-export="rasterTileLayer = $event" />
       </div>
+      <!-- main content -->
       <div
         class="md-layout-item md-large-size-80 md-medium-size-80 md-small-size-100 md-xsmall-size-100"
       >
-        <!-- Map component -->
+        <!-- Map -->
         <Map
-          :layer="rasterLayer"
+          :rasterTileLayerProp="rasterTileLayer"
           :geojsonUrl="vectorLayer.source"
           :features="info"
         />
+        <div>
+          <!-- data test info -->
+          <span v-for="country in info" :key="country.properties.id"
+            >{{ country.properties.name }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -49,7 +52,9 @@ export default {
     Map,
   },
   data: () => ({
-    rasterLayer: {
+    info: [], // test info block
+    loading: false, // loading status
+    rasterTileLayer: {
       id: 1,
       name: "Open Street Map",
       source: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -62,8 +67,6 @@ export default {
       source:
         "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
     },
-    info: [],
-    loading: false,
   }),
   mounted() {
     this.loading = true;
