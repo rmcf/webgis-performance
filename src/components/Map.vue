@@ -7,20 +7,27 @@
     >
       <vl-view :zoom.sync="zoom" :center.sync="center"></vl-view>
 
-      <!-- attempt to pass geojson features to vector source -->
-      <vl-layer-vector render-mode="image">
-        <vl-source-vector :features="features"></vl-source-vector>
+      <!-- vector layer -->
+      <vl-layer-vector render-mode="image" v-if="vectorLayerProp != false">
+        <vl-source-vector :url="vectorLayerProp.source"></vl-source-vector>
       </vl-layer-vector>
 
-      <!-- tile layers -->
-      <vl-layer-tile :z-index="-1">
+      <!-- raster tile layer -->
+      <vl-layer-tile :z-index="-2" v-if="rasterTileLayerProp != false">
         <vl-source-xyz :url="rasterTileLayerProp.source"></vl-source-xyz>
       </vl-layer-tile>
 
-      <!-- vector layer just with URL props -->
-      <!-- <vl-layer-vector render-mode="image">
-        <vl-source-vector :url="geojsonUrl"></vl-source-vector>
-      </vl-layer-vector> -->
+      <!-- wms tile layer -->
+      <vl-layer-tile :z-index="-1" v-if="wmsLayerProp != false">
+        <vl-source-wmts
+          :attributions="wmsLayerProp.attribution"
+          :url="wmsLayerProp.url"
+          :layer-name="wmsLayerProp.layerName"
+          :matrix-set="wmsLayerProp.matrixSet"
+          :format="wmsLayerProp.format"
+          :style-name="wmsLayerProp.styleName"
+        ></vl-source-wmts>
+      </vl-layer-tile>
     </vl-map>
   </div>
 </template>
@@ -29,14 +36,9 @@
 export default {
   name: "Map",
   props: {
-    rasterTileLayerProp: Object,
-    geojsonUrl: String,
-    features: {
-      type: Array,
-      default: function () {
-        return [];
-      },
-    },
+    rasterTileLayerProp: [Boolean, Object],
+    wmsLayerProp: [Boolean, Object],
+    vectorLayerProp: [Boolean, Object],
   },
   data() {
     return {

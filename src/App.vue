@@ -8,14 +8,67 @@
       <div
         class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
       >
-        <div class="md-layout md-alignment-center-center" v-if="loading">
-          <h3>Loading ...</h3>
-        </div>
-        <div class="md-layout md-alignment-center-center" v-else>
-          <h3>Completed!</h3>
-        </div>
         <!-- Layers management component -->
-        <LayerControl v-on:rasterTileLayerExport="rasterTileLayer = $event" />
+        <div class="manage">
+          <md-card>
+            <md-card-header>
+              <div class="md-layout md-alignment-center-center">
+                <span class="card-header-title">LAYERS:</span>
+              </div>
+            </md-card-header>
+            <md-divider></md-divider>
+            <!-- vector layers -->
+            <md-card-content>
+              <div>
+                <md-radio v-model="vectorLayerSelected" :value="false"
+                  >none</md-radio
+                >
+              </div>
+              <div v-for="layer in vectorLayers" :key="layer.id">
+                <md-radio
+                  v-model="vectorLayerSelected"
+                  :value="layer"
+                  class="md-primary"
+                  >{{ layer.name }}</md-radio
+                >
+              </div></md-card-content
+            >
+            <md-divider></md-divider>
+            <!-- wms layers -->
+            <md-card-content>
+              <div>
+                <md-radio v-model="wmsLayerSelected" :value="false"
+                  >none</md-radio
+                >
+              </div>
+              <div v-for="layer in wmsLayers" :key="layer.id">
+                <md-radio
+                  v-model="wmsLayerSelected"
+                  :value="layer"
+                  class="md-primary"
+                  >{{ layer.name }}</md-radio
+                >
+              </div></md-card-content
+            >
+            <md-divider></md-divider>
+            <!-- tile layers -->
+            <md-card-content>
+              <div>
+                <md-radio v-model="rasterTileLayerSelected" :value="false"
+                  >none</md-radio
+                >
+              </div>
+              <div v-for="layer in rasterTileLayers" :key="layer.id">
+                <md-radio
+                  v-model="rasterTileLayerSelected"
+                  :value="layer"
+                  class="md-primary"
+                  >{{ layer.name }}</md-radio
+                >
+              </div>
+            </md-card-content>
+          </md-card>
+        </div>
       </div>
       <!-- main content -->
       <div
@@ -23,8 +76,9 @@
       >
         <!-- Map -->
         <Map
-          :rasterTileLayerProp="rasterTileLayer"
-          :geojsonUrl="vectorLayer.source"
+          :rasterTileLayerProp="rasterTileLayerSelected"
+          :wmsLayerProp="wmsLayerSelected"
+          :vectorLayerProp="vectorLayerSelected"
           :features="info"
         />
         <div>
@@ -39,49 +93,90 @@
 </template>
 
 <script>
-const axios = require("axios");
 import Navbar from "./components/Navbar.vue";
-import LayerControl from "./components/LayerControl.vue";
 import Map from "./components/Map.vue";
 
 export default {
   name: "App",
   components: {
     Navbar,
-    LayerControl,
     Map,
   },
+
   data: () => ({
     info: [], // test info block
-    loading: false, // loading status
-    rasterTileLayer: {
-      id: 1,
-      name: "Open Street Map",
-      source: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-    vectorLayer: {
-      id: 1,
-      name: "GeoJSON features",
-      source:
-        "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
-    },
+    // selected layers
+    rasterTileLayerSelected: false,
+    wmsLayerSelected: false,
+    vectorLayerSelected: false,
+    // raster tile layers array
+    rasterTileLayers: [
+      {
+        id: 1,
+        name: "Open Street Map",
+        source: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      },
+      {
+        id: 2,
+        name: "ESRI World Topo Map",
+        source:
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        attribution:
+          "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
+      },
+      {
+        id: 3,
+        name: "ESRI World Imagery",
+        source:
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attribution:
+          "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+      },
+    ],
+    // wms layers array
+    wmsLayers: [
+      {
+        id: 1,
+        name: "USA Population Density",
+        url:
+          "https://services.arcgisonline.com/arcgis/rest/services/Demographics/USA_Population_Density/MapServer/WMTS/",
+        layerName: "0",
+        matrixSet: "EPSG:3857",
+        format: "image/png",
+        styleName: "default",
+        attribution:
+          'Tiles © <a href="https://services.arcgisonline.com/arcgis/rest/' +
+          'services/Demographics/USA_Population_Density/MapServer/">ArcGIS</a>',
+      },
+    ],
+    // vector layers array
+    vectorLayers: [
+      {
+        id: 1,
+        name: "GeoJSON features",
+        source:
+          "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+      },
+      {
+        id: 2,
+        name: "GeoJSON features",
+        source:
+          "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+      },
+      {
+        id: 3,
+        name: "GeoJSON features",
+        source:
+          "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+      },
+    ],
   }),
-  mounted() {
-    this.loading = true;
-    axios
-      .get(
-        "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson"
-      )
-      .then((response) => (this.info = response.data.features))
-      .catch((error) => console.log(error))
-      .finally(() => (this.loading = false));
-  },
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -91,5 +186,16 @@ export default {
 div.md-layout-item {
   padding-left: 1em;
   padding-right: 1em;
+}
+
+.md-card-content {
+  padding: 0.5em 1.5em 1em 1.5em;
+}
+.card-header-title {
+  font-size: 1.3em;
+}
+
+.md-card {
+  margin-bottom: 3em;
 }
 </style>
