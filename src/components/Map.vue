@@ -12,10 +12,15 @@
         <vl-source-vector :url="vectorLayerProp.source"></vl-source-vector>
       </vl-layer-vector>
 
-      <!-- raster tile layer -->
-      <vl-layer-tile :z-index="-2" v-if="rasterTileLayerProp != false">
-        <vl-source-xyz :url="rasterTileLayerProp.source"></vl-source-xyz>
-      </vl-layer-tile>
+      <!-- vector tile layer -->
+      <vl-layer-vector-tile v-if="vectorTileLayerProp != false">
+        <vl-source-vector-tile
+          :url="vectorTileLayerProp.source"
+        ></vl-source-vector-tile>
+        <vl-style-box>
+          <vl-style-stroke :width="1" color="#ff5252"></vl-style-stroke>
+        </vl-style-box>
+      </vl-layer-vector-tile>
 
       <!-- wms tile layer -->
       <vl-layer-tile :z-index="-1" v-if="wmsLayerProp != false">
@@ -28,6 +33,15 @@
           :style-name="wmsLayerProp.styleName"
         ></vl-source-wmts>
       </vl-layer-tile>
+
+      <!-- raster tile layer -->
+      <vl-layer-tile :z-index="-2" v-if="rasterTileLayerProp != false">
+        <vl-source-xyz
+          :url="rasterTileLayerProp.source"
+          :attributions="rasterTileLayerProp.attribution"
+          :max-zoom="rasterTileLayerProp.maxZoom"
+        ></vl-source-xyz>
+      </vl-layer-tile>
     </vl-map>
   </div>
 </template>
@@ -39,6 +53,7 @@ export default {
     rasterTileLayerProp: [Boolean, Object],
     wmsLayerProp: [Boolean, Object],
     vectorLayerProp: [Boolean, Object],
+    vectorTileLayerProp: [Boolean, Object],
   },
   data() {
     return {
@@ -51,7 +66,7 @@ export default {
 
 <style scoped>
 div.map {
-  height: 70vh;
+  height: 80vh;
 }
 
 div.inform {

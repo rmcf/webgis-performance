@@ -19,6 +19,9 @@
             <md-divider></md-divider>
             <!-- vector layers -->
             <md-card-content>
+              <div class="md-layout md-alignment-center-right">
+                <span class="md-caption">remote geoJSON</span>
+              </div>
               <div>
                 <md-radio v-model="vectorLayerSelected" :value="false"
                   >none</md-radio
@@ -34,8 +37,32 @@
               </div></md-card-content
             >
             <md-divider></md-divider>
+            <!-- vector tile layers -->
+            <md-card-content>
+              <div class="md-layout md-alignment-center-right">
+                <span class="md-caption">vector tiles services</span>
+              </div>
+              <div>
+                <md-radio v-model="vectorTileLayerSelected" :value="false"
+                  >none</md-radio
+                >
+              </div>
+              <div v-for="layer in vectorTileLayers" :key="layer.id">
+                <md-radio
+                  v-model="vectorTileLayerSelected"
+                  :value="layer"
+                  class="md-primary"
+                  >{{ layer.name }}</md-radio
+                >
+              </div></md-card-content
+            >
+            <md-divider></md-divider>
             <!-- wms layers -->
             <md-card-content>
+              <div class="md-layout md-alignment-center-right">
+                <span class="md-caption">web map services</span>
+              </div>
+
               <div>
                 <md-radio v-model="wmsLayerSelected" :value="false"
                   >none</md-radio
@@ -53,6 +80,9 @@
             <md-divider></md-divider>
             <!-- tile layers -->
             <md-card-content>
+              <div class="md-layout md-alignment-center-right">
+                <span class="md-caption">raster tiles services</span>
+              </div>
               <div>
                 <md-radio v-model="rasterTileLayerSelected" :value="false"
                   >none</md-radio
@@ -79,6 +109,7 @@
           :rasterTileLayerProp="rasterTileLayerSelected"
           :wmsLayerProp="wmsLayerSelected"
           :vectorLayerProp="vectorLayerSelected"
+          :vectorTileLayerProp="vectorTileLayerSelected"
           :features="info"
         />
         <div>
@@ -109,6 +140,7 @@ export default {
     rasterTileLayerSelected: false,
     wmsLayerSelected: false,
     vectorLayerSelected: false,
+    vectorTileLayerSelected: false,
     // raster tile layers array
     rasterTileLayers: [
       {
@@ -117,12 +149,14 @@ export default {
         source: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
       },
       {
         id: 2,
         name: "ESRI World Topo Map",
         source:
-          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
+        maxZoom: 19,
         attribution:
           "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
       },
@@ -130,7 +164,8 @@ export default {
         id: 3,
         name: "ESRI World Imagery",
         source:
-          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+        maxZoom: 20,
         attribution:
           "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
       },
@@ -155,21 +190,30 @@ export default {
     vectorLayers: [
       {
         id: 1,
-        name: "GeoJSON features",
+        name: "Soil Pygeoapi Docker",
         source:
-          "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+          "http://localhost:8081/soilpygeoapi/collections/estsoil/items?f=json",
       },
       {
         id: 2,
-        name: "GeoJSON features",
+        name: "OSM countries",
         source:
           "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
       },
+    ],
+    // vector tile layers
+    vectorTileLayers: [
       {
-        id: 3,
-        name: "GeoJSON features",
+        id: 1,
+        name: "ESRI World Basemap",
         source:
-          "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+          "https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer/tile/{z}/{y}/{x}.pbf",
+      },
+      {
+        id: 2,
+        name: "Estonia soil map",
+        source:
+          "http://localhost:8081/maerchenland/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
       },
     ],
   }),
@@ -197,5 +241,9 @@ div.md-layout-item {
 
 .md-card {
   margin-bottom: 3em;
+}
+
+div.layer-type {
+  padding: 5px;
 }
 </style>
