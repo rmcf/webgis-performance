@@ -57,6 +57,26 @@
               </div></md-card-content
             >
             <md-divider></md-divider>
+            <!-- wmts layers -->
+            <md-card-content>
+              <div class="md-layout md-alignment-center-right">
+                <span class="md-caption">web map tile services</span>
+              </div>
+              <div>
+                <md-radio v-model="wmtsLayerSelected" :value="false"
+                  >none</md-radio
+                >
+              </div>
+              <div v-for="layer in wmtsLayers" :key="layer.id">
+                <md-radio
+                  v-model="wmtsLayerSelected"
+                  :value="layer"
+                  class="md-primary"
+                  >{{ layer.name }}</md-radio
+                >
+              </div></md-card-content
+            >
+            <md-divider></md-divider>
             <!-- wms layers -->
             <md-card-content>
               <div class="md-layout md-alignment-center-right">
@@ -108,6 +128,7 @@
         <Map
           :rasterTileLayerProp="rasterTileLayerSelected"
           :wmsLayerProp="wmsLayerSelected"
+          :wmtsLayerProp="wmtsLayerSelected"
           :vectorLayerProp="vectorLayerSelected"
           :vectorTileLayerProp="vectorTileLayerSelected"
           :features="info"
@@ -134,10 +155,19 @@ export default {
     Map,
   },
 
+  methods: {
+    loadLayer() {
+      this.rasterTileLayerSelected = this.rasterTileLayers[0];
+    },
+  },
+  mounted() {
+    this.loadLayer();
+  },
   data: () => ({
     info: [], // test info block
     // selected layers
     rasterTileLayerSelected: false,
+    wmtsLayerSelected: false,
     wmsLayerSelected: false,
     vectorLayerSelected: false,
     vectorTileLayerSelected: false,
@@ -170,20 +200,54 @@ export default {
           "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
       },
     ],
+    // wmts layers array
+    wmtsLayers: [
+      {
+        id: 0,
+        name: "USA Demographics",
+        url:
+          "https://services.arcgisonline.com/arcgis/rest/services/Demographics/USA_Population_Density/MapServer/WMTS/",
+        layerName: "0",
+        matrixSet: "EPSG:4326",
+        format: "image/png",
+        styleName: "default",
+        attribution: "USA Demographics",
+      },
+    ],
     // wms layers array
     wmsLayers: [
       {
         id: 1,
-        name: "USA Population Density",
-        url:
-          "https://services.arcgisonline.com/arcgis/rest/services/Demographics/USA_Population_Density/MapServer/WMTS/",
-        layerName: "0",
-        matrixSet: "EPSG:3857",
+        name: "EST Admin Divisions (I)",
+        url: "https://geowebservices.stanford.edu/geoserver/ows",
+        layer: "druid:cv588yj7627",
         format: "image/png",
         styleName: "default",
         attribution:
-          'Tiles © <a href="https://services.arcgisonline.com/arcgis/rest/' +
-          'services/Demographics/USA_Population_Density/MapServer/">ArcGIS</a>',
+          "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
+        crossOrigin: "null",
+      },
+      {
+        id: 2,
+        name: "EST Admin Divisions (II)",
+        url: "https://geowebservices.stanford.edu/geoserver/ows",
+        layer: "druid:kd823cr5884",
+        format: "image/png",
+        styleName: "default",
+        attribution:
+          "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
+        crossOrigin: "null",
+      },
+      {
+        id: 3,
+        name: "EST Admin Divisions (III)",
+        url: "https://geowebservices.stanford.edu/geoserver/ows",
+        layer: "druid:zq283vs1736",
+        format: "image/png",
+        styleName: "default",
+        attribution:
+          "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
+        crossOrigin: "null",
       },
     ],
     // vector layers array
@@ -192,7 +256,7 @@ export default {
         id: 1,
         name: "Soil Pygeoapi Docker",
         source:
-          "http://localhost:8081/soilpygeoapi/collections/estsoil/items?f=json",
+          "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?f=json",
       },
       {
         id: 2,
@@ -213,7 +277,7 @@ export default {
         id: 2,
         name: "Estonia soil map",
         source:
-          "http://localhost:8081/maerchenland/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
+          "http://www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
       },
     ],
   }),

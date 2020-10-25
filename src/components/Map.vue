@@ -22,20 +22,31 @@
         </vl-style-box>
       </vl-layer-vector-tile>
 
-      <!-- wms tile layer -->
-      <vl-layer-tile :z-index="-1" v-if="wmsLayerProp != false">
+      <!-- wmts tile layer -->
+      <vl-layer-tile :z-index="-1" v-if="wmtsLayerProp != false">
         <vl-source-wmts
-          :attributions="wmsLayerProp.attribution"
-          :url="wmsLayerProp.url"
-          :layer-name="wmsLayerProp.layerName"
-          :matrix-set="wmsLayerProp.matrixSet"
-          :format="wmsLayerProp.format"
-          :style-name="wmsLayerProp.styleName"
+          :attributions="wmtsLayerProp.attribution"
+          :url="wmtsLayerProp.url"
+          :layer-name="wmtsLayerProp.layerName"
+          :matrix-set="wmtsLayerProp.matrixSet"
+          :format="wmtsLayerProp.format"
+          :style-name="wmtsLayerProp.styleName"
         ></vl-source-wmts>
       </vl-layer-tile>
 
+      <!-- wms tile layer -->
+      <vl-layer-tile :z-index="-2" v-if="wmsLayerProp != false">
+        <vl-source-wms
+          :attributions="wmsLayerProp.attribution"
+          :url="wmsLayerProp.url"
+          :layers="wmsLayerProp.layer"
+          :format="wmsLayerProp.format"
+          :crossOrigin="wmsLayerProp.crossOrigin"
+        ></vl-source-wms>
+      </vl-layer-tile>
+
       <!-- raster tile layer -->
-      <vl-layer-tile :z-index="-2" v-if="rasterTileLayerProp != false">
+      <vl-layer-tile :z-index="-3" v-if="rasterTileLayerProp != false">
         <vl-source-xyz
           :url="rasterTileLayerProp.source"
           :attributions="rasterTileLayerProp.attribution"
@@ -51,6 +62,7 @@ export default {
   name: "Map",
   props: {
     rasterTileLayerProp: [Boolean, Object],
+    wmtsLayerProp: [Boolean, Object],
     wmsLayerProp: [Boolean, Object],
     vectorLayerProp: [Boolean, Object],
     vectorTileLayerProp: [Boolean, Object],
@@ -58,7 +70,7 @@ export default {
   data() {
     return {
       zoom: 7,
-      center: [25.371622547063208, 58.602373945187594],
+      center: [25.415567859563236, 58.62068472075629],
     };
   },
 };
