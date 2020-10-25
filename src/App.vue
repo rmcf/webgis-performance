@@ -256,7 +256,7 @@ export default {
         id: 1,
         name: "Soil Pygeoapi Docker",
         source:
-          "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?f=json",
+          "https://rmcf.github.io/webgis-performance/soilpygeoapi/collections/estsoil/items?f=json",
       },
       {
         id: 2,
@@ -277,7 +277,7 @@ export default {
         id: 2,
         name: "Estonia soil map",
         source:
-          "http://www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
+          "https://rmcf.github.io/webgis-performance/maerchenland/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
       },
     ],
   }),
