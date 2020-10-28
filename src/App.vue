@@ -1,7 +1,14 @@
 <template>
   <div id="app">
     <!-- navbar -->
-    <Navbar />
+    <div class="nav">
+      <md-toolbar class="md-primary" md-elevation="1">
+        <h3 class="md-title" style="flex: 1">Web GIS App</h3>
+        <md-button v-on:click="cleanMap()" class="md-primary"
+          >Default</md-button
+        >
+      </md-toolbar>
+    </div>
     <!-- page responsive layout -->
     <div class="md-layout">
       <!-- left side bar -->
@@ -27,7 +34,7 @@
                   >none</md-radio
                 >
               </div>
-              <div v-for="layer in vectorLayers" :key="layer.id">
+              <div v-for="layer in layersList.vectorLayers" :key="layer.id">
                 <md-radio
                   v-model="vectorLayerSelected"
                   :value="layer"
@@ -47,7 +54,7 @@
                   >none</md-radio
                 >
               </div>
-              <div v-for="layer in vectorTileLayers" :key="layer.id">
+              <div v-for="layer in layersList.vectorTileLayers" :key="layer.id">
                 <md-radio
                   v-model="vectorTileLayerSelected"
                   :value="layer"
@@ -67,7 +74,7 @@
                   >none</md-radio
                 >
               </div>
-              <div v-for="layer in wmtsLayers" :key="layer.id">
+              <div v-for="layer in layersList.wmtsLayers" :key="layer.id">
                 <md-radio
                   v-model="wmtsLayerSelected"
                   :value="layer"
@@ -88,7 +95,7 @@
                   >none</md-radio
                 >
               </div>
-              <div v-for="layer in wmsLayers" :key="layer.id">
+              <div v-for="layer in layersList.wmsLayers" :key="layer.id">
                 <md-radio
                   v-model="wmsLayerSelected"
                   :value="layer"
@@ -108,7 +115,7 @@
                   >none</md-radio
                 >
               </div>
-              <div v-for="layer in rasterTileLayers" :key="layer.id">
+              <div v-for="layer in layersList.rasterTileLayers" :key="layer.id">
                 <md-radio
                   v-model="rasterTileLayerSelected"
                   :value="layer"
@@ -131,155 +138,45 @@
           :wmtsLayerProp="wmtsLayerSelected"
           :vectorLayerProp="vectorLayerSelected"
           :vectorTileLayerProp="vectorTileLayerSelected"
-          :features="info"
         />
-        <div>
-          <!-- data test info -->
-          <span v-for="country in info" :key="country.properties.id"
-            >{{ country.properties.name }}
-          </span>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Navbar from "./components/Navbar.vue";
 import Map from "./components/Map.vue";
+import Layers from "./store/layers.json";
 
 export default {
   name: "App",
   components: {
-    Navbar,
     Map,
   },
 
   methods: {
     loadLayer() {
-      this.rasterTileLayerSelected = this.rasterTileLayers[0];
+      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[0];
+    },
+    cleanMap() {
+      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[0];
+      this.wmtsLayerSelected = false;
+      this.wmsLayerSelected = false;
+      this.vectorLayerSelected = false;
+      this.vectorTileLayerSelected = false;
     },
   },
   mounted() {
     this.loadLayer();
   },
   data: () => ({
-    info: [], // test info block
+    layersList: Layers, // loading layers list from json
     // selected layers
     rasterTileLayerSelected: false,
     wmtsLayerSelected: false,
     wmsLayerSelected: false,
     vectorLayerSelected: false,
     vectorTileLayerSelected: false,
-    // raster tile layers array
-    rasterTileLayers: [
-      {
-        id: 1,
-        name: "Open Street Map",
-        source: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
-      },
-      {
-        id: 2,
-        name: "ESRI World Topo Map",
-        source:
-          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
-        maxZoom: 19,
-        attribution:
-          "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
-      },
-      {
-        id: 3,
-        name: "ESRI World Imagery",
-        source:
-          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
-        maxZoom: 20,
-        attribution:
-          "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-      },
-    ],
-    // wmts layers array
-    wmtsLayers: [
-      {
-        id: 0,
-        name: "USA Demographics",
-        url:
-          "https://services.arcgisonline.com/arcgis/rest/services/Demographics/USA_Population_Density/MapServer/WMTS/",
-        layerName: "0",
-        matrixSet: "EPSG:4326",
-        format: "image/png",
-        styleName: "default",
-        attribution: "USA Demographics",
-      },
-    ],
-    // wms layers array
-    wmsLayers: [
-      {
-        id: 1,
-        name: "EST Admin Divisions (I)",
-        url: "https://geowebservices.stanford.edu/geoserver/ows",
-        layer: "druid:cv588yj7627",
-        format: "image/png",
-        styleName: "default",
-        attribution:
-          "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
-        crossOrigin: "null",
-      },
-      {
-        id: 2,
-        name: "EST Admin Divisions (II)",
-        url: "https://geowebservices.stanford.edu/geoserver/ows",
-        layer: "druid:kd823cr5884",
-        format: "image/png",
-        styleName: "default",
-        attribution:
-          "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
-        crossOrigin: "null",
-      },
-      {
-        id: 3,
-        name: "EST Admin Divisions (III)",
-        url: "https://geowebservices.stanford.edu/geoserver/ows",
-        layer: "druid:zq283vs1736",
-        format: "image/png",
-        styleName: "default",
-        attribution:
-          "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
-        crossOrigin: "null",
-      },
-    ],
-    // vector layers array
-    vectorLayers: [
-      {
-        id: 1,
-        name: "Soil Pygeoapi Docker",
-        source:
-          "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?f=json",
-      },
-      {
-        id: 2,
-        name: "OSM countries",
-        source:
-          "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
-      },
-    ],
-    // vector tile layers
-    vectorTileLayers: [
-      {
-        id: 1,
-        name: "ESRI World Basemap",
-        source:
-          "https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer/tile/{z}/{y}/{x}.pbf",
-      },
-      {
-        id: 2,
-        name: "Estonia soil map",
-        source:
-          "http://www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
-      },
-    ],
   }),
 };
 </script>
@@ -309,5 +206,9 @@ div.md-layout-item {
 
 div.layer-type {
   padding: 5px;
+}
+
+div.nav {
+  margin-bottom: 2em;
 }
 </style>

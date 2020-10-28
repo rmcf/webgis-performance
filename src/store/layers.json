@@ -1,0 +1,117 @@
+{
+    "rasterTileLayers": [
+        {
+            "id": 1,
+            "name": "Open Street Map",
+            "source": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+            "maxZoom": 19
+        },
+        {
+            "id": 2,
+            "name": "ESRI World Topo Map",
+            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
+            "maxZoom": 19,
+            "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+        },
+        {
+            "id": 3,
+            "name": "ESRI World Imagery",
+            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+            "maxZoom": 20,
+            "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+        }
+    ],
+    "wmtsLayers": [
+        {
+            "id": 0,
+            "name": "Blue Marble by EOX",
+            "url": "https://tiles.esa.maps.eox.at/wmts?",
+            "layerName": "bluemarble-wmsc-23",
+            "matrixSet": "EPSG:4326",
+            "format": "image/jpeg",
+            "styleName": "default",
+            "attribution": "BlueMarble by EOX"
+        },
+        {
+            "id": 1,
+            "name": "Sentinel-2 cloudless layer",
+            "url": "https://tiles.esa.maps.eox.at/wmts?",
+            "layerName": "s2cloudless-2018",
+            "matrixSet": "EPSG:4326",
+            "format": "image/png",
+            "styleName": "default",
+            "attribution": "Sentinel-2 cloudless layer for 2018 by EOX"
+        }
+    ],
+    "wmsLayers": [
+        {
+            "id": 1,
+            "name": "EST Admin Divisions (I)",
+            "url": "https://geowebservices.stanford.edu/geoserver/ows",
+            "layer": "druid:cv588yj7627",
+            "format": "image/png",
+            "projection": "EPSG:4326",
+            "styleName": "default",
+            "attribution": "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
+            "crossOrigin": "null"
+        },
+        {
+            "id": 2,
+            "name": "Estonian Basemap",
+            "url": "https://kaart.maaamet.ee/wms/alus?",
+            "layer": "MA-ALUS",
+            "format": "image/png",
+            "projection": "EPSG:3301",
+            "styleName": "default",
+            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+            "crossOrigin": "null"
+        },
+        {
+            "id": 3,
+            "name": "WMS: fotokaart (vreljeef)",
+            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
+            "layer": "EESTIFOTO",
+            "format": "image/jpeg",
+            "projection": "EPSG:3301",
+            "styleName": "default",
+            "attribution": "WMS: <a  href='https://www.maaamet.ee/en'>Maa-amet</a>",
+            "crossOrigin": "null"
+        },
+        {
+            "id": 4,
+            "name": "WMS: fotokaart (EESTIFOTO)",
+            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
+            "layer": "EESTIFOTO",
+            "format": "image/jpeg",
+            "projection": "EPSG:3301",
+            "styleName": "default",
+            "attribution": "WMS: <a  href='https://www.maaamet.ee/en'>Maa-amet</a>",
+            "crossOrigin": "null"
+        }
+    ],
+    "vectorLayers": [
+        {
+            "id": 1,
+            "name": "Soil Pygeoapi Docker",
+            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?f=json"
+        },
+        {
+            "id": 2,
+            "name": "OSM countries",
+            "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson"
+        }
+    ],
+    "vectorTileLayers": [
+        {
+            "id": 1,
+            "name": "ESRI World Basemap",
+            "source": "https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer/tile/{z}/{y}/{x}.pbf"
+        },
+        {
+            "id": 2,
+            "name": "Estonia soil map",
+            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf"
+        }
+    ]
+}

@@ -22,7 +22,7 @@
         </vl-style-box>
       </vl-layer-vector-tile>
 
-      <!-- wmts tile layer -->
+      <!-- wmts layer -->
       <vl-layer-tile :z-index="-1" v-if="wmtsLayerProp != false">
         <vl-source-wmts
           :attributions="wmtsLayerProp.attribution"
@@ -34,11 +34,12 @@
         ></vl-source-wmts>
       </vl-layer-tile>
 
-      <!-- wms tile layer -->
+      <!-- wms layer -->
       <vl-layer-tile :z-index="-2" v-if="wmsLayerProp != false">
         <vl-source-wms
           :attributions="wmsLayerProp.attribution"
           :url="wmsLayerProp.url"
+          :projection="wmsLayerProp.projection"
           :layers="wmsLayerProp.layer"
           :format="wmsLayerProp.format"
           :crossOrigin="wmsLayerProp.crossOrigin"
@@ -58,6 +59,14 @@
 </template>
 
 <script>
+import { register } from "ol/proj/proj4";
+import proj4 from "proj4";
+proj4.defs(
+  "EPSG:3301",
+  "+proj=lcc +lat_1=59.33333333333334 +lat_2=58 +lat_0=57.51755393055556 +lon_0=24 +x_0=500000 +y_0=6375000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+);
+register(proj4);
+
 export default {
   name: "Map",
   props: {
