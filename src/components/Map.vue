@@ -5,7 +5,12 @@
       :load-tiles-while-interacting="true"
       data-projection="EPSG:4326"
     >
-      <vl-view :zoom.sync="zoom" :center.sync="center"></vl-view>
+      <!-- emit zoom value to parent component -->
+      <vl-view
+        :zoom.sync="newZoom"
+        v-on:update:zoom="$emit('update-zoom', dataZoom)"
+        :center="mapCenterProp"
+      ></vl-view>
 
       <!-- vector layer -->
       <vl-layer-vector render-mode="image" v-if="vectorLayerProp != false">
@@ -59,6 +64,7 @@
 </template>
 
 <script>
+// new CRS registration
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
 proj4.defs(
@@ -75,12 +81,25 @@ export default {
     wmsLayerProp: [Boolean, Object],
     vectorLayerProp: [Boolean, Object],
     vectorTileLayerProp: [Boolean, Object],
+    mapZoomProp: Number,
+    mapCenterProp: Array,
   },
   data() {
     return {
-      zoom: 7,
-      center: [25.415567859563236, 58.62068472075629],
+      // asign zoom value from computed zoom property
+      dataZoom: this.newZoom,
     };
+  },
+  computed: {
+    // computed zoom property
+    newZoom: {
+      get: function () {
+        return this.mapZoomProp;
+      },
+      set: function (newzoom) {
+        this.dataZoom = newzoom;
+      },
+    },
   },
 };
 </script>

@@ -4,9 +4,7 @@
     <div class="nav">
       <md-toolbar class="md-primary" md-elevation="1">
         <h3 class="md-title" style="flex: 1">Web GIS App</h3>
-        <md-button v-on:click="cleanMap()" class="md-primary"
-          >Default</md-button
-        >
+        <md-button v-on:click="cleanMap()" class="md-primary">CLEAN</md-button>
       </md-toolbar>
     </div>
     <!-- page responsive layout -->
@@ -138,6 +136,9 @@
           :wmtsLayerProp="wmtsLayerSelected"
           :vectorLayerProp="vectorLayerSelected"
           :vectorTileLayerProp="vectorTileLayerSelected"
+          :mapZoomProp="mapZoomDefault"
+          :mapCenterProp="mapCenterDefault"
+          v-on:update-zoom="mapZoomDefault = $event"
         />
       </div>
     </div>
@@ -164,6 +165,8 @@ export default {
       this.wmsLayerSelected = false;
       this.vectorLayerSelected = false;
       this.vectorTileLayerSelected = false;
+      this.mapZoomDefault = 7;
+      this.mapCenterDefault = [25.415567859563236, 58.62068472075629];
     },
   },
   mounted() {
@@ -177,6 +180,10 @@ export default {
     wmsLayerSelected: false,
     vectorLayerSelected: false,
     vectorTileLayerSelected: false,
+    // map options
+    mapZoomDefault: 7,
+    mapCenterDefault: [25.415567859563236, 58.62068472075629],
+    zoomTest: 0,
   }),
 };
 </script>

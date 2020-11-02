@@ -94,7 +94,7 @@
         {
             "id": 1,
             "name": "Soil Pygeoapi Docker",
-            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?f=json"
+            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?bbox=24.3,58.5,24.6,58.7&limit=20&f=json"
         },
         {
             "id": 2,
