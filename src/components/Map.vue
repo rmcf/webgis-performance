@@ -3,13 +3,13 @@
     <vl-map
       :load-tiles-while-animating="true"
       :load-tiles-while-interacting="true"
-      data-projection="EPSG:4326"
+      :data-projection="mapProjection"
     >
-      <!-- emit zoom value to parent component -->
       <vl-view
         :zoom.sync="newZoom"
+        :center.sync="newCenter"
         v-on:update:zoom="$emit('update-zoom', dataZoom)"
-        :center="mapCenterProp"
+        v-on:update:center="$emit('update-center', dataCenter)"
       ></vl-view>
 
       <!-- vector layer -->
@@ -64,9 +64,10 @@
 </template>
 
 <script>
-// new CRS registration
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
+
+// new CRS registration
 proj4.defs(
   "EPSG:3301",
   "+proj=lcc +lat_1=59.33333333333334 +lat_2=58 +lat_0=57.51755393055556 +lon_0=24 +x_0=500000 +y_0=6375000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
@@ -86,8 +87,9 @@ export default {
   },
   data() {
     return {
-      // asign zoom value from computed zoom property
       dataZoom: this.newZoom,
+      dataCenter: this.newCenter,
+      mapProjection: "EPSG:4326",
     };
   },
   computed: {
@@ -100,13 +102,22 @@ export default {
         this.dataZoom = newzoom;
       },
     },
+    // computed center property
+    newCenter: {
+      get: function () {
+        return this.mapCenterProp;
+      },
+      set: function (newcenter) {
+        this.dataCenter = newcenter;
+      },
+    },
   },
 };
 </script>
 
 <style scoped>
 div.map {
-  height: 80vh;
+  height: 82vh;
 }
 
 div.inform {

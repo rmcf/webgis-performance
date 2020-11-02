@@ -14,115 +14,123 @@
         class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
       >
         <!-- Layers management component -->
-        <div class="manage">
-          <md-card>
-            <md-card-header>
-              <div class="md-layout md-alignment-center-center">
-                <span class="card-header-title">LAYERS:</span>
-              </div>
-            </md-card-header>
-            <md-divider></md-divider>
-            <!-- vector layers -->
-            <md-card-content>
-              <div class="md-layout md-alignment-center-right">
-                <span class="md-caption">remote geoJSON</span>
-              </div>
-              <div>
-                <md-radio v-model="vectorLayerSelected" :value="false"
-                  >none</md-radio
+        <div class="scrollbar">
+          <div class="manage">
+            <md-card>
+              <md-card-header>
+                <div class="md-layout md-alignment-center-center">
+                  <span class="card-header-title">LAYERS:</span>
+                </div>
+              </md-card-header>
+              <md-divider></md-divider>
+              <!-- vector layers -->
+              <md-card-content>
+                <div class="md-layout md-alignment-center-right">
+                  <span class="md-caption">remote geoJSON</span>
+                </div>
+                <div>
+                  <md-radio v-model="vectorLayerSelected" :value="false"
+                    >none</md-radio
+                  >
+                </div>
+                <div v-for="layer in layersList.vectorLayers" :key="layer.id">
+                  <md-radio
+                    v-model="vectorLayerSelected"
+                    :value="layer"
+                    class="md-primary"
+                    >{{ layer.name }}</md-radio
+                  >
+                </div></md-card-content
+              >
+              <md-divider></md-divider>
+              <!-- vector tile layers -->
+              <md-card-content>
+                <div class="md-layout md-alignment-center-right">
+                  <span class="md-caption">vector tiles services</span>
+                </div>
+                <div>
+                  <md-radio v-model="vectorTileLayerSelected" :value="false"
+                    >none</md-radio
+                  >
+                </div>
+                <div
+                  v-for="layer in layersList.vectorTileLayers"
+                  :key="layer.id"
                 >
-              </div>
-              <div v-for="layer in layersList.vectorLayers" :key="layer.id">
-                <md-radio
-                  v-model="vectorLayerSelected"
-                  :value="layer"
-                  class="md-primary"
-                  >{{ layer.name }}</md-radio
-                >
-              </div></md-card-content
-            >
-            <md-divider></md-divider>
-            <!-- vector tile layers -->
-            <md-card-content>
-              <div class="md-layout md-alignment-center-right">
-                <span class="md-caption">vector tiles services</span>
-              </div>
-              <div>
-                <md-radio v-model="vectorTileLayerSelected" :value="false"
-                  >none</md-radio
-                >
-              </div>
-              <div v-for="layer in layersList.vectorTileLayers" :key="layer.id">
-                <md-radio
-                  v-model="vectorTileLayerSelected"
-                  :value="layer"
-                  class="md-primary"
-                  >{{ layer.name }}</md-radio
-                >
-              </div></md-card-content
-            >
-            <md-divider></md-divider>
-            <!-- wmts layers -->
-            <md-card-content>
-              <div class="md-layout md-alignment-center-right">
-                <span class="md-caption">web map tile services</span>
-              </div>
-              <div>
-                <md-radio v-model="wmtsLayerSelected" :value="false"
-                  >none</md-radio
-                >
-              </div>
-              <div v-for="layer in layersList.wmtsLayers" :key="layer.id">
-                <md-radio
-                  v-model="wmtsLayerSelected"
-                  :value="layer"
-                  class="md-primary"
-                  >{{ layer.name }}</md-radio
-                >
-              </div></md-card-content
-            >
-            <md-divider></md-divider>
-            <!-- wms layers -->
-            <md-card-content>
-              <div class="md-layout md-alignment-center-right">
-                <span class="md-caption">web map services</span>
-              </div>
+                  <md-radio
+                    v-model="vectorTileLayerSelected"
+                    :value="layer"
+                    class="md-primary"
+                    >{{ layer.name }}</md-radio
+                  >
+                </div></md-card-content
+              >
+              <md-divider></md-divider>
+              <!-- wmts layers -->
+              <md-card-content>
+                <div class="md-layout md-alignment-center-right">
+                  <span class="md-caption">web map tile services</span>
+                </div>
+                <div>
+                  <md-radio v-model="wmtsLayerSelected" :value="false"
+                    >none</md-radio
+                  >
+                </div>
+                <div v-for="layer in layersList.wmtsLayers" :key="layer.id">
+                  <md-radio
+                    v-model="wmtsLayerSelected"
+                    :value="layer"
+                    class="md-primary"
+                    >{{ layer.name }}</md-radio
+                  >
+                </div></md-card-content
+              >
+              <md-divider></md-divider>
+              <!-- wms layers -->
+              <md-card-content>
+                <div class="md-layout md-alignment-center-right">
+                  <span class="md-caption">web map services</span>
+                </div>
 
-              <div>
-                <md-radio v-model="wmsLayerSelected" :value="false"
-                  >none</md-radio
+                <div>
+                  <md-radio v-model="wmsLayerSelected" :value="false"
+                    >none</md-radio
+                  >
+                </div>
+                <div v-for="layer in layersList.wmsLayers" :key="layer.id">
+                  <md-radio
+                    v-model="wmsLayerSelected"
+                    :value="layer"
+                    class="md-primary"
+                    >{{ layer.name }}</md-radio
+                  >
+                </div></md-card-content
+              >
+              <md-divider></md-divider>
+              <!-- tile layers -->
+              <md-card-content>
+                <div class="md-layout md-alignment-center-right">
+                  <span class="md-caption">raster tiles services</span>
+                </div>
+                <div>
+                  <md-radio v-model="rasterTileLayerSelected" :value="false"
+                    >none</md-radio
+                  >
+                </div>
+                <div
+                  v-for="layer in layersList.rasterTileLayers"
+                  :key="layer.id"
                 >
-              </div>
-              <div v-for="layer in layersList.wmsLayers" :key="layer.id">
-                <md-radio
-                  v-model="wmsLayerSelected"
-                  :value="layer"
-                  class="md-primary"
-                  >{{ layer.name }}</md-radio
-                >
-              </div></md-card-content
-            >
-            <md-divider></md-divider>
-            <!-- tile layers -->
-            <md-card-content>
-              <div class="md-layout md-alignment-center-right">
-                <span class="md-caption">raster tiles services</span>
-              </div>
-              <div>
-                <md-radio v-model="rasterTileLayerSelected" :value="false"
-                  >none</md-radio
-                >
-              </div>
-              <div v-for="layer in layersList.rasterTileLayers" :key="layer.id">
-                <md-radio
-                  v-model="rasterTileLayerSelected"
-                  :value="layer"
-                  class="md-primary"
-                  >{{ layer.name }}</md-radio
-                >
-              </div>
-            </md-card-content>
-          </md-card>
+                  <md-radio
+                    v-model="rasterTileLayerSelected"
+                    :value="layer"
+                    class="md-primary"
+                    >{{ layer.name }}</md-radio
+                  >
+                </div>
+              </md-card-content>
+            </md-card>
+          </div>
         </div>
       </div>
       <!-- main content -->
@@ -139,6 +147,7 @@
           :mapZoomProp="mapZoomDefault"
           :mapCenterProp="mapCenterDefault"
           v-on:update-zoom="mapZoomDefault = $event"
+          v-on:update-center="mapCenterDefault = $event"
         />
       </div>
     </div>
@@ -166,7 +175,7 @@ export default {
       this.vectorLayerSelected = false;
       this.vectorTileLayerSelected = false;
       this.mapZoomDefault = 7;
-      this.mapCenterDefault = [25.415567859563236, 58.62068472075629];
+      this.mapCenterDefault = [25.196230600031498, 58.69237651567562];
     },
   },
   mounted() {
@@ -182,8 +191,7 @@ export default {
     vectorTileLayerSelected: false,
     // map options
     mapZoomDefault: 7,
-    mapCenterDefault: [25.415567859563236, 58.62068472075629],
-    zoomTest: 0,
+    mapCenterDefault: [25.196230600031498, 58.69237651567562],
   }),
 };
 </script>
@@ -196,8 +204,8 @@ export default {
 }
 
 div.md-layout-item {
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 .md-card-content {
@@ -217,5 +225,12 @@ div.layer-type {
 
 div.nav {
   margin-bottom: 2em;
+}
+
+.scrollbar {
+  padding-left: 0.3em;
+  padding-right: 0.7em;
+  max-height: 82vh;
+  overflow: auto;
 }
 </style>
