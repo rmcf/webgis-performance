@@ -166,16 +166,16 @@ export default {
 
   methods: {
     loadLayer() {
-      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[0];
+      this.wmsLayerSelected = this.layersList.wmsLayers[1];
     },
     cleanMap() {
-      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[0];
+      this.rasterTileLayerSelected = false;
       this.wmtsLayerSelected = false;
-      this.wmsLayerSelected = false;
+      this.wmsLayerSelected = this.layersList.wmsLayers[1];
       this.vectorLayerSelected = false;
       this.vectorTileLayerSelected = false;
-      this.mapZoomDefault = 7;
-      this.mapCenterDefault = [25.196230600031498, 58.69237651567562];
+      this.mapZoomDefault = 8;
+      this.mapCenterDefault = [550000, 6520000];
     },
   },
   mounted() {
@@ -190,8 +190,8 @@ export default {
     vectorLayerSelected: false,
     vectorTileLayerSelected: false,
     // map options
-    mapZoomDefault: 7,
-    mapCenterDefault: [25.196230600031498, 58.69237651567562],
+    mapZoomDefault: 8,
+    mapCenterDefault: [550000, 6520000],
   }),
 };
 </script>

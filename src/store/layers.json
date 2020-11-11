@@ -24,7 +24,7 @@
     ],
     "wmtsLayers": [
         {
-            "id": 0,
+            "id": 1,
             "name": "Blue Marble by EOX",
             "url": "https://tiles.esa.maps.eox.at/wmts?",
             "layerName": "bluemarble-wmsc-23",
@@ -34,7 +34,7 @@
             "attribution": "BlueMarble by EOX"
         },
         {
-            "id": 1,
+            "id": 2,
             "name": "Sentinel-2 cloudless layer",
             "url": "https://tiles.esa.maps.eox.at/wmts?",
             "layerName": "s2cloudless-2018",
@@ -58,36 +58,27 @@
         },
         {
             "id": 2,
-            "name": "Estonian Basemap",
+            "name": "Estonian Basemap alus",
             "url": "https://kaart.maaamet.ee/wms/alus?",
             "layer": "MA-ALUS",
             "format": "image/png",
             "projection": "EPSG:3301",
             "styleName": "default",
             "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null"
+            "crossOrigin": "null",
+            "version": "1.1.1"
         },
         {
             "id": 3,
-            "name": "WMS: fotokaart (vreljeef)",
+            "name": "Estonian fotokaart",
             "url": "https://kaart.maaamet.ee/wms/fotokaart?",
-            "layer": "EESTIFOTO",
+            "layer": "MA-FOTOKAART",
             "format": "image/jpeg",
             "projection": "EPSG:3301",
             "styleName": "default",
-            "attribution": "WMS: <a  href='https://www.maaamet.ee/en'>Maa-amet</a>",
-            "crossOrigin": "null"
-        },
-        {
-            "id": 4,
-            "name": "WMS: fotokaart (EESTIFOTO)",
-            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
-            "layer": "EESTIFOTO",
-            "format": "image/jpeg",
-            "projection": "EPSG:3301",
-            "styleName": "default",
-            "attribution": "WMS: <a  href='https://www.maaamet.ee/en'>Maa-amet</a>",
-            "crossOrigin": "null"
+            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+            "crossOrigin": "null",
+            "version": "1.1.1"
         }
     ],
     "vectorLayers": [

@@ -1,13 +1,15 @@
 <template>
   <div class="map">
+    <!-- map center for testing needs -->
+    <div>Map center: {{ this.centerComputed }}</div>
     <vl-map
       :load-tiles-while-animating="true"
       :load-tiles-while-interacting="true"
-      :data-projection="mapProjection"
     >
       <vl-view
-        :zoom.sync="newZoom"
-        :center.sync="newCenter"
+        :zoom.sync="zoomComputed"
+        :center.sync="centerComputed"
+        :projection="projComputed"
         v-on:update:zoom="$emit('update-zoom', dataZoom)"
         v-on:update:center="$emit('update-center', dataCenter)"
       ></vl-view>
@@ -47,6 +49,7 @@
           :projection="wmsLayerProp.projection"
           :layers="wmsLayerProp.layer"
           :format="wmsLayerProp.format"
+          :version="wmsLayerProp.version"
           :crossOrigin="wmsLayerProp.crossOrigin"
         ></vl-source-wms>
       </vl-layer-tile>
@@ -87,14 +90,13 @@ export default {
   },
   data() {
     return {
-      dataZoom: this.newZoom,
-      dataCenter: this.newCenter,
-      mapProjection: "EPSG:4326",
+      dataZoom: this.zoomComputed,
+      dataCenter: this.centerComputed,
     };
   },
   computed: {
     // computed zoom property
-    newZoom: {
+    zoomComputed: {
       get: function () {
         return this.mapZoomProp;
       },
@@ -103,13 +105,17 @@ export default {
       },
     },
     // computed center property
-    newCenter: {
+    centerComputed: {
       get: function () {
         return this.mapCenterProp;
       },
       set: function (newcenter) {
         this.dataCenter = newcenter;
       },
+    },
+    // computed projection
+    projComputed: function () {
+      return "EPSG:3301";
     },
   },
 };
