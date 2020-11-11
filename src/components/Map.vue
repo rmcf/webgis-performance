@@ -1,7 +1,10 @@
 <template>
   <div class="map">
-    <!-- map center for testing needs -->
-    <div>Map center: {{ this.centerComputed }}</div>
+    <!-- map data for testing needs -->
+    <div>Map zoom: {{ this.zoomComputed }}</div>
+    <!-- <div>Map center: {{ this.centerComputed }}</div>
+    <div>Min Zoom Computed: {{ this.minZoomComputed }}</div>
+    <div>Min Zoom Computed: {{ this.maxZoomComputed }}</div> -->
     <vl-map
       :load-tiles-while-animating="true"
       :load-tiles-while-interacting="true"
@@ -10,6 +13,8 @@
         :zoom.sync="zoomComputed"
         :center.sync="centerComputed"
         :projection="projComputed"
+        :max-zoom="maxZoomComputed"
+        :min-zoom="minZoomComputed"
         v-on:update:zoom="$emit('update-zoom', dataZoom)"
         v-on:update:center="$emit('update-center', dataCenter)"
       ></vl-view>
@@ -59,7 +64,6 @@
         <vl-source-xyz
           :url="rasterTileLayerProp.source"
           :attributions="rasterTileLayerProp.attribution"
-          :max-zoom="rasterTileLayerProp.maxZoom"
         ></vl-source-xyz>
       </vl-layer-tile>
     </vl-map>
@@ -104,6 +108,22 @@ export default {
         this.dataZoom = newzoom;
       },
     },
+    // computed minZoom
+    minZoomComputed: function () {
+      if (this.wmsLayerProp) {
+        return this.wmsLayerProp.minZoom;
+      } else {
+        return 7;
+      }
+    },
+    // computed minZoom
+    maxZoomComputed: function () {
+      if (this.wmsLayerProp) {
+        return this.wmsLayerProp.maxZoom;
+      } else {
+        return 19;
+      }
+    },
     // computed center property
     centerComputed: {
       get: function () {
@@ -115,7 +135,7 @@ export default {
     },
     // computed projection
     projComputed: function () {
-      return "EPSG:3301";
+      return "EPSG:3857";
     },
   },
 };

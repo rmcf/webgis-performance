@@ -1,25 +1,26 @@
 {
-    "rasterTileLayers": [
+    "vectorLayers": [
         {
             "id": 1,
-            "name": "Open Street Map",
-            "source": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
-            "maxZoom": 19
+            "name": "Soil Pygeoapi Docker",
+            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?bbox=24.3,58.5,24.6,58.7&limit=20&f=json"
         },
         {
             "id": 2,
-            "name": "ESRI World Topo Map",
-            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
-            "maxZoom": 19,
-            "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+            "name": "OSM countries",
+            "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson"
+        }
+    ],
+    "vectorTileLayers": [
+        {
+            "id": 1,
+            "name": "ESRI World Basemap",
+            "source": "https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer/tile/{z}/{y}/{x}.pbf"
         },
         {
-            "id": 3,
-            "name": "ESRI World Imagery",
-            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
-            "maxZoom": 20,
-            "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+            "id": 2,
+            "name": "Estonia soil map",
+            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf"
         }
     ],
     "wmtsLayers": [
@@ -52,17 +53,21 @@
             "layer": "druid:cv588yj7627",
             "format": "image/png",
             "projection": "EPSG:4326",
+            "minZoom": 7,
+            "maxZoom": 19,
             "styleName": "default",
             "attribution": "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
             "crossOrigin": "null"
         },
         {
             "id": 2,
-            "name": "Estonian Basemap alus",
+            "name": "EST MA-ALUS",
             "url": "https://kaart.maaamet.ee/wms/alus?",
             "layer": "MA-ALUS",
             "format": "image/png",
             "projection": "EPSG:3301",
+            "minZoom": 7,
+            "maxZoom": 19,
             "styleName": "default",
             "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
             "crossOrigin": "null",
@@ -70,39 +75,51 @@
         },
         {
             "id": 3,
+            "name": "EST Põhikaart",
+            "url": "https://kaart.maaamet.ee/wms/alus?",
+            "layer": "pohi_vr2",
+            "format": "image/png",
+            "projection": "EPSG:3301",
+            "minZoom": 14,
+            "maxZoom": 19,
+            "styleName": "default",
+            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+            "crossOrigin": "null",
+            "version": "1.1.1"
+        },
+        {
+            "id": 4,
             "name": "Estonian fotokaart",
             "url": "https://kaart.maaamet.ee/wms/fotokaart?",
             "layer": "MA-FOTOKAART",
             "format": "image/jpeg",
             "projection": "EPSG:3301",
+            "minZoom": 7,
+            "maxZoom": 19,
             "styleName": "default",
             "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
             "crossOrigin": "null",
             "version": "1.1.1"
         }
     ],
-    "vectorLayers": [
+    "rasterTileLayers": [
         {
             "id": 1,
-            "name": "Soil Pygeoapi Docker",
-            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?bbox=24.3,58.5,24.6,58.7&limit=20&f=json"
+            "name": "Open Street Map",
+            "source": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
         },
         {
             "id": 2,
-            "name": "OSM countries",
-            "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson"
-        }
-    ],
-    "vectorTileLayers": [
-        {
-            "id": 1,
-            "name": "ESRI World Basemap",
-            "source": "https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer/tile/{z}/{y}/{x}.pbf"
+            "name": "ESRI World Topo Map",
+            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
+            "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
         },
         {
-            "id": 2,
-            "name": "Estonia soil map",
-            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf"
+            "id": 3,
+            "name": "ESRI World Imagery",
+            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+            "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
         }
     ]
 }

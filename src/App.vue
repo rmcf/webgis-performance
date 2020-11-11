@@ -174,8 +174,8 @@ export default {
       this.wmsLayerSelected = this.layersList.wmsLayers[1];
       this.vectorLayerSelected = false;
       this.vectorTileLayerSelected = false;
-      this.mapZoomDefault = 8;
-      this.mapCenterDefault = [550000, 6520000];
+      this.mapZoomDefault = 7;
+      this.mapCenterDefault = [2826843.9010652136, 8110910.249112634];
     },
   },
   mounted() {
@@ -190,8 +190,8 @@ export default {
     vectorLayerSelected: false,
     vectorTileLayerSelected: false,
     // map options
-    mapZoomDefault: 8,
-    mapCenterDefault: [550000, 6520000],
+    mapZoomDefault: 7,
+    mapCenterDefault: [2826843.9010652136, 8110910.249112634],
   }),
 };
 </script>
