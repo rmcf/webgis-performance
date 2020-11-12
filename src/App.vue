@@ -147,6 +147,7 @@
           :mapZoomProp="mapZoomDefault"
           :mapCenterProp="mapCenterDefault"
           v-on:update-zoom="mapZoomDefault = $event"
+          v-on:update-minzoom="mapMinZoomDefault = $event"
           v-on:update-center="mapCenterDefault = $event"
         />
       </div>
@@ -171,11 +172,11 @@ export default {
     cleanMap() {
       this.rasterTileLayerSelected = false;
       this.wmtsLayerSelected = false;
-      this.wmsLayerSelected = this.layersList.wmsLayers[1];
       this.vectorLayerSelected = false;
       this.vectorTileLayerSelected = false;
-      this.mapZoomDefault = 7;
       this.mapCenterDefault = [2826843.9010652136, 8110910.249112634];
+      this.mapZoomDefault = 7;
+      this.wmsLayerSelected = this.layersList.wmsLayers[1];
     },
   },
   mounted() {

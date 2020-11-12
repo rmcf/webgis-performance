@@ -2,9 +2,10 @@
   <div class="map">
     <!-- map data for testing needs -->
     <div>Map zoom: {{ this.zoomComputed }}</div>
-    <!-- <div>Map center: {{ this.centerComputed }}</div>
-    <div>Min Zoom Computed: {{ this.minZoomComputed }}</div>
-    <div>Min Zoom Computed: {{ this.maxZoomComputed }}</div> -->
+    <!-- <div>Map min zoom: {{ this.zoomMinComputed }}</div>
+    <div>Data Min Zoom: {{ this.dataMinZoom }}</div>
+    <div>WMS min Zoom: {{ this.wmsLayerProp.minZoom }}</div>
+    <div>Map center: {{ this.centerComputed }}</div> -->
     <vl-map
       :load-tiles-while-animating="true"
       :load-tiles-while-interacting="true"
@@ -13,8 +14,8 @@
         :zoom.sync="zoomComputed"
         :center.sync="centerComputed"
         :projection="projComputed"
-        :max-zoom="maxZoomComputed"
-        :min-zoom="minZoomComputed"
+        :min-zoom="zoomMinComputed"
+        :max-zoom="18"
         v-on:update:zoom="$emit('update-zoom', dataZoom)"
         v-on:update:center="$emit('update-center', dataCenter)"
       ></vl-view>
@@ -96,33 +97,43 @@ export default {
     return {
       dataZoom: this.zoomComputed,
       dataCenter: this.centerComputed,
+      dataMinZoom: this.zoomMinComputed,
     };
   },
   computed: {
     // computed zoom property
     zoomComputed: {
       get: function () {
-        return this.mapZoomProp;
+        if (this.wmsLayerProp.minZoom) {
+          if (this.wmsLayerProp.minZoom > this.mapZoomProp) {
+            return this.wmsLayerProp.minZoom;
+          } else {
+            return this.mapZoomProp;
+          }
+        } else {
+          return this.mapZoomProp;
+        }
       },
       set: function (newzoom) {
         this.dataZoom = newzoom;
       },
     },
-    // computed minZoom
-    minZoomComputed: function () {
-      if (this.wmsLayerProp) {
-        return this.wmsLayerProp.minZoom;
-      } else {
-        return 7;
-      }
-    },
-    // computed minZoom
-    maxZoomComputed: function () {
-      if (this.wmsLayerProp) {
-        return this.wmsLayerProp.maxZoom;
-      } else {
-        return 19;
-      }
+    // computed zoom property
+    zoomMinComputed: {
+      get: function () {
+        if (this.wmsLayerProp.minZoom) {
+          if (this.wmsLayerProp.minZoom > 7) {
+            return this.wmsLayerProp.minZoom;
+          } else {
+            return 7;
+          }
+        } else {
+          return 7;
+        }
+      },
+      set: function (newzoom) {
+        this.dataMinZoom = newzoom;
+      },
     },
     // computed center property
     centerComputed: {
