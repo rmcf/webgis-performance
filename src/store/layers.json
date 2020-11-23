@@ -51,6 +51,15 @@
             "name": "EST Admin Divisions (I)",
             "url": "https://geowebservices.stanford.edu/geoserver/ows",
             "layer": "druid:cv588yj7627",
+            "subLayersSingle": [],
+            "sublayerAll": {
+                "id": 0,
+                "title": "Admin. EST",
+                "name": "druid:cv588yj7627"
+            },
+            "subLayerSelected": [
+                "druid:cv588yj7627"
+            ],
             "format": "image/png",
             "projection": "EPSG:4326",
             "styleName": "default",
@@ -61,22 +70,28 @@
             "id": 2,
             "name": "EST MA-ALUS",
             "url": "https://kaart.maaamet.ee/wms/alus?",
-            "layer": "MA-ALUS",
+            "subLayersSingle": [
+                {
+                    "id": 1,
+                    "title": "Põhikaart",
+                    "name": "pohi_vr2"
+                },
+                {
+                    "id": 2,
+                    "title": "Halduspiirid",
+                    "name": "Halduspiirid"
+                }
+            ],
+            "sublayerAll": {
+                "id": 0,
+                "title": "all",
+                "name": "MA-ALUS"
+            },
+            "subLayerSelected": [
+                "MA-ALUS"
+            ],
             "format": "image/png",
             "projection": "EPSG:3301",
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null",
-            "version": "1.1.1"
-        },
-        {
-            "id": 3,
-            "name": "EST Põhikaart",
-            "url": "https://kaart.maaamet.ee/wms/alus?",
-            "layer": "pohi_vr2",
-            "format": "image/png",
-            "projection": "EPSG:3301",
-            "minZoom": 14,
             "styleName": "default",
             "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
             "crossOrigin": "null",
@@ -86,7 +101,26 @@
             "id": 4,
             "name": "Estonian fotokaart",
             "url": "https://kaart.maaamet.ee/wms/fotokaart?",
-            "layer": "MA-FOTOKAART",
+            "subLayersSingle": [
+                {
+                    "id": 1,
+                    "title": "Varviline reljeefvarjutus",
+                    "name": "vreljeef"
+                },
+                {
+                    "id": 2,
+                    "title": "Ortofoto",
+                    "name": "EESTIFOTO"
+                }
+            ],
+            "sublayerAll": {
+                "id": 0,
+                "title": "all",
+                "name": "MA-FOTOKAART"
+            },
+            "subLayerSelected": [
+                "MA-FOTOKAART"
+            ],
             "format": "image/jpeg",
             "projection": "EPSG:3301",
             "styleName": "default",

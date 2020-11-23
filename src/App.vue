@@ -3,7 +3,7 @@
     <!-- navbar -->
     <div class="nav">
       <md-toolbar class="md-primary" md-elevation="1">
-        <h3 class="md-title" style="flex: 1">Web GIS App</h3>
+        <h3 class="md-title" style="flex: 1">Web GIS SPA</h3>
         <md-button v-on:click="cleanMap()" class="md-primary">CLEAN</md-button>
       </md-toolbar>
     </div>
@@ -11,7 +11,7 @@
     <div class="md-layout">
       <!-- left side bar -->
       <div
-        class="md-layout-item md-large-size-20 md-medium-size-20 md-small-size-100 md-xsmall-size-100"
+        class="md-layout-item md-large-size-25 md-medium-size-25 md-small-size-100 md-xsmall-size-100"
       >
         <!-- Layers management component -->
         <div class="scrollbar">
@@ -86,27 +86,94 @@
                 </div></md-card-content
               >
               <md-divider></md-divider>
+
               <!-- wms layers -->
               <md-card-content>
                 <div class="md-layout md-alignment-center-right">
                   <span class="md-caption">web map services</span>
                 </div>
-
+                <!-- default wms layer value -->
                 <div>
                   <md-radio v-model="wmsLayerSelected" :value="false"
                     >none</md-radio
                   >
                 </div>
+                <!-- dynamic wms layers list -->
                 <div v-for="layer in layersList.wmsLayers" :key="layer.id">
                   <md-radio
                     v-model="wmsLayerSelected"
                     :value="layer"
                     class="md-primary"
-                    >{{ layer.name }}</md-radio
+                    >{{ layer.name }}
+                  </md-radio>
+                  <!-- wms sublayers section -->
+                  <div
+                    v-if="layer.id == wmsLayerSelected.id"
+                    class="wms-sublayers"
                   >
-                </div></md-card-content
-              >
+                    <!-- checkbox for all layers -->
+                    <!-- enabled all checkbox -->
+                    <div
+                      v-if="
+                        layer.subLayerSelected.some(
+                          (sublayer) => sublayer == layer.sublayerAll.name
+                        ) || layer.subLayerSelected.length == 0
+                      "
+                    >
+                      <md-checkbox
+                        v-model="layer.subLayerSelected"
+                        :value="layer.sublayerAll.name"
+                        class="md-primary"
+                        >all
+                      </md-checkbox>
+                    </div>
+                    <!-- disabled all checkbox -->
+                    <div v-else>
+                      <md-checkbox
+                        disabled
+                        v-model="layer.subLayerSelected"
+                        :value="layer.sublayerAll.name"
+                        class="md-primary"
+                        >all
+                      </md-checkbox>
+                    </div>
+                    <!-- checkboxes for single selected layers -->
+                    <!-- disabled single checkboxes -->
+                    <div
+                      v-if="layer.subLayerSelected == layer.sublayerAll.name"
+                    >
+                      <div
+                        v-for="sublayer in layer.subLayersSingle"
+                        :key="sublayer.id"
+                      >
+                        <md-checkbox
+                          disabled
+                          v-model="layer.subLayerSelected"
+                          :value="sublayer.name"
+                          class="md-primary"
+                          >{{ sublayer.title }}
+                        </md-checkbox>
+                      </div>
+                    </div>
+                    <!-- enabled single checkboxes -->
+                    <div v-else>
+                      <div
+                        v-for="sublayer in layer.subLayersSingle"
+                        :key="sublayer.id"
+                      >
+                        <md-checkbox
+                          v-model="layer.subLayerSelected"
+                          :value="sublayer.name"
+                          class="md-primary"
+                          >{{ sublayer.title }}
+                        </md-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </md-card-content>
               <md-divider></md-divider>
+
               <!-- tile layers -->
               <md-card-content>
                 <div class="md-layout md-alignment-center-right">
@@ -135,7 +202,7 @@
       </div>
       <!-- main content -->
       <div
-        class="md-layout-item md-large-size-80 md-medium-size-80 md-small-size-100 md-xsmall-size-100"
+        class="md-layout-item md-large-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100"
       >
         <!-- Map -->
         <Map
@@ -165,6 +232,19 @@ export default {
     Map,
   },
 
+  data: () => ({
+    layersList: Layers, // loading layers list from json
+    // selected layers
+    rasterTileLayerSelected: false,
+    wmtsLayerSelected: false,
+    wmsLayerSelected: false,
+    vectorLayerSelected: false,
+    vectorTileLayerSelected: false,
+    // map options
+    mapZoomDefault: 7,
+    mapCenterDefault: [2826843.9010652136, 8110910.249112634],
+  }),
+
   methods: {
     loadLayer() {
       this.wmsLayerSelected = this.layersList.wmsLayers[1];
@@ -182,18 +262,6 @@ export default {
   mounted() {
     this.loadLayer();
   },
-  data: () => ({
-    layersList: Layers, // loading layers list from json
-    // selected layers
-    rasterTileLayerSelected: false,
-    wmtsLayerSelected: false,
-    wmsLayerSelected: false,
-    vectorLayerSelected: false,
-    vectorTileLayerSelected: false,
-    // map options
-    mapZoomDefault: 7,
-    mapCenterDefault: [2826843.9010652136, 8110910.249112634],
-  }),
 };
 </script>
 
@@ -233,5 +301,17 @@ div.nav {
   padding-right: 0.7em;
   max-height: 82vh;
   overflow: auto;
+}
+
+div.wms-sublayers {
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  margin-left: 3em;
+  padding: 5px;
+}
+
+.md-radio,
+.md-checkbox {
+  margin: 5px;
 }
 </style>

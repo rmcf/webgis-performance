@@ -53,7 +53,7 @@
           :attributions="wmsLayerProp.attribution"
           :url="wmsLayerProp.url"
           :projection="wmsLayerProp.projection"
-          :layers="wmsLayerProp.layer"
+          :layers="wmsSublayersSelected"
           :format="wmsLayerProp.format"
           :version="wmsLayerProp.version"
           :crossOrigin="wmsLayerProp.crossOrigin"
@@ -147,6 +147,14 @@ export default {
     // computed projection
     projComputed: function () {
       return "EPSG:3857";
+    },
+    // computed wms sublayers
+    wmsSublayersSelected: function () {
+      if (this.wmsLayerProp.subLayerSelected) {
+        return this.wmsLayerProp.subLayerSelected.toString();
+      } else {
+        return "none";
+      }
     },
   },
 };
