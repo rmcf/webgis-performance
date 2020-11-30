@@ -1,11 +1,11 @@
 <template>
   <div class="map">
     <!-- map data for testing needs -->
-    <div>Map zoom: {{ this.zoomComputed }}</div>
-    <!-- <div>Map min zoom: {{ this.zoomMinComputed }}</div>
-    <div>Data Min Zoom: {{ this.dataMinZoom }}</div>
-    <div>WMS min Zoom: {{ this.wmsLayerProp.minZoom }}</div>
-    <div>Map center: {{ this.centerComputed }}</div> -->
+    <!-- <div class="align-right">Map zoom: {{ this.zoomComputed }}</div>
+    <div class="align-right">Map min zoom: {{ this.zoomMinComputed }}</div>
+    <div class="align-right">Data Min Zoom: {{ this.dataMinZoom }}</div>
+    <div class="align-right">WMS min Zoom: {{ this.wmsLayerProp.minZoom }}</div>
+    <div class="align-right">Map center: {{ this.centerComputed }}</div> -->
     <vl-map
       :load-tiles-while-animating="true"
       :load-tiles-while-interacting="true"
@@ -162,12 +162,16 @@ export default {
 
 <style scoped>
 div.map {
-  height: 82vh;
+  height: 80vh;
 }
 
 div.inform {
   margin-top: 1em;
   padding: 1em;
   border: 2px solid #448aff;
+}
+
+.align-right {
+  text-align: right;
 }
 </style>
