@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/webgis-performance/'
+    publicPath: '/webgis-performance/',
 }
