@@ -162,7 +162,7 @@ export default {
 
 <style scoped>
 div.map {
-  height: 80vh;
+  height: 35rem;
 }
 
 div.inform {

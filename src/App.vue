@@ -7,209 +7,202 @@
     />
 
     <!-- app container -->
-    <md-app md-mode="fixed">
-      <md-app-toolbar class="md-primary">
-        <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
-          <md-icon>menu</md-icon>
-        </md-button>
-        <span class="md-title">Web GIS SPA</span>
-      </md-app-toolbar>
+    <md-toolbar class="md-primary">
+      <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <span class="md-title">Web GIS SPA</span>
+    </md-toolbar>
 
-      <md-app-drawer :md-active.sync="menuVisible">
-        <div class="manage">
-          <div class="layers-group">
-            <div class="md-layout md-alignment-center-center">
-              <div class="layers-title">
-                <md-icon>layers</md-icon> Navigation
+    <md-drawer :md-active.sync="menuVisible">
+      <div class="manage">
+        <div class="layers-group">
+          <div class="md-layout md-alignment-center-center">
+            <div class="layers-title"><md-icon>layers</md-icon> Navigation</div>
+          </div>
+        </div>
+
+        <!-- vector layers -->
+        <div class="layers-group">
+          <div class="md-layout md-alignment-center-right">
+            <span class="md-caption">remote geoJSON</span>
+          </div>
+          <div>
+            <md-radio v-model="vectorLayerSelected" :value="false"
+              >none</md-radio
+            >
+          </div>
+          <div v-for="layer in layersList.vectorLayers" :key="layer.id">
+            <md-radio
+              v-model="vectorLayerSelected"
+              :value="layer"
+              class="md-primary"
+              >{{ layer.name }}</md-radio
+            >
+          </div>
+        </div>
+
+        <!-- vector tile layers -->
+        <div class="layers-group">
+          <div class="md-layout md-alignment-center-right">
+            <span class="md-caption">vector tiles services</span>
+          </div>
+          <div>
+            <md-radio v-model="vectorTileLayerSelected" :value="false"
+              >none</md-radio
+            >
+          </div>
+          <div v-for="layer in layersList.vectorTileLayers" :key="layer.id">
+            <md-radio
+              v-model="vectorTileLayerSelected"
+              :value="layer"
+              class="md-primary"
+              >{{ layer.name }}</md-radio
+            >
+          </div>
+        </div>
+
+        <!-- wmts layers -->
+        <div class="layers-group">
+          <div class="md-layout md-alignment-center-right">
+            <span class="md-caption">web map tile services</span>
+          </div>
+          <div>
+            <md-radio v-model="wmtsLayerSelected" :value="false">none</md-radio>
+          </div>
+          <div v-for="layer in layersList.wmtsLayers" :key="layer.id">
+            <md-radio
+              v-model="wmtsLayerSelected"
+              :value="layer"
+              class="md-primary"
+              >{{ layer.name }}</md-radio
+            >
+          </div>
+        </div>
+
+        <!-- wms layers -->
+        <div class="layers-group">
+          <div class="md-layout md-alignment-center-right">
+            <span class="md-caption">web map services</span>
+          </div>
+          <!-- default wms layer value -->
+          <div>
+            <md-radio v-model="wmsLayerSelected" :value="false">none</md-radio>
+          </div>
+          <!-- dynamic wms layers list -->
+          <div v-for="layer in layersList.wmsLayers" :key="layer.id">
+            <md-radio
+              v-model="wmsLayerSelected"
+              :value="layer"
+              class="md-primary"
+              >{{ layer.name }}
+            </md-radio>
+            <!-- wms sublayers section -->
+            <div v-if="layer.id == wmsLayerSelected.id" class="wms-sublayers">
+              <!-- checkbox for all layers -->
+              <!-- enabled all checkbox -->
+              <div
+                v-if="
+                  layer.subLayerSelected.some(
+                    (sublayer) => sublayer == layer.sublayerAll.name
+                  ) || layer.subLayerSelected.length == 0
+                "
+              >
+                <md-checkbox
+                  v-model="layer.subLayerSelected"
+                  :value="layer.sublayerAll.name"
+                  class="md-primary"
+                  >all
+                </md-checkbox>
               </div>
-            </div>
-          </div>
-
-          <!-- vector layers -->
-          <div class="layers-group">
-            <div class="md-layout md-alignment-center-right">
-              <span class="md-caption">remote geoJSON</span>
-            </div>
-            <div>
-              <md-radio v-model="vectorLayerSelected" :value="false"
-                >none</md-radio
-              >
-            </div>
-            <div v-for="layer in layersList.vectorLayers" :key="layer.id">
-              <md-radio
-                v-model="vectorLayerSelected"
-                :value="layer"
-                class="md-primary"
-                >{{ layer.name }}</md-radio
-              >
-            </div>
-          </div>
-
-          <!-- vector tile layers -->
-          <div class="layers-group">
-            <div class="md-layout md-alignment-center-right">
-              <span class="md-caption">vector tiles services</span>
-            </div>
-            <div>
-              <md-radio v-model="vectorTileLayerSelected" :value="false"
-                >none</md-radio
-              >
-            </div>
-            <div v-for="layer in layersList.vectorTileLayers" :key="layer.id">
-              <md-radio
-                v-model="vectorTileLayerSelected"
-                :value="layer"
-                class="md-primary"
-                >{{ layer.name }}</md-radio
-              >
-            </div>
-          </div>
-
-          <!-- wmts layers -->
-          <div class="layers-group">
-            <div class="md-layout md-alignment-center-right">
-              <span class="md-caption">web map tile services</span>
-            </div>
-            <div>
-              <md-radio v-model="wmtsLayerSelected" :value="false"
-                >none</md-radio
-              >
-            </div>
-            <div v-for="layer in layersList.wmtsLayers" :key="layer.id">
-              <md-radio
-                v-model="wmtsLayerSelected"
-                :value="layer"
-                class="md-primary"
-                >{{ layer.name }}</md-radio
-              >
-            </div>
-          </div>
-
-          <!-- wms layers -->
-          <div class="layers-group">
-            <div class="md-layout md-alignment-center-right">
-              <span class="md-caption">web map services</span>
-            </div>
-            <!-- default wms layer value -->
-            <div>
-              <md-radio v-model="wmsLayerSelected" :value="false"
-                >none</md-radio
-              >
-            </div>
-            <!-- dynamic wms layers list -->
-            <div v-for="layer in layersList.wmsLayers" :key="layer.id">
-              <md-radio
-                v-model="wmsLayerSelected"
-                :value="layer"
-                class="md-primary"
-                >{{ layer.name }}
-              </md-radio>
-              <!-- wms sublayers section -->
-              <div v-if="layer.id == wmsLayerSelected.id" class="wms-sublayers">
-                <!-- checkbox for all layers -->
-                <!-- enabled all checkbox -->
+              <!-- disabled all checkbox -->
+              <div v-else>
+                <md-checkbox
+                  disabled
+                  v-model="layer.subLayerSelected"
+                  :value="layer.sublayerAll.name"
+                  class="md-primary"
+                  >all
+                </md-checkbox>
+              </div>
+              <!-- checkboxes for single selected layers -->
+              <!-- disabled single checkboxes -->
+              <div v-if="layer.subLayerSelected == layer.sublayerAll.name">
                 <div
-                  v-if="
-                    layer.subLayerSelected.some(
-                      (sublayer) => sublayer == layer.sublayerAll.name
-                    ) || layer.subLayerSelected.length == 0
-                  "
+                  v-for="sublayer in layer.subLayersSingle"
+                  :key="sublayer.id"
                 >
-                  <md-checkbox
-                    v-model="layer.subLayerSelected"
-                    :value="layer.sublayerAll.name"
-                    class="md-primary"
-                    >all
-                  </md-checkbox>
-                </div>
-                <!-- disabled all checkbox -->
-                <div v-else>
                   <md-checkbox
                     disabled
                     v-model="layer.subLayerSelected"
-                    :value="layer.sublayerAll.name"
+                    :value="sublayer.name"
                     class="md-primary"
-                    >all
+                    >{{ sublayer.title }}
                   </md-checkbox>
                 </div>
-                <!-- checkboxes for single selected layers -->
-                <!-- disabled single checkboxes -->
-                <div v-if="layer.subLayerSelected == layer.sublayerAll.name">
-                  <div
-                    v-for="sublayer in layer.subLayersSingle"
-                    :key="sublayer.id"
-                  >
-                    <md-checkbox
-                      disabled
-                      v-model="layer.subLayerSelected"
-                      :value="sublayer.name"
-                      class="md-primary"
-                      >{{ sublayer.title }}
-                    </md-checkbox>
-                  </div>
-                </div>
-                <!-- enabled single checkboxes -->
-                <div v-else>
-                  <div
-                    v-for="sublayer in layer.subLayersSingle"
-                    :key="sublayer.id"
-                  >
-                    <md-checkbox
-                      v-model="layer.subLayerSelected"
-                      :value="sublayer.name"
-                      class="md-primary"
-                      >{{ sublayer.title }}
-                    </md-checkbox>
-                  </div>
+              </div>
+              <!-- enabled single checkboxes -->
+              <div v-else>
+                <div
+                  v-for="sublayer in layer.subLayersSingle"
+                  :key="sublayer.id"
+                >
+                  <md-checkbox
+                    v-model="layer.subLayerSelected"
+                    :value="sublayer.name"
+                    class="md-primary"
+                    >{{ sublayer.title }}
+                  </md-checkbox>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- raster tile layers -->
-          <div class="layers-group">
-            <div class="md-layout md-alignment-center-right">
-              <span class="md-caption">raster tiles services</span>
-            </div>
-            <div>
-              <md-radio v-model="rasterTileLayerSelected" :value="false"
-                >none</md-radio
-              >
-            </div>
-            <div v-for="layer in layersList.rasterTileLayers" :key="layer.id">
-              <md-radio
-                v-model="rasterTileLayerSelected"
-                :value="layer"
-                class="md-primary"
-                >{{ layer.name }}</md-radio
-              >
-            </div>
+        <!-- raster tile layers -->
+        <div class="layers-group">
+          <div class="md-layout md-alignment-center-right">
+            <span class="md-caption">raster tiles services</span>
+          </div>
+          <div>
+            <md-radio v-model="rasterTileLayerSelected" :value="false"
+              >none</md-radio
+            >
+          </div>
+          <div v-for="layer in layersList.rasterTileLayers" :key="layer.id">
+            <md-radio
+              v-model="rasterTileLayerSelected"
+              :value="layer"
+              class="md-primary"
+              >{{ layer.name }}</md-radio
+            >
           </div>
         </div>
-      </md-app-drawer>
-      <md-app-content>
-        <div class="map-container">
-          <!-- Map -->
-          <Map
-            :rasterTileLayerProp="rasterTileLayerSelected"
-            :wmsLayerProp="wmsLayerSelected"
-            :wmtsLayerProp="wmtsLayerSelected"
-            :vectorLayerProp="vectorLayerSelected"
-            :vectorTileLayerProp="vectorTileLayerSelected"
-            :mapZoomProp="mapZoomDefault"
-            :mapCenterProp="mapCenterDefault"
-            v-on:update-zoom="mapZoomDefault = $event"
-            v-on:update-minzoom="mapMinZoomDefault = $event"
-            v-on:update-center="mapCenterDefault = $event"
-          />
-          <div class="map-default">
-            <md-button v-on:click="cleanMap()" class="md-fab">
-              <md-icon>my_location</md-icon>
-            </md-button>
-          </div>
+      </div>
+    </md-drawer>
+    <div class="container">
+      <div class="map-container">
+        <!-- Map -->
+        <Map
+          :rasterTileLayerProp="rasterTileLayerSelected"
+          :wmsLayerProp="wmsLayerSelected"
+          :wmtsLayerProp="wmtsLayerSelected"
+          :vectorLayerProp="vectorLayerSelected"
+          :vectorTileLayerProp="vectorTileLayerSelected"
+          :mapZoomProp="mapZoomDefault"
+          :mapCenterProp="mapCenterDefault"
+          v-on:update-zoom="mapZoomDefault = $event"
+          v-on:update-minzoom="mapMinZoomDefault = $event"
+          v-on:update-center="mapCenterDefault = $event"
+        />
+        <!-- default button -->
+        <div class="map-default">
+          <md-button v-on:click="cleanMap()" class="md-fab">
+            <md-icon>my_location</md-icon>
+          </md-button>
         </div>
-      </md-app-content>
-    </md-app>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -306,6 +299,10 @@ div.layers-title .md-icon {
 div.layers-group {
   padding: 0.5rem 1rem 0.5rem 1rem;
   border-bottom: 2px solid #e0e0e0;
+}
+
+div.container {
+  padding: 2rem 1rem 2rem 1rem;
 }
 
 div.map-container {
