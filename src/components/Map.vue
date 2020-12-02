@@ -1,73 +1,79 @@
 <template>
-  <div class="map">
+  <div class="map-component">
     <!-- map data for testing needs -->
-    <!-- <div class="align-right">Map zoom: {{ this.zoomComputed }}</div>
-    <div class="align-right">Map min zoom: {{ this.zoomMinComputed }}</div>
-    <div class="align-right">Data Min Zoom: {{ this.dataMinZoom }}</div>
-    <div class="align-right">WMS min Zoom: {{ this.wmsLayerProp.minZoom }}</div>
-    <div class="align-right">Map center: {{ this.centerComputed }}</div> -->
-    <vl-map
-      :load-tiles-while-animating="true"
-      :load-tiles-while-interacting="true"
-    >
-      <vl-view
-        :zoom.sync="zoomComputed"
-        :center.sync="centerComputed"
-        :projection="projComputed"
-        :min-zoom="zoomMinComputed"
-        :max-zoom="18"
-        v-on:update:zoom="$emit('update-zoom', dataZoom)"
-        v-on:update:center="$emit('update-center', dataCenter)"
-      ></vl-view>
+    <div class="map-info">
+      <!-- <div class="align-right">Map zoom: {{ this.zoomComputed }}</div>
+      <div class="align-right">Map min zoom: {{ this.zoomMinComputed }}</div>
+      <div class="align-right">Data Min Zoom: {{ this.dataMinZoom }}</div>
+      <div class="align-right">
+        WMS min Zoom: {{ this.wmsLayerProp.minZoom }}
+      </div>
+      <div class="align-right">Map center: {{ this.centerComputed }}</div> -->
+    </div>
+    <div class="map">
+      <vl-map
+        :load-tiles-while-animating="true"
+        :load-tiles-while-interacting="true"
+      >
+        <vl-view
+          :zoom.sync="zoomComputed"
+          :center.sync="centerComputed"
+          :projection="projComputed"
+          :min-zoom="zoomMinComputed"
+          :max-zoom="18"
+          v-on:update:zoom="$emit('update-zoom', dataZoom)"
+          v-on:update:center="$emit('update-center', dataCenter)"
+        ></vl-view>
 
-      <!-- vector layer -->
-      <vl-layer-vector render-mode="image" v-if="vectorLayerProp != false">
-        <vl-source-vector :url="vectorLayerProp.source"></vl-source-vector>
-      </vl-layer-vector>
+        <!-- vector layer -->
+        <vl-layer-vector render-mode="image" v-if="vectorLayerProp != false">
+          <vl-source-vector :url="vectorLayerProp.source"></vl-source-vector>
+        </vl-layer-vector>
 
-      <!-- vector tile layer -->
-      <vl-layer-vector-tile v-if="vectorTileLayerProp != false">
-        <vl-source-vector-tile
-          :url="vectorTileLayerProp.source"
-        ></vl-source-vector-tile>
-        <vl-style-box>
-          <vl-style-stroke :width="1" color="#ff5252"></vl-style-stroke>
-        </vl-style-box>
-      </vl-layer-vector-tile>
+        <!-- vector tile layer -->
+        <vl-layer-vector-tile v-if="vectorTileLayerProp != false">
+          <vl-source-vector-tile
+            :url="vectorTileLayerProp.source"
+          ></vl-source-vector-tile>
+          <vl-style-box>
+            <vl-style-stroke :width="1" color="#ff5252"></vl-style-stroke>
+          </vl-style-box>
+        </vl-layer-vector-tile>
 
-      <!-- wmts layer -->
-      <vl-layer-tile :z-index="-1" v-if="wmtsLayerProp != false">
-        <vl-source-wmts
-          :attributions="wmtsLayerProp.attribution"
-          :url="wmtsLayerProp.url"
-          :layer-name="wmtsLayerProp.layerName"
-          :matrix-set="wmtsLayerProp.matrixSet"
-          :format="wmtsLayerProp.format"
-          :style-name="wmtsLayerProp.styleName"
-        ></vl-source-wmts>
-      </vl-layer-tile>
+        <!-- wmts layer -->
+        <vl-layer-tile :z-index="-1" v-if="wmtsLayerProp != false">
+          <vl-source-wmts
+            :attributions="wmtsLayerProp.attribution"
+            :url="wmtsLayerProp.url"
+            :layer-name="wmtsLayerProp.layerName"
+            :matrix-set="wmtsLayerProp.matrixSet"
+            :format="wmtsLayerProp.format"
+            :style-name="wmtsLayerProp.styleName"
+          ></vl-source-wmts>
+        </vl-layer-tile>
 
-      <!-- wms layer -->
-      <vl-layer-tile :z-index="-2" v-if="wmsLayerProp != false">
-        <vl-source-wms
-          :attributions="wmsLayerProp.attribution"
-          :url="wmsLayerProp.url"
-          :projection="wmsLayerProp.projection"
-          :layers="wmsSublayersSelected"
-          :format="wmsLayerProp.format"
-          :version="wmsLayerProp.version"
-          :crossOrigin="wmsLayerProp.crossOrigin"
-        ></vl-source-wms>
-      </vl-layer-tile>
+        <!-- wms layer -->
+        <vl-layer-tile :z-index="-2" v-if="wmsLayerProp != false">
+          <vl-source-wms
+            :attributions="wmsLayerProp.attribution"
+            :url="wmsLayerProp.url"
+            :projection="wmsLayerProp.projection"
+            :layers="wmsSublayersSelected"
+            :format="wmsLayerProp.format"
+            :version="wmsLayerProp.version"
+            :crossOrigin="wmsLayerProp.crossOrigin"
+          ></vl-source-wms>
+        </vl-layer-tile>
 
-      <!-- raster tile layer -->
-      <vl-layer-tile :z-index="-3" v-if="rasterTileLayerProp != false">
-        <vl-source-xyz
-          :url="rasterTileLayerProp.source"
-          :attributions="rasterTileLayerProp.attribution"
-        ></vl-source-xyz>
-      </vl-layer-tile>
-    </vl-map>
+        <!-- raster tile layer -->
+        <vl-layer-tile :z-index="-3" v-if="rasterTileLayerProp != false">
+          <vl-source-xyz
+            :url="rasterTileLayerProp.source"
+            :attributions="rasterTileLayerProp.attribution"
+          ></vl-source-xyz>
+        </vl-layer-tile>
+      </vl-map>
+    </div>
   </div>
 </template>
 

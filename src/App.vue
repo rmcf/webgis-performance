@@ -12,6 +12,11 @@
         <md-icon>menu</md-icon>
       </md-button>
       <span class="md-title">Web GIS SPA</span>
+      <div class="md-toolbar-section-end">
+        <md-button @click="cleanMap()"
+          ><md-icon>layers_clear</md-icon> CLEAR</md-button
+        >
+      </div>
     </md-toolbar>
 
     <md-drawer :md-active.sync="menuVisible">
@@ -181,27 +186,19 @@
       </div>
     </md-drawer>
     <div class="container">
-      <div class="map-container">
-        <!-- Map -->
-        <Map
-          :rasterTileLayerProp="rasterTileLayerSelected"
-          :wmsLayerProp="wmsLayerSelected"
-          :wmtsLayerProp="wmtsLayerSelected"
-          :vectorLayerProp="vectorLayerSelected"
-          :vectorTileLayerProp="vectorTileLayerSelected"
-          :mapZoomProp="mapZoomDefault"
-          :mapCenterProp="mapCenterDefault"
-          v-on:update-zoom="mapZoomDefault = $event"
-          v-on:update-minzoom="mapMinZoomDefault = $event"
-          v-on:update-center="mapCenterDefault = $event"
-        />
-        <!-- default button -->
-        <div class="map-default">
-          <md-button v-on:click="cleanMap()" class="md-fab">
-            <md-icon>my_location</md-icon>
-          </md-button>
-        </div>
-      </div>
+      <!-- Map -->
+      <Map
+        :rasterTileLayerProp="rasterTileLayerSelected"
+        :wmsLayerProp="wmsLayerSelected"
+        :wmtsLayerProp="wmtsLayerSelected"
+        :vectorLayerProp="vectorLayerSelected"
+        :vectorTileLayerProp="vectorTileLayerSelected"
+        :mapZoomProp="mapZoomDefault"
+        :mapCenterProp="mapCenterDefault"
+        v-on:update-zoom="mapZoomDefault = $event"
+        v-on:update-minzoom="mapMinZoomDefault = $event"
+        v-on:update-center="mapCenterDefault = $event"
+      />
     </div>
   </div>
 </template>
@@ -303,15 +300,5 @@ div.layers-group {
 
 div.container {
   padding: 2rem 1rem 2rem 1rem;
-}
-
-div.map-container {
-  position: relative;
-}
-
-div.map-default {
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 </style>
