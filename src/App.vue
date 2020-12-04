@@ -6,7 +6,7 @@
       href="https://fonts.googleapis.com/css?family=Material+Icons"
     />
 
-    <!-- app container -->
+    <!-- toolbar -->
     <md-toolbar class="md-primary">
       <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
         <md-icon>menu</md-icon>
@@ -19,6 +19,7 @@
       </div>
     </md-toolbar>
 
+    <!-- drawer -->
     <md-drawer :md-active.sync="menuVisible">
       <div class="manage">
         <div class="layers-group">
@@ -27,19 +28,39 @@
           </div>
         </div>
 
-        <!-- vector layers -->
+        <!-- vector layers geoJSON services-->
         <div class="layers-group">
           <div class="md-layout md-alignment-center-right">
-            <span class="md-caption">remote geoJSON</span>
+            <span class="md-caption">remote geoJSON services</span>
           </div>
           <div>
-            <md-radio v-model="vectorLayerSelected" :value="false"
+            <md-radio v-model="geoJsonServicesSelected" :value="false"
               >none</md-radio
             >
           </div>
-          <div v-for="layer in layersList.vectorLayers" :key="layer.id">
+          <div v-for="layer in layersList.geoJsonService" :key="layer.id">
             <md-radio
-              v-model="vectorLayerSelected"
+              v-model="geoJsonServicesSelected"
+              :value="layer"
+              class="md-primary"
+              >{{ layer.name }}</md-radio
+            >
+          </div>
+        </div>
+
+        <!-- vector layers geoJSON URL-->
+        <div class="layers-group">
+          <div class="md-layout md-alignment-center-right">
+            <span class="md-caption">remote geoJSON URL</span>
+          </div>
+          <div>
+            <md-radio v-model="geoJsonUrlSelected" :value="false"
+              >none</md-radio
+            >
+          </div>
+          <div v-for="layer in layersList.geoJsonUrl" :key="layer.id">
+            <md-radio
+              v-model="geoJsonUrlSelected"
               :value="layer"
               class="md-primary"
               >{{ layer.name }}</md-radio
@@ -191,7 +212,8 @@
         :rasterTileLayerProp="rasterTileLayerSelected"
         :wmsLayerProp="wmsLayerSelected"
         :wmtsLayerProp="wmtsLayerSelected"
-        :vectorLayerProp="vectorLayerSelected"
+        :geoJsonUrlProp="geoJsonUrlSelected"
+        :geoJsonServicesProp="geoJsonServicesSelected"
         :vectorTileLayerProp="vectorTileLayerSelected"
         :mapZoomProp="mapZoomDefault"
         :mapCenterProp="mapCenterDefault"
@@ -219,11 +241,13 @@ export default {
     rasterTileLayerSelected: false,
     wmtsLayerSelected: false,
     wmsLayerSelected: false,
-    vectorLayerSelected: false,
+    geoJsonUrlSelected: false,
+    geoJsonServicesSelected: false,
+    vectorLayerUrlSelected: false,
     vectorTileLayerSelected: false,
     // map options
     mapZoomDefault: 7,
-    mapCenterDefault: [2826843.9010652136, 8110910.249112634],
+    mapCenterDefault: [25.321960794190517, 58.63048563100426],
     menuVisible: false,
   }),
 
@@ -235,9 +259,10 @@ export default {
       this.rasterTileLayerSelected = this.layersList.rasterTileLayers[0];
       this.wmsLayerSelected = false;
       this.wmtsLayerSelected = false;
-      this.vectorLayerSelected = false;
+      this.geoJsonUrlSelected = false;
+      this.geoJsonServicesSelected = false;
       this.vectorTileLayerSelected = false;
-      this.mapCenterDefault = [2826843.9010652136, 8110910.249112634];
+      this.mapCenterDefault = [25.321960794190517, 58.63048563100426];
       this.mapZoomDefault = 7;
     },
   },
@@ -299,6 +324,6 @@ div.layers-group {
 }
 
 div.container {
-  padding: 2rem 1rem 2rem 1rem;
+  padding: 2rem;
 }
 </style>

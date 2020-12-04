@@ -1,37 +1,118 @@
 <template>
   <div class="map-component">
-    <!-- map data for testing needs -->
     <div class="map-info">
-      <!-- <div class="align-right">Map zoom: {{ this.zoomComputed }}</div>
-      <div class="align-right">Map min zoom: {{ this.zoomMinComputed }}</div>
-      <div class="align-right">Data Min Zoom: {{ this.dataMinZoom }}</div>
-      <div class="align-right">
+      <!-- map data for testing needs -->
+      <!-- <div class="align-right">Map zoom: {{ this.zoomComputed }}</div> -->
+      <!-- <div class="align-right">Map min zoom: {{ this.zoomMinComputed }}</div> -->
+      <!-- <div class="align-right">Data Min Zoom: {{ this.dataMinZoom }}</div> -->
+      <!-- <div class="align-right">
         WMS min Zoom: {{ this.wmsLayerProp.minZoom }}
+      </div> -->
+      <!-- <div class="align-right">Map center: {{ this.centerComputed }}</div> -->
+      <!-- <div class="align-right">
+        Cursor coordinates: {{ dataCursorCoordinates }}
+      </div> -->
+      <!-- geoJSON services loading progress -->
+      <div v-if="dataLoadingStatus !== false" class="object-align-center">
+        <div class="object-item">
+          <md-progress-spinner
+            class="md-accent"
+            md-mode="indeterminate"
+          ></md-progress-spinner>
+        </div>
+        <div class="object-item"><h3 class="accent-color">Loading...</h3></div>
       </div>
-      <div class="align-right">Map center: {{ this.centerComputed }}</div> -->
+      <div>
+        <md-dialog-alert
+          :md-active.sync="geoJsonUrlAlert"
+          :md-title="alertTitleComputed"
+          md-content="click on map and wait until vector objects are loaded"
+        />
+      </div>
+      <!-- table with attributes -->
+      <div v-if="this.geoJSONdata.length > 0 && this.geoJsonServicesProp">
+        <md-table>
+          <md-table-row>
+            <md-table-head>ID</md-table-head>
+            <md-table-head>orig_fid</md-table-head>
+            <md-table-head>upd_siffer</md-table-head>
+            <md-table-head>wrb_code</md-table-head>
+            <md-table-head>wrb_main</md-table-head>
+            <md-table-head>boniteet</md-table-head>
+            <md-table-head>varv</md-table-head>
+            <md-table-head>sol_zmx</md-table-head>
+            <md-table-head>hydgrp</md-table-head>
+            <md-table-head>area_drain</md-table-head>
+            <md-table-head>drain_pct</md-table-head>
+            <md-table-head>huumus</md-table-head>
+          </md-table-row>
+          <md-table-row v-for="item in this.geoJSONdata" :key="item.id">
+            <md-table-cell>{{ item.id }}</md-table-cell>
+            <md-table-cell>{{ item.properties.orig_fid }}</md-table-cell>
+            <md-table-cell>{{ item.properties.upd_siffer }}</md-table-cell>
+            <md-table-cell>{{ item.properties.wrb_code }}</md-table-cell>
+            <md-table-cell>{{ item.properties.wrb_main }}</md-table-cell>
+            <md-table-cell>{{ item.properties.boniteet }}</md-table-cell>
+            <md-table-cell>{{ item.properties.varv }}</md-table-cell>
+            <md-table-cell>{{ item.properties.sol_zmx }}</md-table-cell>
+            <md-table-cell>{{ item.properties.hydgrp }}</md-table-cell>
+            <md-table-cell>{{ item.properties.area_drain }}</md-table-cell>
+            <md-table-cell>{{ item.properties.drain_pct }}</md-table-cell>
+            <md-table-cell>{{ item.properties.huumus }}</md-table-cell>
+          </md-table-row>
+        </md-table>
+
+        <div class="object-align-right">
+          <div class="object-item">
+            <md-button
+              v-on:click="resetGeoJSONdata()"
+              class="md-dense md-raised md-accent"
+              ><md-icon>clear</md-icon> REMOVE</md-button
+            >
+          </div>
+        </div>
+      </div>
     </div>
     <div class="map">
       <vl-map
+        :data-projection="projComputed"
         :load-tiles-while-animating="true"
         :load-tiles-while-interacting="true"
+        @click="spatialQueryOnClick($event.coordinate)"
       >
         <vl-view
           :zoom.sync="zoomComputed"
           :center.sync="centerComputed"
-          :projection="projComputed"
           :min-zoom="zoomMinComputed"
           :max-zoom="18"
           v-on:update:zoom="$emit('update-zoom', dataZoom)"
           v-on:update:center="$emit('update-center', dataCenter)"
         ></vl-view>
 
-        <!-- vector layer -->
-        <vl-layer-vector render-mode="image" v-if="vectorLayerProp != false">
-          <vl-source-vector :url="vectorLayerProp.source"></vl-source-vector>
+        <!-- vector layers geoJSON URL -->
+        <vl-layer-vector
+          :z-index="3"
+          render-mode="image"
+          v-if="geoJsonUrlProp != false"
+        >
+          <vl-source-vector :url="geoJsonUrlProp.source"></vl-source-vector>
+        </vl-layer-vector>
+
+        <!-- vector layers geoJSON services -->
+        <vl-layer-vector
+          :z-index="2"
+          render-mode="image"
+          v-if="geoJsonServicesProp != false"
+        >
+          <vl-source-vector :features.sync="geoJSONdata"></vl-source-vector>
+          <vl-style-box>
+            <vl-style-stroke color="red" :width="1"></vl-style-stroke>
+            <vl-style-fill color="rgb(255, 255, 255, 0.3)"></vl-style-fill>
+          </vl-style-box>
         </vl-layer-vector>
 
         <!-- vector tile layer -->
-        <vl-layer-vector-tile v-if="vectorTileLayerProp != false">
+        <vl-layer-vector-tile :z-index="1" v-if="vectorTileLayerProp != false">
           <vl-source-vector-tile
             :url="vectorTileLayerProp.source"
           ></vl-source-vector-tile>
@@ -78,6 +159,7 @@
 </template>
 
 <script>
+const axios = require("axios");
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
 
@@ -94,16 +176,36 @@ export default {
     rasterTileLayerProp: [Boolean, Object],
     wmtsLayerProp: [Boolean, Object],
     wmsLayerProp: [Boolean, Object],
-    vectorLayerProp: [Boolean, Object],
+    geoJsonUrlProp: [Boolean, Object],
+    geoJsonServicesProp: [Boolean, Object],
     vectorTileLayerProp: [Boolean, Object],
     mapZoomProp: Number,
     mapCenterProp: Array,
   },
+  // watching for geoJsonServicesProp changes
+  watch: {
+    geoJsonServicesProp: function (newVal, oldVal) {
+      if (newVal != oldVal) {
+        this.geoJSONdata = [];
+      }
+      if (newVal != false) {
+        this.geoJsonUrlAlert = true;
+      }
+    },
+  },
   data() {
     return {
+      // computed map properties
       dataZoom: this.zoomComputed,
       dataCenter: this.centerComputed,
       dataMinZoom: this.zoomMinComputed,
+      // onclick event
+      dataCursorCoordinates: 0,
+      geoJSONdata: [],
+      // loading status
+      dataLoadingStatus: false,
+      // geo JSON erl alert
+      geoJsonUrlAlert: false,
     };
   },
   computed: {
@@ -131,10 +233,10 @@ export default {
           if (this.wmsLayerProp.minZoom > 7) {
             return this.wmsLayerProp.minZoom;
           } else {
-            return 7;
+            return 2;
           }
         } else {
-          return 7;
+          return 2;
         }
       },
       set: function (newzoom) {
@@ -152,7 +254,7 @@ export default {
     },
     // computed projection
     projComputed: function () {
-      return "EPSG:3857";
+      return "EPSG:4326";
     },
     // computed wms sublayers
     wmsSublayersSelected: function () {
@@ -161,6 +263,33 @@ export default {
       } else {
         return "none";
       }
+    },
+    alertTitleComputed: function () {
+      let text = "To show objects on " + this.geoJsonServicesProp.name;
+      return text;
+    },
+  },
+  methods: {
+    // bbox query to EST soil map
+    spatialQueryOnClick(cursorCoordinates) {
+      if (this.geoJsonServicesProp) {
+        this.geoJSONdata = [];
+        this.dataLoadingStatus = true;
+        this.dataCursorCoordinates = cursorCoordinates;
+        let x = cursorCoordinates[0];
+        let y = cursorCoordinates[1];
+        let bbox = x + "," + y + "," + x + "," + y;
+        setTimeout(() => {
+          axios
+            .get(this.geoJsonServicesProp.source + "?bbox=" + bbox + "&f=json")
+            .then((response) => (this.geoJSONdata = response.data.features))
+            .catch((error) => console.log(error))
+            .finally(() => (this.dataLoadingStatus = false));
+        }, 2000);
+      }
+    },
+    resetGeoJSONdata() {
+      this.geoJSONdata = [];
     },
   },
 };
@@ -179,5 +308,24 @@ div.inform {
 
 .align-right {
   text-align: right;
+}
+
+div.object-align-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+div.object-align-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.object-item {
+  margin: 5px;
+}
+
+.accent-color {
+  color: #ff5252;
 }
 </style>

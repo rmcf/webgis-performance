@@ -1,14 +1,17 @@
 {
-    "vectorLayers": [
+    "geoJsonUrl": [
         {
             "id": 1,
-            "name": "Soil Pygeoapi Docker",
-            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items?bbox=24.5175335914766,58.6753031307648,24.5175335914766,58.6753031307648&f=json"
-        },
-        {
-            "id": 2,
             "name": "OSM countries",
             "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson"
+        }
+    ],
+    "geoJsonService": [
+        {
+            "id": 1,
+            "name": "Soil PygeoAPI Docker",
+            "geoJSONdata": [],
+            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/"
         }
     ],
     "vectorTileLayers": [
