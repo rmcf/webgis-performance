@@ -58,7 +58,9 @@
             "sublayerAll": {
                 "id": 0,
                 "title": "Admin. EST",
-                "name": "druid:cv588yj7627"
+                "name": "druid:cv588yj7627",
+                "minZoom": 7,
+                "maxZoom": 18
             },
             "subLayerSelected": [
                 "druid:cv588yj7627"
@@ -77,12 +79,16 @@
                 {
                     "id": 1,
                     "title": "Põhikaart",
-                    "name": "pohi_vr2"
+                    "name": "pohi_vr2",
+                    "minZoom": 14,
+                    "maxZoom": 18
                 },
                 {
                     "id": 2,
                     "title": "Halduspiirid",
-                    "name": "Halduspiirid"
+                    "name": "Halduspiirid",
+                    "minZoom": 7,
+                    "maxZoom": 18
                 }
             ],
             "sublayerAll": {
@@ -108,12 +114,16 @@
                 {
                     "id": 1,
                     "title": "Varviline reljeefvarjutus",
-                    "name": "vreljeef"
+                    "name": "vreljeef",
+                    "minZoom": 7,
+                    "maxZoom": 18
                 },
                 {
                     "id": 2,
                     "title": "Ortofoto",
-                    "name": "EESTIFOTO"
+                    "name": "EESTIFOTO",
+                    "minZoom": 7,
+                    "maxZoom": 18
                 }
             ],
             "sublayerAll": {

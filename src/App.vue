@@ -7,15 +7,29 @@
     />
 
     <!-- toolbar -->
-    <md-toolbar class="md-primary">
+    <md-toolbar>
       <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
         <md-icon>menu</md-icon>
+        <md-tooltip md-direction="bottom">Layers navigation</md-tooltip>
       </md-button>
       <span class="md-title">Web GIS SPA</span>
       <div class="md-toolbar-section-end">
-        <md-button @click="cleanMap()"
-          ><md-icon>layers_clear</md-icon> CLEAR</md-button
+        <!-- remove all layers button -->
+        <md-button
+          @click="cleanMap()"
+          class="md-icon-button md-raised md-primary button-margin"
+          ><md-icon>layers_clear</md-icon
+          ><md-tooltip md-direction="bottom"
+            >Remove all layers</md-tooltip
+          ></md-button
         >
+        <!-- current zoom badge -->
+        <md-badge class="md-accent button-margin" :md-content="mapZoomDefault">
+          <md-button class="md-icon-button">
+            <md-icon>zoom_in</md-icon>
+            <md-tooltip md-direction="bottom">Current map zoom</md-tooltip>
+          </md-button>
+        </md-badge>
       </div>
     </md-toolbar>
 
@@ -126,7 +140,7 @@
             <!-- wms sublayers section -->
             <div v-if="layer.id == wmsLayerSelected.id" class="wms-sublayers">
               <!-- checkbox for all layers -->
-              <!-- enabled all checkbox -->
+              <!-- enabled "all" checkbox -->
               <div
                 v-if="
                   layer.subLayerSelected.some(
@@ -141,7 +155,7 @@
                   >all
                 </md-checkbox>
               </div>
-              <!-- disabled all checkbox -->
+              <!-- disabled "all" checkbox -->
               <div v-else>
                 <md-checkbox
                   disabled
@@ -164,6 +178,11 @@
                     :value="sublayer.name"
                     class="md-primary"
                     >{{ sublayer.title }}
+                    <span class="sublayer-zoom"
+                      >(zoom: {{ sublayer.minZoom }}-{{
+                        sublayer.maxZoom
+                      }})</span
+                    >
                   </md-checkbox>
                 </div>
               </div>
@@ -178,6 +197,11 @@
                     :value="sublayer.name"
                     class="md-primary"
                     >{{ sublayer.title }}
+                    <span class="sublayer-zoom"
+                      >(zoom: {{ sublayer.minZoom }}-{{
+                        sublayer.maxZoom
+                      }})</span
+                    >
                   </md-checkbox>
                 </div>
               </div>
@@ -325,5 +349,19 @@ div.layers-group {
 
 div.container {
   padding: 2rem;
+}
+
+.md-title {
+  margin-left: 0.5rem;
+}
+
+.button-margin {
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+}
+
+.sublayer-zoom {
+  color: gray;
+  font-size: 0.7rem;
 }
 </style>

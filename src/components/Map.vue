@@ -1,17 +1,12 @@
 <template>
   <div class="map-component">
+    <!-- fonts and material icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Material+Icons"
+    />
+    <!-- block for map info -->
     <div class="map-info">
-      <!-- map data for testing needs -->
-      <!-- <div class="align-right">Map zoom: {{ this.zoomComputed }}</div> -->
-      <!-- <div class="align-right">Map min zoom: {{ this.zoomMinComputed }}</div> -->
-      <!-- <div class="align-right">Data Min Zoom: {{ this.dataMinZoom }}</div> -->
-      <!-- <div class="align-right">
-        WMS min Zoom: {{ this.wmsLayerProp.minZoom }}
-      </div> -->
-      <!-- <div class="align-right">Map center: {{ this.centerComputed }}</div> -->
-      <!-- <div class="align-right">
-        Cursor coordinates: {{ dataCursorCoordinates }}
-      </div> -->
       <!-- geoJSON services loading progress -->
       <div v-if="dataLoadingStatus !== false" class="object-align-center">
         <div class="object-item">
@@ -20,8 +15,9 @@
             md-mode="indeterminate"
           ></md-progress-spinner>
         </div>
-        <div class="object-item"><h3 class="accent-color">Loading...</h3></div>
+        <div class="object-item"><h2 class="accent-color">Loading...</h2></div>
       </div>
+      <!-- alert about Soil PygeoAPI Docker -->
       <div>
         <md-dialog-alert
           :md-active.sync="geoJsonUrlAlert"
@@ -30,49 +26,55 @@
         />
       </div>
       <!-- table with attributes -->
-      <div v-if="this.geoJSONdata.length > 0 && this.geoJsonServicesProp">
-        <md-table>
-          <md-table-row>
-            <md-table-head>ID</md-table-head>
-            <md-table-head>orig_fid</md-table-head>
-            <md-table-head>upd_siffer</md-table-head>
-            <md-table-head>wrb_code</md-table-head>
-            <md-table-head>wrb_main</md-table-head>
-            <md-table-head>boniteet</md-table-head>
-            <md-table-head>varv</md-table-head>
-            <md-table-head>sol_zmx</md-table-head>
-            <md-table-head>hydgrp</md-table-head>
-            <md-table-head>area_drain</md-table-head>
-            <md-table-head>drain_pct</md-table-head>
-            <md-table-head>huumus</md-table-head>
-          </md-table-row>
-          <md-table-row v-for="item in this.geoJSONdata" :key="item.id">
-            <md-table-cell>{{ item.id }}</md-table-cell>
-            <md-table-cell>{{ item.properties.orig_fid }}</md-table-cell>
-            <md-table-cell>{{ item.properties.upd_siffer }}</md-table-cell>
-            <md-table-cell>{{ item.properties.wrb_code }}</md-table-cell>
-            <md-table-cell>{{ item.properties.wrb_main }}</md-table-cell>
-            <md-table-cell>{{ item.properties.boniteet }}</md-table-cell>
-            <md-table-cell>{{ item.properties.varv }}</md-table-cell>
-            <md-table-cell>{{ item.properties.sol_zmx }}</md-table-cell>
-            <md-table-cell>{{ item.properties.hydgrp }}</md-table-cell>
-            <md-table-cell>{{ item.properties.area_drain }}</md-table-cell>
-            <md-table-cell>{{ item.properties.drain_pct }}</md-table-cell>
-            <md-table-cell>{{ item.properties.huumus }}</md-table-cell>
-          </md-table-row>
-        </md-table>
-
-        <div class="object-align-right">
-          <div class="object-item">
-            <md-button
-              v-on:click="resetGeoJSONdata()"
-              class="md-dense md-raised md-accent"
-              ><md-icon>clear</md-icon> REMOVE</md-button
-            >
+      <transition name="fade">
+        <div v-if="this.geoJSONdata.length > 0 && this.geoJsonServicesProp">
+          <md-table>
+            <md-table-row>
+              <md-table-head>ID</md-table-head>
+              <md-table-head>orig_fid</md-table-head>
+              <md-table-head>upd_siffer</md-table-head>
+              <md-table-head>wrb_code</md-table-head>
+              <md-table-head>wrb_main</md-table-head>
+              <md-table-head>boniteet</md-table-head>
+              <md-table-head>varv</md-table-head>
+              <md-table-head>sol_zmx</md-table-head>
+              <md-table-head>hydgrp</md-table-head>
+              <md-table-head>area_drain</md-table-head>
+              <md-table-head>drain_pct</md-table-head>
+              <md-table-head>huumus</md-table-head>
+            </md-table-row>
+            <md-table-row v-for="item in this.geoJSONdata" :key="item.id">
+              <md-table-cell>{{ item.id }}</md-table-cell>
+              <md-table-cell>{{ item.properties.orig_fid }}</md-table-cell>
+              <md-table-cell>{{ item.properties.upd_siffer }}</md-table-cell>
+              <md-table-cell>{{ item.properties.wrb_code }}</md-table-cell>
+              <md-table-cell>{{ item.properties.wrb_main }}</md-table-cell>
+              <md-table-cell>{{ item.properties.boniteet }}</md-table-cell>
+              <md-table-cell>{{ item.properties.varv }}</md-table-cell>
+              <md-table-cell>{{ item.properties.sol_zmx }}</md-table-cell>
+              <md-table-cell>{{ item.properties.hydgrp }}</md-table-cell>
+              <md-table-cell>{{ item.properties.area_drain }}</md-table-cell>
+              <md-table-cell>{{ item.properties.drain_pct }}</md-table-cell>
+              <md-table-cell>{{ item.properties.huumus }}</md-table-cell>
+            </md-table-row>
+          </md-table>
+          <!-- remove map and table data of Soil PygeoAPI Docker layer -->
+          <div class="object-align-right">
+            <div class="object-item">
+              <md-button
+                v-on:click="resetGeoJSONdata()"
+                class="md-dense md-raised md-accent"
+                ><md-icon>cancel</md-icon> REMOVE
+                <md-tooltip md-direction="bottom"
+                  >Remove selected features</md-tooltip
+                >
+              </md-button>
+            </div>
           </div>
         </div>
-      </div>
+      </transition>
     </div>
+    <!-- map object -->
     <div class="map">
       <vl-map
         :data-projection="projComputed"
@@ -117,7 +119,8 @@
             :url="vectorTileLayerProp.source"
           ></vl-source-vector-tile>
           <vl-style-box>
-            <vl-style-stroke :width="1" color="#ff5252"></vl-style-stroke>
+            <vl-style-stroke color="red" :width="1"></vl-style-stroke>
+            <vl-style-fill color="rgb(255, 255, 255, 0.3)"></vl-style-fill>
           </vl-style-box>
         </vl-layer-vector-tile>
 
@@ -327,5 +330,18 @@ div.object-item {
 
 .accent-color {
   color: #ff5252;
+}
+
+.fade-enter-active {
+  transition: opacity 1s;
+}
+
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
