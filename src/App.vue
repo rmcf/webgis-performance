@@ -267,8 +267,8 @@ export default {
     vectorLayerUrlSelected: false,
     vectorTileLayerSelected: false,
     // map options
-    mapZoomDefault: 7,
-    mapCenterDefault: [25.321960794190517, 58.63048563100426],
+    mapZoomDefault: 6,
+    mapCenterDefault: [24.728699075440534, 58.699046154309144],
     menuVisible: false,
   }),
 
@@ -283,8 +283,8 @@ export default {
       this.geoJsonUrlSelected = false;
       this.geoJsonServicesSelected = false;
       this.vectorTileLayerSelected = false;
-      this.mapCenterDefault = [25.321960794190517, 58.63048563100426];
-      this.mapZoomDefault = 7;
+      this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
+      this.mapZoomDefault = 6;
     },
   },
   mounted() {
@@ -365,7 +365,7 @@ div.container {
 /* mobile styles */
 @media only screen and (max-width: 768px) {
   div.container {
-    padding: 1rem 0.5rem 1rem 0.5rem;
+    padding: 2rem 1rem 2rem 1rem;
   }
 }
 </style>

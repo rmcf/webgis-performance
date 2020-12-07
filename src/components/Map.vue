@@ -50,36 +50,19 @@
             >
               <md-table>
                 <md-table-row>
-                  <md-table-head>ID</md-table-head>
-                  <md-table-head>orig_fid</md-table-head>
-                  <md-table-head>upd_siffer</md-table-head>
-                  <md-table-head>wrb_code</md-table-head>
-                  <md-table-head>wrb_main</md-table-head>
-                  <md-table-head>boniteet</md-table-head>
-                  <md-table-head>varv</md-table-head>
-                  <md-table-head>sol_zmx</md-table-head>
-                  <md-table-head>hydgrp</md-table-head>
-                  <md-table-head>area_drain</md-table-head>
-                  <md-table-head>drain_pct</md-table-head>
-                  <md-table-head>huumus</md-table-head>
+                  <md-table-head
+                    v-for="(value, key) in this.geoJSONdataSingleFeature
+                      .properties"
+                    :key="key"
+                    >{{ key }}</md-table-head
+                  >
                 </md-table-row>
                 <md-table-row v-for="item in this.geoJSONdata" :key="item.id">
-                  <md-table-cell>{{ item.id }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.orig_fid }}</md-table-cell>
-                  <md-table-cell>{{
-                    item.properties.upd_siffer
-                  }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.wrb_code }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.wrb_main }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.boniteet }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.varv }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.sol_zmx }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.hydgrp }}</md-table-cell>
-                  <md-table-cell>{{
-                    item.properties.area_drain
-                  }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.drain_pct }}</md-table-cell>
-                  <md-table-cell>{{ item.properties.huumus }}</md-table-cell>
+                  <md-table-cell
+                    v-for="(value, key) in item.properties"
+                    :key="key"
+                    >{{ value }}
+                  </md-table-cell>
                 </md-table-row>
               </md-table>
               <!-- remove map and table data of Soil PygeoAPI Docker layer -->
@@ -107,7 +90,9 @@
               class="md-layout md-alignment-top-center informer"
               key="noobjects"
             >
-              <div class="md-layout-item md-size-40">
+              <div
+                class="md-layout-item md-large-size-40 md-medium-size-40 md-small-size-100 md-xsmall-size-100"
+              >
                 <md-card>
                   <md-card-header>
                     <div class="md-title">Nothing found</div>
@@ -132,7 +117,9 @@
               class="md-layout md-alignment-top-center informer"
               key="error"
             >
-              <div class="md-layout-item md-size-40">
+              <div
+                class="md-layout-item md-large-size-40 md-medium-size-40 md-small-size-100 md-xsmall-size-100"
+              >
                 <md-card>
                   <md-card-header>
                     <div class="md-title">Source error</div>
@@ -305,6 +292,7 @@ export default {
       // onclick event
       dataCursorCoordinates: 0,
       geoJSONdata: [],
+      geoJSONdataSingleFeature: [],
       // loading status
       dataLoadingStatus: false,
       dataLoadingHelper: false,
@@ -337,7 +325,7 @@ export default {
     zoomMinComputed: {
       get: function () {
         if (this.wmsLayerProp.minZoom) {
-          if (this.wmsLayerProp.minZoom > 7) {
+          if (this.wmsLayerProp.minZoom > 6) {
             return this.wmsLayerProp.minZoom;
           } else {
             return 2;
@@ -390,7 +378,12 @@ export default {
         setTimeout(() => {
           axios
             .get(this.geoJsonServicesProp.source + "?bbox=" + bbox + "&f=json")
-            .then((response) => (this.geoJSONdata = response.data.features))
+            .then(
+              (response) => (
+                (this.geoJSONdata = response.data.features),
+                (this.geoJSONdataSingleFeature = response.data.features[0])
+              )
+            )
             .catch(
               (error) => (
                 (this.geoJSONdataSourceError = true),
@@ -424,6 +417,7 @@ div.map-informer {
 
 div.informer {
   margin-bottom: 2rem;
+  padding: 1rem;
 }
 
 .align-right {
@@ -467,8 +461,12 @@ div.loading-block {
 }
 
 @media only screen and (max-width: 768px) {
-  div.map {
-    height: 80vh;
+  div.map-image {
+    height: 70vh;
+  }
+
+  div.informer {
+    margin-bottom: 1rem;
   }
 }
 </style>
