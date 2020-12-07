@@ -3,14 +3,16 @@
     <!-- fonts and material icons -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Material+Icons"
+      href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
 
     <!-- toolbar -->
     <md-toolbar>
       <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
         <md-icon>menu</md-icon>
-        <md-tooltip md-direction="bottom">Layers navigation</md-tooltip>
+        <md-tooltip class="md-xsmall-hide md-small-hide" md-direction="bottom"
+          >Layers navigation</md-tooltip
+        >
       </md-button>
       <span class="md-title">Web GIS SPA</span>
       <div class="md-toolbar-section-end">
@@ -19,17 +21,12 @@
           @click="cleanMap()"
           class="md-icon-button md-raised md-primary button-margin"
           ><md-icon>layers_clear</md-icon
-          ><md-tooltip md-direction="bottom"
+          ><md-tooltip
+            class="md-xsmall-hide md-small-hide"
+            md-direction="bottom"
             >Remove all layers</md-tooltip
           ></md-button
         >
-        <!-- current zoom badge -->
-        <md-badge class="md-accent button-margin" :md-content="mapZoomDefault">
-          <md-button class="md-icon-button">
-            <md-icon>zoom_in</md-icon>
-            <md-tooltip md-direction="bottom">Current map zoom</md-tooltip>
-          </md-button>
-        </md-badge>
       </div>
     </md-toolbar>
 
@@ -348,11 +345,11 @@ div.layers-group {
 }
 
 div.container {
-  padding: 2rem;
+  padding: 2rem 1rem 2rem 1rem;
 }
 
 .md-title {
-  margin-left: 0.5rem;
+  margin-left: 0.2rem !important;
 }
 
 .button-margin {
@@ -363,5 +360,12 @@ div.container {
 .sublayer-zoom {
   color: gray;
   font-size: 0.7rem;
+}
+
+/* mobile styles */
+@media only screen and (max-width: 768px) {
+  div.container {
+    padding: 1rem 0.5rem 1rem 0.5rem;
+  }
 }
 </style>
