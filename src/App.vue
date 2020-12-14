@@ -283,6 +283,7 @@ export default {
       this.geoJsonUrlSelected = false;
       this.geoJsonServicesSelected = false;
       this.vectorTileLayerSelected = false;
+      this.clickOnMapDetection = false;
       this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
       this.mapZoomDefault = 6;
     },

@@ -3,7 +3,12 @@
         {
             "id": 1,
             "name": "OSM countries",
-            "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson"
+            "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+            "style": {
+                "strokeColor": "#ff5252",
+                "strokeWidth": 1,
+                "fillColor": "rgb(255, 82, 82, 0.2)"
+            }
         }
     ],
     "geoJsonService": [
@@ -11,19 +16,24 @@
             "id": 1,
             "name": "Soil PygeoAPI Docker",
             "geoJSONdata": [],
-            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/"
+            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
+            "style": {
+                "strokeColor": "#ff5252",
+                "strokeWidth": 1,
+                "fillColor": "rgb(255, 82, 82, 0.2)"
+            }
         }
     ],
     "vectorTileLayers": [
         {
             "id": 1,
-            "name": "ESRI World Basemap",
-            "source": "https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer/tile/{z}/{y}/{x}.pbf"
-        },
-        {
-            "id": 2,
             "name": "Estonia soil map",
-            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf"
+            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
+            "style": {
+                "strokeColor": "#448aff",
+                "strokeWidth": 1,
+                "fillColor": "rgb(68, 138, 255, 0.1)"
+            }
         }
     ],
     "wmtsLayers": [
