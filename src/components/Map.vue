@@ -5,6 +5,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
+
     <!-- spinner geoJSON services loading -->
     <div
       v-show="dataLoadingStatus"
@@ -67,6 +68,15 @@
               <!-- remove map and table data of Soil PygeoAPI Docker layer -->
               <div class="object-align-right">
                 <div class="object-item">
+                  <md-button
+                    v-on:click="fitSelectedJSONfeatures()"
+                    class="md-dense md-raised md-primary"
+                    ><md-icon>filter_center_focus</md-icon> ZOOM
+                    <md-tooltip md-direction="bottom"
+                      >Zoom to selected features</md-tooltip
+                    >
+                  </md-button>
+
                   <md-button
                     v-on:click="resetGeoJSONdata()"
                     class="md-dense md-raised md-accent"
@@ -148,7 +158,7 @@
       <div class="map-informer">
         <!-- current zoom badge -->
         <md-badge class="button-margin md-primary" :md-content="zoomComputed">
-          <md-button class="md-raised md-icon-button">
+          <md-button @click="fitViewDefault()" class="md-raised md-icon-button">
             <md-icon>crop_free</md-icon>
             <md-tooltip
               class="md-xsmall-hide md-small-hide"
@@ -171,6 +181,7 @@
           :max-zoom="18"
           v-on:update:zoom="$emit('update-zoom', dataZoom)"
           v-on:update:center="$emit('update-center', dataCenter)"
+          ref="view"
         ></vl-view>
 
         <!-- vector layers geoJSON URL -->
@@ -197,7 +208,10 @@
           render-mode="image"
           v-if="geoJsonServicesProp != false"
         >
-          <vl-source-vector :features.sync="geoJSONdata"></vl-source-vector>
+          <vl-source-vector
+            :features.sync="geoJSONdata"
+            ref="geoJsonServicesSource"
+          ></vl-source-vector>
           <vl-style-box>
             <vl-style-stroke
               :color="geoJsonServicesProp.style.strokeColor"
@@ -414,6 +428,18 @@ export default {
     resetGeoJSONdata() {
       this.geoJSONdata = [];
       this.clickOnMapDetection = false;
+    },
+    fitSelectedJSONfeatures() {
+      let geoJsonServicesSourceExtent = this.$refs.geoJsonServicesSource.$source.getExtent();
+      this.$refs.view.fit(geoJsonServicesSourceExtent);
+    },
+    fitViewDefault() {
+      this.$refs.view.fit([
+        2335304.088168705,
+        7825928.703949485,
+        3161129.7417617496,
+        8401958.149106573,
+      ]);
     },
   },
 };
