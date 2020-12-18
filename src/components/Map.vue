@@ -355,7 +355,7 @@ export default {
     zoomMinComputed: {
       get: function () {
         if (this.wmsLayerProp.minZoom) {
-          if (this.wmsLayerProp.minZoom > 6) {
+          if (this.wmsLayerProp.minZoom > 7) {
             return this.wmsLayerProp.minZoom;
           } else {
             return 2;

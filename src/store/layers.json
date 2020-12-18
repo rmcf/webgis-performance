@@ -157,19 +157,33 @@
             "id": 1,
             "name": "Open Street Map",
             "source": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            "minZoom": 1,
+            "maxZoom": 18,
             "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
         },
         {
             "id": 2,
             "name": "ESRI World Topo Map",
             "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
+            "minZoom": 1,
+            "maxZoom": 18,
             "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
         },
         {
             "id": 3,
             "name": "ESRI World Imagery",
             "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+            "minZoom": 1,
+            "maxZoom": 18,
             "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+        },
+        {
+            "id": 4,
+            "name": "EstSoil-EH soil texture classes",
+            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/tms-tiles/{z}/{x}/{y}.png",
+            "minZoom": 8,
+            "maxZoom": 14,
+            "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
         }
     ]
 }

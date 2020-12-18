@@ -221,7 +221,10 @@
               v-model="rasterTileLayerSelected"
               :value="layer"
               class="md-primary"
-              >{{ layer.name }}</md-radio
+              >{{ layer.name
+              }}<span class="sublayer-zoom">
+                (zoom: {{ layer.minZoom }}-{{ layer.maxZoom }})</span
+              ></md-radio
             >
           </div>
         </div>
@@ -267,7 +270,7 @@ export default {
     vectorLayerUrlSelected: false,
     vectorTileLayerSelected: false,
     // map options
-    mapZoomDefault: 6,
+    mapZoomDefault: 7,
     mapCenterDefault: [24.728699075440534, 58.699046154309144],
     menuVisible: false,
   }),
@@ -285,7 +288,7 @@ export default {
       this.vectorTileLayerSelected = false;
       this.clickOnMapDetection = false;
       this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
-      this.mapZoomDefault = 6;
+      this.mapZoomDefault = 7;
     },
   },
   mounted() {
