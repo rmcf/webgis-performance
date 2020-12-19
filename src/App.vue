@@ -56,6 +56,17 @@
               class="md-primary"
               >{{ layer.name }}</md-radio
             >
+            <div
+              class="layer-info-region"
+              v-if="geoJsonServicesSelected.id === layer.id"
+            >
+              <!-- layer visible zoom -->
+              <div>
+                <span class="sublayer-zoom">
+                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                >
+              </div>
+            </div>
           </div>
         </div>
 
@@ -76,6 +87,17 @@
               class="md-primary"
               >{{ layer.name }}</md-radio
             >
+            <div
+              class="layer-info-region"
+              v-if="geoJsonUrlSelected.id === layer.id"
+            >
+              <!-- layer visible zoom -->
+              <div>
+                <span class="sublayer-zoom">
+                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                >
+              </div>
+            </div>
           </div>
         </div>
 
@@ -114,6 +136,17 @@
               class="md-primary"
               >{{ layer.name }}</md-radio
             >
+            <div
+              class="layer-info-region"
+              v-if="wmtsLayerSelected.id === layer.id"
+            >
+              <!-- layer visible zoom -->
+              <div>
+                <span class="sublayer-zoom">
+                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                >
+              </div>
+            </div>
           </div>
         </div>
 
@@ -221,11 +254,42 @@
               v-model="rasterTileLayerSelected"
               :value="layer"
               class="md-primary"
-              >{{ layer.name
-              }}<span class="sublayer-zoom">
-                (zoom: {{ layer.minZoom }}-{{ layer.maxZoom }})</span
-              ></md-radio
+              >{{ layer.name }}</md-radio
             >
+            <div
+              class="layer-info-region"
+              v-if="rasterTileLayerSelected.id === layer.id"
+            >
+              <!-- layer visible zoom -->
+              <div>
+                <span class="sublayer-zoom">
+                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                >
+              </div>
+              <!-- layer's legend -->
+              <div class="layer-legend" v-if="layer.legend">
+                <table class="layer-legend__table">
+                  <tr v-for="soil in layer.legend" :key="soil.id">
+                    <td>
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.soilColor }"
+                      ></div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-index">
+                        {{ soil.soilIndex }}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-title">
+                        {{ soil.soilTitle }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -277,10 +341,10 @@ export default {
 
   methods: {
     loadLayer() {
-      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[0];
+      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[1];
     },
     cleanMap() {
-      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[0];
+      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[1];
       this.wmsLayerSelected = false;
       this.wmtsLayerSelected = false;
       this.geoJsonUrlSelected = false;
@@ -319,7 +383,14 @@ div.layer-type {
   padding: 5px;
 }
 
-div.wms-sublayers {
+div.wms-sublayers,
+div.layer-info-region {
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  margin-left: 3em;
+  padding: 5px;
+}
+ {
   border: 1px solid #e0e0e0;
   border-radius: 2px;
   margin-left: 3em;
@@ -364,6 +435,40 @@ div.container {
 .sublayer-zoom {
   color: gray;
   font-size: 0.7rem;
+}
+
+/* legend of tile layers */
+
+div.layer-legend {
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #dcdcdc;
+}
+
+table.layer-legend__table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.7rem;
+}
+
+table.layer-legend__table tr:hover {
+  background-color: #f5f5f5;
+}
+
+table.layer-legend__table td {
+  padding-left: 2px;
+  padding-right: 2px;
+  vertical-align: middle;
+}
+
+div.layer-legend__table-color {
+  width: 30px;
+  height: 20px;
+  border: 1px solid #dcdcdc;
+}
+
+div.layer-legend__table-index {
+  text-align: center;
 }
 
 /* mobile styles */
