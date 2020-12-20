@@ -5,7 +5,6 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
-
     <!-- spinner geoJSON services loading -->
     <div
       v-show="dataLoadingStatus"
@@ -177,8 +176,8 @@
         <vl-view
           :zoom.sync="zoomComputed"
           :center.sync="centerComputed"
-          :min-zoom="zoomMinComputed"
-          :max-zoom="18"
+          :min-zoom="minZoomComputed"
+          :max-zoom="maxZoomComputed"
           v-on:update:zoom="$emit('update-zoom', dataZoom)"
           v-on:update:center="$emit('update-center', dataCenter)"
           ref="view"
@@ -188,7 +187,7 @@
         <vl-layer-vector
           :z-index="3"
           render-mode="image"
-          v-if="geoJsonUrlProp != false"
+          v-if="geoJsonUrlProp != false && geoJsonUrlProp.type === 'geojsonurl'"
         >
           <vl-source-vector :url="geoJsonUrlProp.source"></vl-source-vector>
           <vl-style-box>
@@ -206,7 +205,10 @@
         <vl-layer-vector
           :z-index="2"
           render-mode="image"
-          v-if="geoJsonServicesProp != false"
+          v-if="
+            geoJsonServicesProp != false &&
+            geoJsonServicesProp.type === 'geojsonservice'
+          "
         >
           <vl-source-vector
             :features.sync="geoJSONdata"
@@ -224,7 +226,13 @@
         </vl-layer-vector>
 
         <!-- vector tile layer -->
-        <vl-layer-vector-tile :z-index="1" v-if="vectorTileLayerProp != false">
+        <vl-layer-vector-tile
+          :z-index="1"
+          v-if="
+            vectorTileLayerProp != false &&
+            vectorTileLayerProp.type === 'vectortile'
+          "
+        >
           <vl-source-vector-tile
             :url="vectorTileLayerProp.source"
           ></vl-source-vector-tile>
@@ -240,35 +248,44 @@
         </vl-layer-vector-tile>
 
         <!-- wmts layer -->
-        <vl-layer-tile :z-index="-1" v-if="wmtsLayerProp != false">
+        <vl-layer-tile
+          :z-index="-1"
+          v-if="rasterLayerProp != false && rasterLayerProp.type === 'wmts'"
+        >
           <vl-source-wmts
-            :attributions="wmtsLayerProp.attribution"
-            :url="wmtsLayerProp.url"
-            :layer-name="wmtsLayerProp.layerName"
-            :matrix-set="wmtsLayerProp.matrixSet"
-            :format="wmtsLayerProp.format"
-            :style-name="wmtsLayerProp.styleName"
+            :attributions="rasterLayerProp.attribution"
+            :url="rasterLayerProp.url"
+            :layer-name="rasterLayerProp.layerName"
+            :matrix-set="rasterLayerProp.matrixSet"
+            :format="rasterLayerProp.format"
+            :style-name="rasterLayerProp.styleName"
           ></vl-source-wmts>
         </vl-layer-tile>
 
         <!-- wms layer -->
-        <vl-layer-tile :z-index="-2" v-if="wmsLayerProp != false">
+        <vl-layer-tile
+          :z-index="-1"
+          v-if="rasterLayerProp != false && rasterLayerProp.type === 'wms'"
+        >
           <vl-source-wms
-            :attributions="wmsLayerProp.attribution"
-            :url="wmsLayerProp.url"
-            :projection="wmsLayerProp.projection"
-            :layers="wmsSublayersSelected"
-            :format="wmsLayerProp.format"
-            :version="wmsLayerProp.version"
-            :crossOrigin="wmsLayerProp.crossOrigin"
+            :attributions="rasterLayerProp.attribution"
+            :url="rasterLayerProp.url"
+            :layers="rasterLayerProp.layer"
+            :projection="rasterLayerProp.projection"
+            :format="rasterLayerProp.format"
+            :version="rasterLayerProp.version"
+            :crossOrigin="rasterLayerProp.crossOrigin"
           ></vl-source-wms>
         </vl-layer-tile>
 
         <!-- raster tile layer -->
-        <vl-layer-tile :z-index="-3" v-if="rasterTileLayerProp != false">
+        <vl-layer-tile
+          :z-index="-1"
+          v-if="rasterLayerProp != false && rasterLayerProp.type === 'raster'"
+        >
           <vl-source-xyz
-            :url="rasterTileLayerProp.source"
-            :attributions="rasterTileLayerProp.attribution"
+            :url="rasterLayerProp.source"
+            :attributions="rasterLayerProp.attribution"
           ></vl-source-xyz>
         </vl-layer-tile>
       </vl-map>
@@ -291,15 +308,13 @@ register(proj4);
 export default {
   name: "Map",
   props: {
-    rasterTileLayerProp: [Boolean, Object],
-    wmtsLayerProp: [Boolean, Object],
-    wmsLayerProp: [Boolean, Object],
+    rasterLayerProp: [Boolean, Object],
     geoJsonUrlProp: [Boolean, Object],
     geoJsonServicesProp: [Boolean, Object],
     vectorTileLayerProp: [Boolean, Object],
     mapZoomProp: Number,
     mapCenterProp: Array,
-    clickOnMapDetectionProp: Boolean,
+    zoomMinMaxProp: Array,
   },
   // watching for geoJsonServicesProp changes
   watch: {
@@ -318,7 +333,6 @@ export default {
       // computed map properties
       dataZoom: this.zoomComputed,
       dataCenter: this.centerComputed,
-      dataMinZoom: this.zoomMinComputed,
       // onclick event
       dataCursorCoordinates: 0,
       geoJSONdata: [],
@@ -337,35 +351,10 @@ export default {
     // computed zoom property
     zoomComputed: {
       get: function () {
-        if (this.wmsLayerProp.minZoom) {
-          if (this.wmsLayerProp.minZoom > this.mapZoomProp) {
-            return this.wmsLayerProp.minZoom;
-          } else {
-            return this.mapZoomProp;
-          }
-        } else {
-          return this.mapZoomProp;
-        }
+        return this.mapZoomProp;
       },
       set: function (newzoom) {
         this.dataZoom = newzoom;
-      },
-    },
-    // computed zoom property
-    zoomMinComputed: {
-      get: function () {
-        if (this.wmsLayerProp.minZoom) {
-          if (this.wmsLayerProp.minZoom > 7) {
-            return this.wmsLayerProp.minZoom;
-          } else {
-            return 2;
-          }
-        } else {
-          return 2;
-        }
-      },
-      set: function (newzoom) {
-        this.dataMinZoom = newzoom;
       },
     },
     // computed center property
@@ -381,17 +370,15 @@ export default {
     projComputed: function () {
       return "EPSG:4326";
     },
-    // computed wms sublayers
-    wmsSublayersSelected: function () {
-      if (this.wmsLayerProp.subLayerSelected) {
-        return this.wmsLayerProp.subLayerSelected.toString();
-      } else {
-        return "none";
-      }
-    },
     alertTitleComputed: function () {
       let text = "" + this.geoJsonServicesProp.name;
       return text;
+    },
+    minZoomComputed: function () {
+      return this.zoomMinMaxProp[0];
+    },
+    maxZoomComputed: function () {
+      return this.zoomMinMaxProp[1];
     },
   },
   methods: {

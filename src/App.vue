@@ -5,7 +5,6 @@
       rel="stylesheet"
       href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
-
     <!-- toolbar -->
     <md-toolbar>
       <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
@@ -118,6 +117,17 @@
               class="md-primary"
               >{{ layer.name }}</md-radio
             >
+            <div
+              class="layer-info-region"
+              v-if="vectorTileLayerSelected.id === layer.id"
+            >
+              <!-- layer visible zoom -->
+              <div>
+                <span class="sublayer-zoom">
+                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                >
+              </div>
+            </div>
           </div>
         </div>
 
@@ -126,19 +136,16 @@
           <div class="md-layout md-alignment-center-right">
             <span class="md-caption">web map tile services</span>
           </div>
-          <div>
-            <md-radio v-model="wmtsLayerSelected" :value="false">none</md-radio>
-          </div>
           <div v-for="layer in layersList.wmtsLayers" :key="layer.id">
             <md-radio
-              v-model="wmtsLayerSelected"
+              v-model="rasterLayerSelected"
               :value="layer"
               class="md-primary"
               >{{ layer.name }}</md-radio
             >
             <div
               class="layer-info-region"
-              v-if="wmtsLayerSelected.id === layer.id"
+              v-if="rasterLayerSelected.id === layer.id"
             >
               <!-- layer visible zoom -->
               <div>
@@ -155,85 +162,23 @@
           <div class="md-layout md-alignment-center-right">
             <span class="md-caption">web map services</span>
           </div>
-          <!-- default wms layer value -->
-          <div>
-            <md-radio v-model="wmsLayerSelected" :value="false">none</md-radio>
-          </div>
           <!-- dynamic wms layers list -->
           <div v-for="layer in layersList.wmsLayers" :key="layer.id">
             <md-radio
-              v-model="wmsLayerSelected"
+              v-model="rasterLayerSelected"
               :value="layer"
               class="md-primary"
               >{{ layer.name }}
             </md-radio>
-            <!-- wms sublayers section -->
-            <div v-if="layer.id == wmsLayerSelected.id" class="wms-sublayers">
-              <!-- checkbox for all layers -->
-              <!-- enabled "all" checkbox -->
-              <div
-                v-if="
-                  layer.subLayerSelected.some(
-                    (sublayer) => sublayer == layer.sublayerAll.name
-                  ) || layer.subLayerSelected.length == 0
-                "
-              >
-                <md-checkbox
-                  v-model="layer.subLayerSelected"
-                  :value="layer.sublayerAll.name"
-                  class="md-primary"
-                  >all
-                </md-checkbox>
-              </div>
-              <!-- disabled "all" checkbox -->
-              <div v-else>
-                <md-checkbox
-                  disabled
-                  v-model="layer.subLayerSelected"
-                  :value="layer.sublayerAll.name"
-                  class="md-primary"
-                  >all
-                </md-checkbox>
-              </div>
-              <!-- checkboxes for single selected layers -->
-              <!-- disabled single checkboxes -->
-              <div v-if="layer.subLayerSelected == layer.sublayerAll.name">
-                <div
-                  v-for="sublayer in layer.subLayersSingle"
-                  :key="sublayer.id"
+            <div
+              class="layer-info-region"
+              v-if="rasterLayerSelected.id === layer.id"
+            >
+              <!-- layer visible zoom -->
+              <div>
+                <span class="sublayer-zoom">
+                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
                 >
-                  <md-checkbox
-                    disabled
-                    v-model="layer.subLayerSelected"
-                    :value="sublayer.name"
-                    class="md-primary"
-                    >{{ sublayer.title }}
-                    <span class="sublayer-zoom"
-                      >(zoom: {{ sublayer.minZoom }}-{{
-                        sublayer.maxZoom
-                      }})</span
-                    >
-                  </md-checkbox>
-                </div>
-              </div>
-              <!-- enabled single checkboxes -->
-              <div v-else>
-                <div
-                  v-for="sublayer in layer.subLayersSingle"
-                  :key="sublayer.id"
-                >
-                  <md-checkbox
-                    v-model="layer.subLayerSelected"
-                    :value="sublayer.name"
-                    class="md-primary"
-                    >{{ sublayer.title }}
-                    <span class="sublayer-zoom"
-                      >(zoom: {{ sublayer.minZoom }}-{{
-                        sublayer.maxZoom
-                      }})</span
-                    >
-                  </md-checkbox>
-                </div>
               </div>
             </div>
           </div>
@@ -244,21 +189,16 @@
           <div class="md-layout md-alignment-center-right">
             <span class="md-caption">raster tiles services</span>
           </div>
-          <div>
-            <md-radio v-model="rasterTileLayerSelected" :value="false"
-              >none</md-radio
-            >
-          </div>
           <div v-for="layer in layersList.rasterTileLayers" :key="layer.id">
             <md-radio
-              v-model="rasterTileLayerSelected"
+              v-model="rasterLayerSelected"
               :value="layer"
               class="md-primary"
               >{{ layer.name }}</md-radio
             >
             <div
               class="layer-info-region"
-              v-if="rasterTileLayerSelected.id === layer.id"
+              v-if="rasterLayerSelected.id === layer.id"
             >
               <!-- layer visible zoom -->
               <div>
@@ -297,14 +237,13 @@
     <div class="container">
       <!-- Map -->
       <Map
-        :rasterTileLayerProp="rasterTileLayerSelected"
-        :wmsLayerProp="wmsLayerSelected"
-        :wmtsLayerProp="wmtsLayerSelected"
+        :rasterLayerProp="rasterLayerSelected"
         :geoJsonUrlProp="geoJsonUrlSelected"
         :geoJsonServicesProp="geoJsonServicesSelected"
         :vectorTileLayerProp="vectorTileLayerSelected"
         :mapZoomProp="mapZoomDefault"
         :mapCenterProp="mapCenterDefault"
+        :zoomMinMaxProp="zoomsArray"
         v-on:update-zoom="mapZoomDefault = $event"
         v-on:update-minzoom="mapMinZoomDefault = $event"
         v-on:update-center="mapCenterDefault = $event"
@@ -324,11 +263,10 @@ export default {
   },
 
   data: () => ({
-    layersList: Layers, // loading layers list from json
-    // selected layers
-    rasterTileLayerSelected: false,
-    wmtsLayerSelected: false,
-    wmsLayerSelected: false,
+    // loading layers list from json
+    layersList: Layers,
+    // testting raster layer
+    rasterLayerSelected: false,
     geoJsonUrlSelected: false,
     geoJsonServicesSelected: false,
     vectorLayerUrlSelected: false,
@@ -336,23 +274,34 @@ export default {
     // map options
     mapZoomDefault: 7,
     mapCenterDefault: [24.728699075440534, 58.699046154309144],
+    // menu in left sidebar
     menuVisible: false,
   }),
 
   methods: {
+    // loading raster layer on webpage start
     loadLayer() {
-      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[1];
+      this.rasterLayerSelected = this.layersList.rasterTileLayers[1];
     },
+    // return map settings to default values
     cleanMap() {
-      this.rasterTileLayerSelected = this.layersList.rasterTileLayers[1];
-      this.wmsLayerSelected = false;
-      this.wmtsLayerSelected = false;
+      this.rasterLayerSelected = this.layersList.rasterTileLayers[1];
       this.geoJsonUrlSelected = false;
       this.geoJsonServicesSelected = false;
       this.vectorTileLayerSelected = false;
       this.clickOnMapDetection = false;
       this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
       this.mapZoomDefault = 7;
+    },
+  },
+  computed: {
+    // returning min&max zoom of selected raster layer
+    zoomsArray: function () {
+      let arrayZoom = [
+        this.rasterLayerSelected.minZoom,
+        this.rasterLayerSelected.maxZoom,
+      ];
+      return arrayZoom;
     },
   },
   mounted() {

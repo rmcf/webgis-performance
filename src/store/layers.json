@@ -2,9 +2,10 @@
     "geoJsonUrl": [
         {
             "id": 1,
+            "type": "geojsonurl",
             "name": "OSM countries",
             "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
-            "minZoom": 1,
+            "minZoom": 2,
             "maxZoom": 18,
             "style": {
                 "strokeColor": "#ff5252",
@@ -16,10 +17,11 @@
     "geoJsonService": [
         {
             "id": 1,
+            "type": "geojsonservice",
             "name": "Soil PygeoAPI Docker",
             "geoJSONdata": [],
             "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
-            "minZoom": 1,
+            "minZoom": 2,
             "maxZoom": 18,
             "style": {
                 "strokeColor": "#ff5252",
@@ -31,9 +33,10 @@
     "vectorTileLayers": [
         {
             "id": 1,
+            "type": "vectortile",
             "name": "Estonia soil map",
             "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
-            "minZoom": 1,
+            "minZoom": 2,
             "maxZoom": 18,
             "style": {
                 "strokeColor": "#448aff",
@@ -44,118 +47,118 @@
     ],
     "wmtsLayers": [
         {
-            "id": 1,
+            "id": "wmts1",
+            "type": "wmts",
             "name": "Blue Marble by EOX",
             "url": "https://tiles.esa.maps.eox.at/wmts?",
             "layerName": "bluemarble-wmsc-23",
             "matrixSet": "EPSG:4326",
             "format": "image/jpeg",
-            "minZoom": 1,
-            "maxZoom": 18,
+            "minZoom": 4,
+            "maxZoom": 7,
             "styleName": "default",
             "attribution": "BlueMarble by EOX"
         },
         {
-            "id": 2,
+            "id": "wmts2",
+            "type": "wmts",
             "name": "Sentinel-2 cloudless layer",
             "url": "https://tiles.esa.maps.eox.at/wmts?",
             "layerName": "s2cloudless-2018",
             "matrixSet": "EPSG:4326",
             "format": "image/png",
-            "minZoom": 1,
-            "maxZoom": 18,
+            "minZoom": 10,
+            "maxZoom": 16,
             "styleName": "default",
             "attribution": "Sentinel-2 cloudless layer for 2018 by EOX"
         }
     ],
     "wmsLayers": [
         {
-            "id": 1,
-            "name": "EST Admin Divisions (I)",
-            "url": "https://geowebservices.stanford.edu/geoserver/ows",
-            "layer": "druid:cv588yj7627",
-            "subLayersSingle": [],
-            "sublayerAll": {
-                "id": 0,
-                "title": "Admin. EST",
-                "name": "druid:cv588yj7627",
-                "minZoom": 7,
-                "maxZoom": 18
-            },
-            "subLayerSelected": [
-                "druid:cv588yj7627"
-            ],
-            "format": "image/png",
-            "projection": "EPSG:4326",
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://www.geoseer.net/rl.php?ql=f6cfce8d4da37c83&p=1&q=estonia%20administrative'>Stanford Spatial Data Infrastructure WFS and WMS</a>",
-            "crossOrigin": "null"
-        },
-        {
-            "id": 2,
-            "name": "EST MA-ALUS",
+            "id": "wms2",
+            "type": "wms",
+            "name": "MA-ALUS",
             "url": "https://kaart.maaamet.ee/wms/alus?",
-            "subLayersSingle": [
-                {
-                    "id": 1,
-                    "title": "Põhikaart",
-                    "name": "pohi_vr2",
-                    "minZoom": 14,
-                    "maxZoom": 18
-                },
-                {
-                    "id": 2,
-                    "title": "Halduspiirid",
-                    "name": "Halduspiirid",
-                    "minZoom": 7,
-                    "maxZoom": 18
-                }
-            ],
-            "sublayerAll": {
-                "id": 0,
-                "title": "all",
-                "name": "MA-ALUS"
-            },
-            "subLayerSelected": [
-                "MA-ALUS"
-            ],
+            "layer": "MA-ALUS",
             "format": "image/png",
             "projection": "EPSG:3301",
+            "minZoom": 2,
+            "maxZoom": 18,
             "styleName": "default",
             "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
             "crossOrigin": "null",
             "version": "1.1.1"
         },
         {
-            "id": 4,
-            "name": "Estonian fotokaart",
+            "id": "wms3",
+            "type": "wms",
+            "name": "MA-ALUS: Põhikaart",
+            "url": "https://kaart.maaamet.ee/wms/alus?",
+            "layer": "pohi_vr2",
+            "format": "image/png",
+            "projection": "EPSG:3301",
+            "minZoom": 14,
+            "maxZoom": 18,
+            "styleName": "default",
+            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+            "crossOrigin": "null",
+            "version": "1.1.1"
+        },
+        {
+            "id": "wms4",
+            "type": "wms",
+            "name": "MA-ALUS: Halduspiirid",
+            "url": "https://kaart.maaamet.ee/wms/alus?",
+            "layer": "Halduspiirid",
+            "format": "image/png",
+            "projection": "EPSG:3301",
+            "minZoom": 7,
+            "maxZoom": 18,
+            "styleName": "default",
+            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+            "crossOrigin": "null",
+            "version": "1.1.1"
+        },
+        {
+            "id": "wms5",
+            "type": "wms",
+            "name": "MA-FOTOKAART",
             "url": "https://kaart.maaamet.ee/wms/fotokaart?",
-            "subLayersSingle": [
-                {
-                    "id": 1,
-                    "title": "Varviline reljeefvarjutus",
-                    "name": "vreljeef",
-                    "minZoom": 7,
-                    "maxZoom": 18
-                },
-                {
-                    "id": 2,
-                    "title": "Ortofoto",
-                    "name": "EESTIFOTO",
-                    "minZoom": 7,
-                    "maxZoom": 18
-                }
-            ],
-            "sublayerAll": {
-                "id": 0,
-                "title": "all",
-                "name": "MA-FOTOKAART"
-            },
-            "subLayerSelected": [
-                "MA-FOTOKAART"
-            ],
+            "layer": "MA-FOTOKAART",
             "format": "image/jpeg",
             "projection": "EPSG:3301",
+            "minZoom": 2,
+            "maxZoom": 18,
+            "styleName": "default",
+            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+            "crossOrigin": "null",
+            "version": "1.1.1"
+        },
+        {
+            "id": "wms6",
+            "type": "wms",
+            "name": "MA-FOTOKAART: Reljeefvarjutus",
+            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
+            "layer": "vreljeef",
+            "format": "image/jpeg",
+            "projection": "EPSG:3301",
+            "minZoom": 7,
+            "maxZoom": 18,
+            "styleName": "default",
+            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+            "crossOrigin": "null",
+            "version": "1.1.1"
+        },
+        {
+            "id": "wms7",
+            "type": "wms",
+            "name": "MA-FOTOKAART: Ortofoto",
+            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
+            "layer": "EESTIFOTO",
+            "format": "image/jpeg",
+            "projection": "EPSG:3301",
+            "minZoom": 7,
+            "maxZoom": 18,
             "styleName": "default",
             "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
             "crossOrigin": "null",
@@ -164,7 +167,8 @@
     ],
     "rasterTileLayers": [
         {
-            "id": 1,
+            "id": "raster1",
+            "type": "raster",
             "name": "EstSoil-EH soil texture classes",
             "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/tms-tiles/{z}/{x}/{y}.png",
             "minZoom": 8,
@@ -246,26 +250,29 @@
             "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
         },
         {
-            "id": 2,
+            "id": "raster2",
+            "type": "raster",
             "name": "Open Street Map",
             "source": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "minZoom": 1,
+            "minZoom": 2,
             "maxZoom": 18,
             "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
         },
         {
-            "id": 3,
+            "id": "raster3",
+            "type": "raster",
             "name": "ESRI World Topo Map",
             "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
-            "minZoom": 1,
+            "minZoom": 2,
             "maxZoom": 18,
             "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
         },
         {
-            "id": 4,
+            "id": "raster4",
+            "type": "raster",
             "name": "ESRI World Imagery",
             "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
-            "minZoom": 1,
+            "minZoom": 2,
             "maxZoom": 18,
             "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
         }
