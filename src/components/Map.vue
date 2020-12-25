@@ -31,7 +31,7 @@
     <div>
       <md-dialog-alert
         :md-active.sync="geoJsonUrlAlert"
-        :md-title="alertTitleComputed"
+        :md-title="geoJSONserviceLayerComputed.name"
         md-content="click on map and wait until vector objects are loaded"
       />
     </div>
@@ -44,7 +44,9 @@
           <!-- table with attributes -->
           <transition-group name="fade">
             <div
-              v-if="this.geoJSONdata.length > 0 && this.geoJsonServicesProp"
+              v-if="
+                this.geoJSONdata.length > 0 && this.geoJSONserviceLayerComputed
+              "
               key="table"
             >
               <md-table>
@@ -92,7 +94,7 @@
             <div
               v-if="
                 this.geoJSONdata.length === 0 &&
-                this.geoJsonServicesProp &&
+                this.geoJSONserviceLayerComputed &&
                 this.clickOnMapDetection == true &&
                 this.geoJSONdataSourceError !== true
               "
@@ -184,31 +186,29 @@
         ></vl-view>
 
         <!-- vector layers geoJSON URL -->
-        <vl-layer-vector
-          :z-index="3"
-          render-mode="image"
-          v-if="geoJsonUrlProp != false && geoJsonUrlProp.type === 'geojsonurl'"
-        >
-          <vl-source-vector :url="geoJsonUrlProp.source"></vl-source-vector>
-          <vl-style-box>
-            <vl-style-stroke
-              :color="geoJsonUrlProp.style.strokeColor"
-              :width="geoJsonUrlProp.style.strokeWidth"
-            ></vl-style-stroke>
-            <vl-style-fill
-              :color="geoJsonUrlProp.style.fillColor"
-            ></vl-style-fill>
-          </vl-style-box>
-        </vl-layer-vector>
+        <template v-for="layer in selectedLayersComputed">
+          <vl-layer-vector
+            :z-index="parseInt(layer.zIndex)"
+            :key="layer.id"
+            render-mode="image"
+            v-if="layer.type === 'geojsonurl'"
+          >
+            <vl-source-vector :url="layer.source"></vl-source-vector>
+            <vl-style-box>
+              <vl-style-stroke
+                :color="layer.style.strokeColor"
+                :width="layer.style.strokeWidth"
+              ></vl-style-stroke>
+              <vl-style-fill :color="layer.style.fillColor"></vl-style-fill>
+            </vl-style-box>
+          </vl-layer-vector>
+        </template>
 
         <!-- vector layers geoJSON services -->
         <vl-layer-vector
-          :z-index="2"
+          v-if="geoJSONserviceLayerComputed"
+          :z-index="parseInt(geoJSONserviceLayerComputed.zIndex)"
           render-mode="image"
-          v-if="
-            geoJsonServicesProp != false &&
-            geoJsonServicesProp.type === 'geojsonservice'
-          "
         >
           <vl-source-vector
             :features.sync="geoJSONdata"
@@ -216,78 +216,82 @@
           ></vl-source-vector>
           <vl-style-box>
             <vl-style-stroke
-              :color="geoJsonServicesProp.style.strokeColor"
-              :width="geoJsonServicesProp.style.strokeWidth"
+              :color="geoJSONserviceLayerComputed.style.strokeColor"
+              :width="geoJSONserviceLayerComputed.style.strokeWidth"
             ></vl-style-stroke>
             <vl-style-fill
-              :color="geoJsonServicesProp.style.fillColor"
+              :color="geoJSONserviceLayerComputed.style.fillColor"
             ></vl-style-fill>
           </vl-style-box>
         </vl-layer-vector>
 
         <!-- vector tile layer -->
-        <vl-layer-vector-tile
-          :z-index="1"
-          v-if="
-            vectorTileLayerProp != false &&
-            vectorTileLayerProp.type === 'vectortile'
-          "
-        >
-          <vl-source-vector-tile
-            :url="vectorTileLayerProp.source"
-          ></vl-source-vector-tile>
-          <vl-style-box>
-            <vl-style-stroke
-              :color="vectorTileLayerProp.style.strokeColor"
-              :width="vectorTileLayerProp.style.strokeWidth"
-            ></vl-style-stroke>
-            <vl-style-fill
-              :color="vectorTileLayerProp.style.fillColor"
-            ></vl-style-fill>
-          </vl-style-box>
-        </vl-layer-vector-tile>
+        <template v-for="layer in selectedLayersComputed">
+          <vl-layer-vector-tile
+            :z-index="parseInt(layer.zIndex)"
+            :key="layer.id"
+            v-if="layer.type === 'vectortile'"
+          >
+            <vl-source-vector-tile :url="layer.source"></vl-source-vector-tile>
+            <vl-style-box>
+              <vl-style-stroke
+                :color="layer.style.strokeColor"
+                :width="layer.style.strokeWidth"
+              ></vl-style-stroke>
+              <vl-style-fill :color="layer.style.fillColor"></vl-style-fill>
+            </vl-style-box> </vl-layer-vector-tile
+        ></template>
 
         <!-- wmts layer -->
-        <vl-layer-tile
-          :z-index="-1"
-          v-if="rasterLayerProp != false && rasterLayerProp.type === 'wmts'"
-        >
-          <vl-source-wmts
-            :attributions="rasterLayerProp.attribution"
-            :url="rasterLayerProp.url"
-            :layer-name="rasterLayerProp.layerName"
-            :matrix-set="rasterLayerProp.matrixSet"
-            :format="rasterLayerProp.format"
-            :style-name="rasterLayerProp.styleName"
-          ></vl-source-wmts>
-        </vl-layer-tile>
+        <template v-for="layer in selectedLayersComputed">
+          <vl-layer-tile
+            :z-index="parseInt(layer.zIndex)"
+            :key="layer.id"
+            v-if="layer.type === 'wmts'"
+          >
+            <vl-source-wmts
+              :attributions="layer.attribution"
+              :url="layer.url"
+              :layer-name="layer.layerName"
+              :matrix-set="layer.matrixSet"
+              :format="layer.format"
+              :style-name="layer.styleName"
+            ></vl-source-wmts>
+          </vl-layer-tile>
+        </template>
 
         <!-- wms layer -->
-        <vl-layer-tile
-          :z-index="-1"
-          v-if="rasterLayerProp != false && rasterLayerProp.type === 'wms'"
-        >
-          <vl-source-wms
-            :attributions="rasterLayerProp.attribution"
-            :url="rasterLayerProp.url"
-            :layers="rasterLayerProp.layer"
-            :projection="rasterLayerProp.projection"
-            :format="rasterLayerProp.format"
-            :version="rasterLayerProp.version"
-            :crossOrigin="rasterLayerProp.crossOrigin"
-          ></vl-source-wms>
-        </vl-layer-tile>
+        <template v-for="layer in selectedLayersComputed">
+          <vl-layer-tile
+            :z-index="parseInt(layer.zIndex)"
+            :key="layer.id"
+            v-if="layer.type === 'wms'"
+          >
+            <vl-source-wms
+              :attributions="layer.attribution"
+              :url="layer.url"
+              :layers="layer.layer"
+              :projection="layer.projection"
+              :format="layer.format"
+              :version="layer.version"
+              :crossOrigin="layer.crossOrigin"
+            ></vl-source-wms>
+          </vl-layer-tile>
+        </template>
 
         <!-- raster tile layer -->
-        <vl-layer-tile
-          :z-index="-1"
-          v-if="rasterLayerProp != false && rasterLayerProp.type === 'raster'"
-        >
-          <vl-source-xyz
-            :url="rasterLayerProp.source"
-            :attributions="rasterLayerProp.attribution"
-          ></vl-source-xyz>
-        </vl-layer-tile>
+        <template v-for="layer in selectedLayersComputed">
+          <vl-layer-tile
+            :z-index="parseInt(layer.zIndex)"
+            :key="layer.id"
+            v-if="layer.type === 'raster'"
+          >
+            <vl-source-xyz
+              :url="layer.source"
+              :attributions="layer.attribution"
+            ></vl-source-xyz>
+          </vl-layer-tile>
+        </template>
       </vl-map>
     </div>
   </div>
@@ -308,23 +312,18 @@ register(proj4);
 export default {
   name: "Map",
   props: {
-    rasterLayerProp: [Boolean, Object],
-    geoJsonUrlProp: [Boolean, Object],
-    geoJsonServicesProp: [Boolean, Object],
-    vectorTileLayerProp: [Boolean, Object],
+    selectedLayersProp: Array,
     mapZoomProp: Number,
     mapCenterProp: Array,
     zoomMinMaxProp: Array,
   },
   // watching for geoJsonServicesProp changes
   watch: {
-    geoJsonServicesProp: function (newVal, oldVal) {
-      if (newVal != oldVal) {
+    geoJSONserviceLayerComputed: function (newVal, oldVal) {
+      if (newVal !== oldVal && newVal !== false) {
         this.geoJSONdata = [];
-        this.clickOnMapDetection = false;
-      }
-      if (newVal != false) {
         this.geoJsonUrlAlert = true;
+        this.clickOnMapDetection = false;
       }
     },
   },
@@ -370,21 +369,35 @@ export default {
     projComputed: function () {
       return "EPSG:4326";
     },
-    alertTitleComputed: function () {
-      let text = "" + this.geoJsonServicesProp.name;
-      return text;
-    },
     minZoomComputed: function () {
       return this.zoomMinMaxProp[0];
     },
     maxZoomComputed: function () {
       return this.zoomMinMaxProp[1];
     },
+    selectedLayersComputed: function () {
+      return this.selectedLayersProp;
+    },
+    geoJSONserviceLayerComputed: function () {
+      if (this.selectedLayersProp.length > 0) {
+        let list = this.selectedLayersProp;
+        let geoJsonServiseLayer = list.filter(function (el) {
+          return el.type === "geojsonservice";
+        });
+        if (geoJsonServiseLayer.length > 0) {
+          return geoJsonServiseLayer[0];
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     // bbox query to EST soil map
     spatialQueryOnClick(cursorCoordinates) {
-      if (this.geoJsonServicesProp) {
+      if (this.geoJSONserviceLayerComputed) {
         this.geoJSONdata = [];
         this.dataLoadingStatus = true;
         this.dataCursorCoordinates = cursorCoordinates;
@@ -393,7 +406,12 @@ export default {
         let bbox = x + "," + y + "," + x + "," + y;
         setTimeout(() => {
           axios
-            .get(this.geoJsonServicesProp.source + "?bbox=" + bbox + "&f=json")
+            .get(
+              this.geoJSONserviceLayerComputed.source +
+                "?bbox=" +
+                bbox +
+                "&f=json"
+            )
             .then(
               (response) => (
                 (this.geoJSONdata = response.data.features),
@@ -409,7 +427,7 @@ export default {
               )
             )
             .finally(() => (this.dataLoadingStatus = false));
-        }, 2000);
+        }, 1000);
       }
     },
     resetGeoJSONdata() {
@@ -434,7 +452,7 @@ export default {
 
 <style scoped>
 div.map-image {
-  height: 35rem;
+  height: 80vh;
   position: relative;
 }
 
@@ -491,7 +509,7 @@ div.loading-block {
 
 @media only screen and (max-width: 768px) {
   div.map-image {
-    height: 70vh;
+    height: 75vh;
   }
 
   div.informer {

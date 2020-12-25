@@ -38,209 +38,68 @@
           </div>
         </div>
 
-        <!-- vector layers geoJSON services-->
-        <div class="layers-group">
-          <div class="md-layout md-alignment-center-right">
-            <span class="md-caption">remote geoJSON services</span>
-          </div>
+        <!-- layer list -->
+        <div
+          v-for="layer in sortedLayerListComputed"
+          :key="layer.id"
+          class="drawer-layer"
+        >
           <div>
-            <md-radio v-model="geoJsonServicesSelected" :value="false"
-              >none</md-radio
-            >
+            <md-checkbox v-model="layer.visibility" class="md-primary">{{
+              layer.name
+            }}</md-checkbox>
           </div>
-          <div v-for="layer in layersList.geoJsonService" :key="layer.id">
-            <md-radio
-              v-model="geoJsonServicesSelected"
-              :value="layer"
-              class="md-primary"
-              >{{ layer.name }}</md-radio
-            >
-            <div
-              class="layer-info-region"
-              v-if="geoJsonServicesSelected.id === layer.id"
-            >
-              <!-- layer visible zoom -->
-              <div>
-                <span class="sublayer-zoom">
-                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+          <!-- layer info -->
+          <div class="layer-info-region" v-if="layer.visibility">
+            <div class="layer-info-text">
+              available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
+            </div>
+            <div class="layer-info-text_select">
+              <div class="mdl-selectfield">
+                <select
+                  v-model="layer.zIndex"
+                  name="zIndex"
+                  id="zIndex"
+                  class="browser-default"
                 >
+                  <option v-for="z in layersList.length" :key="z" :value="z">
+                    z-index: {{ z }}
+                  </option>
+                </select>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- vector layers geoJSON URL-->
-        <div class="layers-group">
-          <div class="md-layout md-alignment-center-right">
-            <span class="md-caption">remote geoJSON URL</span>
-          </div>
-          <div>
-            <md-radio v-model="geoJsonUrlSelected" :value="false"
-              >none</md-radio
-            >
-          </div>
-          <div v-for="layer in layersList.geoJsonUrl" :key="layer.id">
-            <md-radio
-              v-model="geoJsonUrlSelected"
-              :value="layer"
-              class="md-primary"
-              >{{ layer.name }}</md-radio
-            >
-            <div
-              class="layer-info-region"
-              v-if="geoJsonUrlSelected.id === layer.id"
-            >
-              <!-- layer visible zoom -->
-              <div>
-                <span class="sublayer-zoom">
-                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- vector tile layers -->
-        <div class="layers-group">
-          <div class="md-layout md-alignment-center-right">
-            <span class="md-caption">vector tiles services</span>
-          </div>
-          <div>
-            <md-radio v-model="vectorTileLayerSelected" :value="false"
-              >none</md-radio
-            >
-          </div>
-          <div v-for="layer in layersList.vectorTileLayers" :key="layer.id">
-            <md-radio
-              v-model="vectorTileLayerSelected"
-              :value="layer"
-              class="md-primary"
-              >{{ layer.name }}</md-radio
-            >
-            <div
-              class="layer-info-region"
-              v-if="vectorTileLayerSelected.id === layer.id"
-            >
-              <!-- layer visible zoom -->
-              <div>
-                <span class="sublayer-zoom">
-                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- wmts layers -->
-        <div class="layers-group">
-          <div class="md-layout md-alignment-center-right">
-            <span class="md-caption">web map tile services</span>
-          </div>
-          <div v-for="layer in layersList.wmtsLayers" :key="layer.id">
-            <md-radio
-              v-model="rasterLayerSelected"
-              :value="layer"
-              class="md-primary"
-              >{{ layer.name }}</md-radio
-            >
-            <div
-              class="layer-info-region"
-              v-if="rasterLayerSelected.id === layer.id"
-            >
-              <!-- layer visible zoom -->
-              <div>
-                <span class="sublayer-zoom">
-                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- wms layers -->
-        <div class="layers-group">
-          <div class="md-layout md-alignment-center-right">
-            <span class="md-caption">web map services</span>
-          </div>
-          <!-- dynamic wms layers list -->
-          <div v-for="layer in layersList.wmsLayers" :key="layer.id">
-            <md-radio
-              v-model="rasterLayerSelected"
-              :value="layer"
-              class="md-primary"
-              >{{ layer.name }}
-            </md-radio>
-            <div
-              class="layer-info-region"
-              v-if="rasterLayerSelected.id === layer.id"
-            >
-              <!-- layer visible zoom -->
-              <div>
-                <span class="sublayer-zoom">
-                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- raster tile layers -->
-        <div class="layers-group">
-          <div class="md-layout md-alignment-center-right">
-            <span class="md-caption">raster tiles services</span>
-          </div>
-          <div v-for="layer in layersList.rasterTileLayers" :key="layer.id">
-            <md-radio
-              v-model="rasterLayerSelected"
-              :value="layer"
-              class="md-primary"
-              >{{ layer.name }}</md-radio
-            >
-            <div
-              class="layer-info-region"
-              v-if="rasterLayerSelected.id === layer.id"
-            >
-              <!-- layer visible zoom -->
-              <div>
-                <span class="sublayer-zoom">
-                  visible at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                >
-              </div>
-              <!-- layer's legend -->
-              <div class="layer-legend" v-if="layer.legend">
-                <table class="layer-legend__table">
-                  <tr v-for="soil in layer.legend" :key="soil.id">
-                    <td>
-                      <div
-                        class="layer-legend__table-color"
-                        :style="{ 'background-color': soil.soilColor }"
-                      ></div>
-                    </td>
-                    <td>
-                      <div class="layer-legend__table-index">
-                        {{ soil.soilIndex }}
-                      </div>
-                    </td>
-                    <td>
-                      <div class="layer-legend__table-title">
-                        {{ soil.soilTitle }}
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
+            <!-- layer's legend -->
+            <div class="layer-legend" v-if="layer.legend">
+              <table class="layer-legend__table">
+                <tr v-for="soil in layer.legend" :key="soil.id">
+                  <td>
+                    <div
+                      class="layer-legend__table-color"
+                      :style="{ 'background-color': soil.soilColor }"
+                    ></div>
+                  </td>
+                  <td>
+                    <div class="layer-legend__table-index">
+                      {{ soil.soilIndex }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="layer-legend__table-title">
+                      {{ soil.soilTitle }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </md-drawer>
+
     <div class="container">
       <!-- Map -->
       <Map
-        :rasterLayerProp="rasterLayerSelected"
-        :geoJsonUrlProp="geoJsonUrlSelected"
-        :geoJsonServicesProp="geoJsonServicesSelected"
-        :vectorTileLayerProp="vectorTileLayerSelected"
+        :selectedLayersProp="activeLayerListComputed"
         :mapZoomProp="mapZoomDefault"
         :mapCenterProp="mapCenterDefault"
         :zoomMinMaxProp="zoomsArray"
@@ -265,12 +124,6 @@ export default {
   data: () => ({
     // loading layers list from json
     layersList: Layers,
-    // testting raster layer
-    rasterLayerSelected: false,
-    geoJsonUrlSelected: false,
-    geoJsonServicesSelected: false,
-    vectorLayerUrlSelected: false,
-    vectorTileLayerSelected: false,
     // map options
     mapZoomDefault: 7,
     mapCenterDefault: [24.728699075440534, 58.699046154309144],
@@ -279,33 +132,81 @@ export default {
   }),
 
   methods: {
-    // loading raster layer on webpage start
-    loadLayer() {
-      this.rasterLayerSelected = this.layersList.rasterTileLayers[1];
-    },
     // return map settings to default values
     cleanMap() {
-      this.rasterLayerSelected = this.layersList.rasterTileLayers[1];
-      this.geoJsonUrlSelected = false;
-      this.geoJsonServicesSelected = false;
-      this.vectorTileLayerSelected = false;
-      this.clickOnMapDetection = false;
+      // this.clickOnMapDetection = false;
       this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
       this.mapZoomDefault = 7;
+      let list = this.layersList;
+      list.forEach(function (item) {
+        if (item.id !== "raster2") {
+          item.visibility = false;
+        }
+      });
     },
   },
   computed: {
     // returning min&max zoom of selected raster layer
     zoomsArray: function () {
-      let arrayZoom = [
-        this.rasterLayerSelected.minZoom,
-        this.rasterLayerSelected.maxZoom,
-      ];
-      return arrayZoom;
+      if (this.activeLayerListComputed.length > 0) {
+        let list = this.activeLayerListComputed;
+        let listSortedbyZoom = list.sort(function (a, b) {
+          if (a.minZoom < b.minZoom) {
+            return -1;
+          }
+          if (a.minZoom > b.minZoom) {
+            return 1;
+          }
+          if (a.minZoom == b.minZoom) {
+            if (a.maxZoom < b.maxZoom) {
+              return -1;
+            }
+            if (a.maxZoom > b.maxZoom) {
+              return 1;
+            }
+          }
+          return 0;
+        });
+        let lastLayerInSortedByZoom =
+          listSortedbyZoom[listSortedbyZoom.length - 1];
+        let minMaxZoom = [
+          lastLayerInSortedByZoom.minZoom,
+          lastLayerInSortedByZoom.maxZoom,
+        ];
+        return minMaxZoom;
+      } else {
+        return [2, 18];
+      }
     },
-  },
-  mounted() {
-    this.loadLayer();
+    // layer list in sidebar
+    sortedLayerListComputed: function () {
+      let list = this.layersList;
+      let sortedLayersList = list.sort(function (a, b) {
+        if (a.visibility < b.visibility) {
+          return 1;
+        }
+        if (a.visibility > b.visibility) {
+          return -1;
+        }
+        if (a.visibility == b.visibility) {
+          if (a.zIndex < b.zIndex) {
+            return 1;
+          }
+          if (a.zIndex > b.zIndex) {
+            return -1;
+          }
+        }
+      });
+      return sortedLayersList;
+    },
+    // active layer list for map prop
+    activeLayerListComputed: function () {
+      let list = this.sortedLayerListComputed;
+      let activeList = list.filter(function (el) {
+        return el.visibility === true;
+      });
+      return activeList;
+    },
   },
 };
 </script>
@@ -317,19 +218,13 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.md-card-content {
-  padding: 0.5em 1.5em 1em 1.5em;
-}
-.card-header-title {
-  font-size: 1.3em;
-}
-
-.md-card {
-  margin-bottom: 3em;
-}
-
 div.layer-type {
   padding: 5px;
+}
+
+div.drawer-layer {
+  padding: 5px 10px 5px 10px;
+  margin-bottom: 0.5rem;
 }
 
 div.wms-sublayers,
@@ -375,9 +270,10 @@ div.container {
   margin-right: 5px !important;
 }
 
-.sublayer-zoom {
+.layer-info-text {
+  padding-left: 0.25em;
   color: gray;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 
 /* legend of tile layers */
@@ -412,6 +308,62 @@ div.layer-legend__table-color {
 
 div.layer-legend__table-index {
   text-align: center;
+}
+
+/* custom material select */
+
+div.layer-info-text_select {
+  width: 9rem;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+div.layer-info-text_select select {
+  font-family: inherit;
+  background-color: transparent;
+  width: 100%;
+  padding: 0px;
+  font-size: 0.8rem;
+  color: gray;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Remove focus */
+select:focus {
+  outline: none;
+}
+
+/* Hide label */
+.mdl-selectfield label {
+  display: none;
+}
+
+/* Use custom arrow */
+.mdl-selectfield select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.mdl-selectfield {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  position: relative;
+}
+
+.mdl-selectfield:after {
+  position: absolute;
+  top: 0.75em;
+  right: 0.5em;
+  /* Styling the down arrow */
+  width: 0;
+  height: 0;
+  padding: 0;
+  content: "";
+  border-left: 0.25em solid transparent;
+  border-right: 0.25em solid transparent;
+  border-top: 0.375em solid rgba(0, 0, 0, 0.12);
+  pointer-events: none;
 }
 
 /* mobile styles */

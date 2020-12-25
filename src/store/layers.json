@@ -1,280 +1,298 @@
-{
-    "geoJsonUrl": [
-        {
-            "id": 1,
-            "type": "geojsonurl",
-            "name": "OSM countries",
-            "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "style": {
-                "strokeColor": "#ff5252",
-                "strokeWidth": 1,
-                "fillColor": "rgb(255, 82, 82, 0.2)"
+[
+    {
+        "id": "geojsonurl1",
+        "type": "geojsonurl",
+        "name": "OSM countries",
+        "source": "https://openlayers.org/en/latest/examples/data/geojson/countries.geojson",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "5",
+        "visibility": false,
+        "style": {
+            "strokeColor": "#ff5252",
+            "strokeWidth": 1,
+            "fillColor": "rgb(255, 82, 82, 0.2)"
+        }
+    },
+    {
+        "id": "geojsonservice1",
+        "type": "geojsonservice",
+        "name": "Soil PygeoAPI Docker",
+        "geoJSONdata": [],
+        "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "4",
+        "visibility": false,
+        "style": {
+            "strokeColor": "#ff5252",
+            "strokeWidth": 1,
+            "fillColor": "rgb(255, 82, 82, 0.2)"
+        }
+    },
+    {
+        "id": "vectortile1",
+        "type": "vectortile",
+        "name": "Estonia soil map",
+        "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "3",
+        "visibility": false,
+        "style": {
+            "strokeColor": "#448aff",
+            "strokeWidth": 1,
+            "fillColor": "rgb(68, 138, 255, 0.1)"
+        }
+    },
+    {
+        "id": "wmts1",
+        "type": "wmts",
+        "name": "Blue Marble by EOX",
+        "url": "https://tiles.esa.maps.eox.at/wmts?",
+        "layerName": "bluemarble-wmsc-23",
+        "matrixSet": "EPSG:4326",
+        "format": "image/jpeg",
+        "minZoom": 4,
+        "maxZoom": 7,
+        "zIndex": "2",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "BlueMarble by EOX"
+    },
+    {
+        "id": "wmts2",
+        "type": "wmts",
+        "name": "Sentinel-2 cloudless layer",
+        "url": "https://tiles.esa.maps.eox.at/wmts?",
+        "layerName": "s2cloudless-2018",
+        "matrixSet": "EPSG:4326",
+        "format": "image/png",
+        "minZoom": 10,
+        "maxZoom": 16,
+        "zIndex": "2",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "Sentinel-2 cloudless layer for 2018 by EOX"
+    },
+    {
+        "id": "wms2",
+        "type": "wms",
+        "name": "MA-ALUS",
+        "url": "https://kaart.maaamet.ee/wms/alus?",
+        "layer": "MA-ALUS",
+        "format": "image/png",
+        "projection": "EPSG:3301",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "crossOrigin": "null",
+        "version": "1.1.1"
+    },
+    {
+        "id": "wms3",
+        "type": "wms",
+        "name": "MA-ALUS: Põhikaart",
+        "url": "https://kaart.maaamet.ee/wms/alus?",
+        "layer": "pohi_vr2",
+        "format": "image/png",
+        "projection": "EPSG:3301",
+        "minZoom": 14,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "crossOrigin": "null",
+        "version": "1.1.1"
+    },
+    {
+        "id": "wms4",
+        "type": "wms",
+        "name": "MA-ALUS: Halduspiirid",
+        "url": "https://kaart.maaamet.ee/wms/alus?",
+        "layer": "Halduspiirid",
+        "format": "image/png",
+        "projection": "EPSG:3301",
+        "minZoom": 7,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "crossOrigin": "null",
+        "version": "1.1.1"
+    },
+    {
+        "id": "wms5",
+        "type": "wms",
+        "name": "MA-FOTOKAART",
+        "url": "https://kaart.maaamet.ee/wms/fotokaart?",
+        "layer": "MA-FOTOKAART",
+        "format": "image/jpeg",
+        "projection": "EPSG:3301",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "crossOrigin": "null",
+        "version": "1.1.1"
+    },
+    {
+        "id": "wms6",
+        "type": "wms",
+        "name": "MA-FOTOKAART: Reljeefvarjutus",
+        "url": "https://kaart.maaamet.ee/wms/fotokaart?",
+        "layer": "vreljeef",
+        "format": "image/jpeg",
+        "projection": "EPSG:3301",
+        "minZoom": 7,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "crossOrigin": "null",
+        "version": "1.1.1"
+    },
+    {
+        "id": "wms7",
+        "type": "wms",
+        "name": "MA-FOTOKAART: Ortofoto",
+        "url": "https://kaart.maaamet.ee/wms/fotokaart?",
+        "layer": "EESTIFOTO",
+        "format": "image/jpeg",
+        "projection": "EPSG:3301",
+        "minZoom": 7,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "crossOrigin": "null",
+        "version": "1.1.1"
+    },
+    {
+        "id": "raster1",
+        "type": "raster",
+        "name": "EstSoil-EH soil texture classes",
+        "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/tms-tiles/{z}/{x}/{y}.png",
+        "minZoom": 8,
+        "maxZoom": 14,
+        "zIndex": "1",
+        "visibility": false,
+        "legend": [
+            {
+                "id": 1,
+                "soilIndex": "S",
+                "soilTitle": "Sand",
+                "soilColor": "#c40411"
+            },
+            {
+                "id": 2,
+                "soilIndex": "LS",
+                "soilTitle": "Loamy Sand",
+                "soilColor": "#f48600"
+            },
+            {
+                "id": 3,
+                "soilIndex": "SL",
+                "soilTitle": "Sandy Loam",
+                "soilColor": "#f3bb40"
+            },
+            {
+                "id": 4,
+                "soilIndex": "L",
+                "soilTitle": "Loam",
+                "soilColor": "#fff74e"
+            },
+            {
+                "id": 5,
+                "soilIndex": "SiL",
+                "soilTitle": "Silt Loam",
+                "soilColor": "#51d6b1"
+            },
+            {
+                "id": 6,
+                "soilIndex": "SiCL",
+                "soilTitle": "Silty Clay Loam",
+                "soilColor": "#30afd2"
+            },
+            {
+                "id": 7,
+                "soilIndex": "CL",
+                "soilTitle": "Clay Loam",
+                "soilColor": "#2b9ba2"
+            },
+            {
+                "id": 8,
+                "soilIndex": "C",
+                "soilTitle": "Clay",
+                "soilColor": "#3b7be9"
+            },
+            {
+                "id": 9,
+                "soilIndex": "HC",
+                "soilTitle": "Heavy Clay",
+                "soilColor": "#2b57ba"
+            },
+            {
+                "id": 10,
+                "soilIndex": "PEAT",
+                "soilTitle": "Peatlands or highly organic soils",
+                "soilColor": "#704701"
+            },
+            {
+                "id": 11,
+                "soilIndex": "GRAVELS",
+                "soilTitle": "Gravels or mainly rocky soils",
+                "soilColor": "#8ca4ad"
+            },
+            {
+                "id": 12,
+                "soilIndex": "none",
+                "soilTitle": "no texture information",
+                "soilColor": "#ffffff"
             }
-        }
-    ],
-    "geoJsonService": [
-        {
-            "id": 1,
-            "type": "geojsonservice",
-            "name": "Soil PygeoAPI Docker",
-            "geoJSONdata": [],
-            "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "style": {
-                "strokeColor": "#ff5252",
-                "strokeWidth": 1,
-                "fillColor": "rgb(255, 82, 82, 0.2)"
-            }
-        }
-    ],
-    "vectorTileLayers": [
-        {
-            "id": 1,
-            "type": "vectortile",
-            "name": "Estonia soil map",
-            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "style": {
-                "strokeColor": "#448aff",
-                "strokeWidth": 1,
-                "fillColor": "rgb(68, 138, 255, 0.1)"
-            }
-        }
-    ],
-    "wmtsLayers": [
-        {
-            "id": "wmts1",
-            "type": "wmts",
-            "name": "Blue Marble by EOX",
-            "url": "https://tiles.esa.maps.eox.at/wmts?",
-            "layerName": "bluemarble-wmsc-23",
-            "matrixSet": "EPSG:4326",
-            "format": "image/jpeg",
-            "minZoom": 4,
-            "maxZoom": 7,
-            "styleName": "default",
-            "attribution": "BlueMarble by EOX"
-        },
-        {
-            "id": "wmts2",
-            "type": "wmts",
-            "name": "Sentinel-2 cloudless layer",
-            "url": "https://tiles.esa.maps.eox.at/wmts?",
-            "layerName": "s2cloudless-2018",
-            "matrixSet": "EPSG:4326",
-            "format": "image/png",
-            "minZoom": 10,
-            "maxZoom": 16,
-            "styleName": "default",
-            "attribution": "Sentinel-2 cloudless layer for 2018 by EOX"
-        }
-    ],
-    "wmsLayers": [
-        {
-            "id": "wms2",
-            "type": "wms",
-            "name": "MA-ALUS",
-            "url": "https://kaart.maaamet.ee/wms/alus?",
-            "layer": "MA-ALUS",
-            "format": "image/png",
-            "projection": "EPSG:3301",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null",
-            "version": "1.1.1"
-        },
-        {
-            "id": "wms3",
-            "type": "wms",
-            "name": "MA-ALUS: Põhikaart",
-            "url": "https://kaart.maaamet.ee/wms/alus?",
-            "layer": "pohi_vr2",
-            "format": "image/png",
-            "projection": "EPSG:3301",
-            "minZoom": 14,
-            "maxZoom": 18,
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null",
-            "version": "1.1.1"
-        },
-        {
-            "id": "wms4",
-            "type": "wms",
-            "name": "MA-ALUS: Halduspiirid",
-            "url": "https://kaart.maaamet.ee/wms/alus?",
-            "layer": "Halduspiirid",
-            "format": "image/png",
-            "projection": "EPSG:3301",
-            "minZoom": 7,
-            "maxZoom": 18,
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null",
-            "version": "1.1.1"
-        },
-        {
-            "id": "wms5",
-            "type": "wms",
-            "name": "MA-FOTOKAART",
-            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
-            "layer": "MA-FOTOKAART",
-            "format": "image/jpeg",
-            "projection": "EPSG:3301",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null",
-            "version": "1.1.1"
-        },
-        {
-            "id": "wms6",
-            "type": "wms",
-            "name": "MA-FOTOKAART: Reljeefvarjutus",
-            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
-            "layer": "vreljeef",
-            "format": "image/jpeg",
-            "projection": "EPSG:3301",
-            "minZoom": 7,
-            "maxZoom": 18,
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null",
-            "version": "1.1.1"
-        },
-        {
-            "id": "wms7",
-            "type": "wms",
-            "name": "MA-FOTOKAART: Ortofoto",
-            "url": "https://kaart.maaamet.ee/wms/fotokaart?",
-            "layer": "EESTIFOTO",
-            "format": "image/jpeg",
-            "projection": "EPSG:3301",
-            "minZoom": 7,
-            "maxZoom": 18,
-            "styleName": "default",
-            "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
-            "crossOrigin": "null",
-            "version": "1.1.1"
-        }
-    ],
-    "rasterTileLayers": [
-        {
-            "id": "raster1",
-            "type": "raster",
-            "name": "EstSoil-EH soil texture classes",
-            "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/tms-tiles/{z}/{x}/{y}.png",
-            "minZoom": 8,
-            "maxZoom": 14,
-            "legend": [
-                {
-                    "id": 1,
-                    "soilIndex": "S",
-                    "soilTitle": "Sand",
-                    "soilColor": "#c40411"
-                },
-                {
-                    "id": 2,
-                    "soilIndex": "LS",
-                    "soilTitle": "Loamy Sand",
-                    "soilColor": "#f48600"
-                },
-                {
-                    "id": 3,
-                    "soilIndex": "SL",
-                    "soilTitle": "Sandy Loam",
-                    "soilColor": "#f3bb40"
-                },
-                {
-                    "id": 4,
-                    "soilIndex": "L",
-                    "soilTitle": "Loam",
-                    "soilColor": "#fff74e"
-                },
-                {
-                    "id": 5,
-                    "soilIndex": "SiL",
-                    "soilTitle": "Silt Loam",
-                    "soilColor": "#51d6b1"
-                },
-                {
-                    "id": 6,
-                    "soilIndex": "SiCL",
-                    "soilTitle": "Silty Clay Loam",
-                    "soilColor": "#30afd2"
-                },
-                {
-                    "id": 7,
-                    "soilIndex": "CL",
-                    "soilTitle": "Clay Loam",
-                    "soilColor": "#2b9ba2"
-                },
-                {
-                    "id": 8,
-                    "soilIndex": "C",
-                    "soilTitle": "Clay",
-                    "soilColor": "#3b7be9"
-                },
-                {
-                    "id": 9,
-                    "soilIndex": "HC",
-                    "soilTitle": "Heavy Clay",
-                    "soilColor": "#2b57ba"
-                },
-                {
-                    "id": 10,
-                    "soilIndex": "PEAT",
-                    "soilTitle": "Peatlands or highly organic soils",
-                    "soilColor": "#704701"
-                },
-                {
-                    "id": 11,
-                    "soilIndex": "GRAVELS",
-                    "soilTitle": "Gravels or mainly rocky soils",
-                    "soilColor": "#8ca4ad"
-                },
-                {
-                    "id": 12,
-                    "soilIndex": "none",
-                    "soilTitle": "no texture information",
-                    "soilColor": "#ffffff"
-                }
-            ],
-            "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
-        },
-        {
-            "id": "raster2",
-            "type": "raster",
-            "name": "Open Street Map",
-            "source": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-        },
-        {
-            "id": "raster3",
-            "type": "raster",
-            "name": "ESRI World Topo Map",
-            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
-        },
-        {
-            "id": "raster4",
-            "type": "raster",
-            "name": "ESRI World Imagery",
-            "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
-            "minZoom": 2,
-            "maxZoom": 18,
-            "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
-        }
-    ]
-}
+        ],
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
+    },
+    {
+        "id": "raster2",
+        "type": "raster",
+        "name": "Open Street Map",
+        "source": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": true,
+        "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+    },
+    {
+        "id": "raster3",
+        "type": "raster",
+        "name": "ESRI World Topo Map",
+        "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "attribution": "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+    },
+    {
+        "id": "raster4",
+        "type": "raster",
+        "name": "ESRI World Imagery",
+        "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "1",
+        "visibility": false,
+        "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+    }
+]
