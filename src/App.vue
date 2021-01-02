@@ -38,58 +38,123 @@
           </div>
         </div>
 
-        <!-- layer list -->
-        <div
-          v-for="layer in sortedLayerListComputed"
-          :key="layer.id"
-          class="drawer-layer"
-        >
-          <div>
-            <md-checkbox v-model="layer.visibility" class="md-primary">{{
-              layer.name
-            }}</md-checkbox>
+        <!-- list of data layers -->
+        <div class="drawer-layers-section">
+          <!-- section subtitle -->
+          <div class="md-layout md-alignment-top-right">
+            <div class="drawer-layers-section_subtitle">data layers</div>
           </div>
-          <!-- layer info -->
-          <div class="layer-info-region" v-if="layer.visibility">
-            <div class="layer-info-text">
-              available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
+          <div
+            v-for="layer in sortedDataLayerListComputed"
+            :key="layer.id"
+            class="drawer-layer"
+          >
+            <div>
+              <md-checkbox v-model="layer.visibility" class="md-primary">{{
+                layer.name
+              }}</md-checkbox>
             </div>
-            <div class="layer-info-text_select">
-              <div class="mdl-selectfield">
-                <select
-                  v-model="layer.zIndex"
-                  name="zIndex"
-                  id="zIndex"
-                  class="browser-default"
-                >
-                  <option v-for="z in layersList.length" :key="z" :value="z">
-                    z-index: {{ z }}
-                  </option>
-                </select>
+            <!-- layer info -->
+            <div class="layer-info-region" v-if="layer.visibility">
+              <div class="layer-info-text">
+                available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
+              </div>
+              <div class="layer-info-text_select">
+                <div class="mdl-selectfield">
+                  <select
+                    v-model="layer.zIndex"
+                    name="zIndex"
+                    id="zIndex"
+                    class="browser-default"
+                  >
+                    <option
+                      v-for="z in sortedDataLayerListComputed.length"
+                      :key="z"
+                      :value="z"
+                    >
+                      z-index: {{ z }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <!-- layer's legend -->
+              <div class="layer-legend" v-if="layer.legend">
+                <table class="layer-legend__table">
+                  <tr v-for="soil in layer.legend" :key="soil.id">
+                    <td>
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.soilColor }"
+                      ></div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-index">
+                        {{ soil.soilIndex }}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-title">
+                        {{ soil.soilTitle }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
-            <!-- layer's legend -->
-            <div class="layer-legend" v-if="layer.legend">
-              <table class="layer-legend__table">
-                <tr v-for="soil in layer.legend" :key="soil.id">
-                  <td>
-                    <div
-                      class="layer-legend__table-color"
-                      :style="{ 'background-color': soil.soilColor }"
-                    ></div>
-                  </td>
-                  <td>
-                    <div class="layer-legend__table-index">
-                      {{ soil.soilIndex }}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="layer-legend__table-title">
-                      {{ soil.soilTitle }}
-                    </div>
-                  </td>
-                </tr>
-              </table>
+          </div>
+        </div>
+
+        <!-- list of base layers -->
+        <div class="drawer-layers-section">
+          <!-- section subtitle -->
+          <div class="md-layout md-alignment-top-right">
+            <div class="drawer-layers-section_subtitle">base layers</div>
+          </div>
+          <!-- list of layers -->
+          <div
+            v-for="layer in sortedBaseLayerListComputed"
+            :key="layer.id"
+            class="drawer-layer"
+          >
+            <div>
+              <md-radio
+                v-model="baseLayerSelected"
+                :value="layer"
+                class="md-primary"
+                >{{ layer.name }}</md-radio
+              >
+            </div>
+            <!-- layer info -->
+            <div
+              class="layer-info-region"
+              v-if="layer.id == baseLayerSelected.id"
+            >
+              <div class="layer-info-text">
+                available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
+              </div>
+              <!-- layer's legend -->
+              <div class="layer-legend" v-if="layer.legend">
+                <table class="layer-legend__table">
+                  <tr v-for="soil in layer.legend" :key="soil.id">
+                    <td>
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.soilColor }"
+                      ></div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-index">
+                        {{ soil.soilIndex }}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-title">
+                        {{ soil.soilTitle }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -124,6 +189,8 @@ export default {
   data: () => ({
     // loading layers list from json
     layersList: Layers,
+    // base layer selected
+    baseLayerSelected: {},
     // map options
     mapZoomDefault: 7,
     mapCenterDefault: [24.728699075440534, 58.699046154309144],
@@ -134,16 +201,28 @@ export default {
   methods: {
     // return map settings to default values
     cleanMap() {
-      // this.clickOnMapDetection = false;
-      this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
-      this.mapZoomDefault = 7;
       let list = this.layersList;
       list.forEach(function (item) {
-        if (item.id !== "raster2") {
+        if (item.id !== 50 && item.layerType === "data") {
           item.visibility = false;
         }
       });
+      let selectedLayerArray = list.filter(function (el) {
+        return el.id === 50;
+      });
+      this.baseLayerSelected = selectedLayerArray[0];
     },
+    // selecting base layer on page load
+    loadBaseLayer() {
+      let list = this.layersList;
+      let selectedLayerArray = list.filter(function (el) {
+        return el.id === 50;
+      });
+      this.baseLayerSelected = selectedLayerArray[0];
+    },
+  },
+  mounted() {
+    this.loadBaseLayer();
   },
   computed: {
     // returning min&max zoom of selected raster layer
@@ -199,12 +278,37 @@ export default {
       });
       return sortedLayersList;
     },
+    // data layers list
+    sortedDataLayerListComputed: function () {
+      let list = this.sortedLayerListComputed;
+      let dataList = list.filter(function (el) {
+        return el.layerType === "data";
+      });
+      return dataList;
+    },
+    // base layers list
+    sortedBaseLayerListComputed: function () {
+      let list = this.layersList;
+      let baseList = list.filter(function (el) {
+        return el.layerType === "base";
+      });
+      let sortedLayersList = baseList.sort(function (a, b) {
+        if (a.id < b.id) {
+          return 1;
+        }
+        if (a.id > b.id) {
+          return -1;
+        }
+      });
+      return sortedLayersList;
+    },
     // active layer list for map prop
     activeLayerListComputed: function () {
-      let list = this.sortedLayerListComputed;
+      let list = this.sortedDataLayerListComputed;
       let activeList = list.filter(function (el) {
-        return el.visibility === true;
+        return el.visibility === true && el.layerType === "data";
       });
+      activeList.push(this.baseLayerSelected);
       return activeList;
     },
   },
@@ -225,6 +329,16 @@ div.layer-type {
 div.drawer-layer {
   padding: 5px 10px 5px 10px;
   margin-bottom: 0.5rem;
+}
+
+div.drawer-layers-section {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+div.drawer-layers-section_subtitle {
+  padding: 10px;
+  color: gray;
+  font-size: 0.8rem;
 }
 
 div.wms-sublayers,
