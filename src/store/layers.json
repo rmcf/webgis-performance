@@ -37,7 +37,7 @@
         "type": "wms",
         "layerType": "data",
         "name": "PRIA Põllumassiivid",
-        "url": "/pria/geoserver/pria_avalik/ows",
+        "url": "https://kls.pria.ee/geoserver/pria_avalik/ows",
         "layer": "pria_avalik:pria_massiivid",
         "format": "image/png",
         "minZoom": 12,
