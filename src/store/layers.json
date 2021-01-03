@@ -8,7 +8,7 @@
         "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
         "minZoom": 2,
         "maxZoom": 18,
-        "zIndex": "3",
+        "zIndex": "4",
         "visibility": false,
         "style": {
             "strokeColor": "#ff5252",
@@ -24,13 +24,30 @@
         "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
         "minZoom": 2,
         "maxZoom": 18,
-        "zIndex": "2",
+        "zIndex": "3",
         "visibility": false,
         "style": {
             "strokeColor": "#448aff",
             "strokeWidth": 1,
             "fillColor": "rgb(68, 138, 255, 0.1)"
         }
+    },
+    {
+        "id": 130,
+        "type": "wms",
+        "layerType": "data",
+        "name": "PRIA Põllumassiivid",
+        "url": "/pria/geoserver/pria_avalik/ows",
+        "layer": "pria_avalik:pria_massiivid",
+        "format": "image/png",
+        "minZoom": 12,
+        "maxZoom": 18,
+        "zIndex": "2",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "crossOrigin": "anonymous",
+        "version": "1.3.1"
     },
     {
         "id": 100,
