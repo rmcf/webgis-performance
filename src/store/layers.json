@@ -1,6 +1,6 @@
 [
     {
-        "id": 120,
+        "id": 150,
         "type": "geojsonservice",
         "layerType": "data",
         "name": "Soil PygeoAPI Docker",
@@ -8,7 +8,7 @@
         "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
         "minZoom": 2,
         "maxZoom": 18,
-        "zIndex": "4",
+        "zIndex": "6",
         "visibility": false,
         "style": {
             "strokeColor": "#ff5252",
@@ -17,7 +17,39 @@
         }
     },
     {
-        "id": 110,
+        "id": 140,
+        "type": "geojsonurl",
+        "layerType": "data",
+        "name": "Landboard DEM grids",
+        "source": "/geojson/dem_grid_cells.geojson",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "5",
+        "visibility": false,
+        "style": {
+            "strokeColor": "rgba(255, 235, 59, 0.9)",
+            "strokeWidth": 1,
+            "fillColor": "transparent"
+        }
+    },
+    {
+        "id": 130,
+        "type": "geojsonurl",
+        "layerType": "data",
+        "name": "Processing zones",
+        "source": "/geojson/processing_zones.geojson",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "4",
+        "visibility": false,
+        "style": {
+            "strokeColor": "rgba(102, 187, 106, 0.9)",
+            "strokeWidth": 1,
+            "fillColor": "transparent"
+        }
+    },
+    {
+        "id": 120,
         "type": "vectortile",
         "layerType": "data",
         "name": "Estonia soil map",
@@ -33,7 +65,7 @@
         }
     },
     {
-        "id": 130,
+        "id": 110,
         "type": "wms",
         "layerType": "data",
         "name": "PRIA Põllumassiivid",

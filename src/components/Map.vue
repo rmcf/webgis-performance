@@ -202,6 +202,15 @@
               <vl-style-fill :color="layer.style.fillColor"></vl-style-fill>
             </vl-style-box>
           </vl-layer-vector>
+          <vl-overlay
+            class="feature-popup"
+            v-for="feature in layer.features"
+            :key="feature.id"
+            :id="feature.id"
+            :position="pointOnSurface(feature.geometry)"
+            positioning="center-center"
+            >z</vl-overlay
+          >
         </template>
 
         <!-- vector layers geoJSON services -->
