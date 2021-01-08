@@ -1,6 +1,6 @@
 [
     {
-        "id": 150,
+        "id": 170,
         "type": "geojsonservice",
         "layerType": "data",
         "name": "Soil PygeoAPI Docker",
@@ -8,7 +8,7 @@
         "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
         "minZoom": 2,
         "maxZoom": 18,
-        "zIndex": "6",
+        "zIndex": "8",
         "visibility": false,
         "style": {
             "strokeColor": "#ff5252",
@@ -17,17 +17,53 @@
         }
     },
     {
+        "id": 160,
+        "type": "wms",
+        "layerType": "data",
+        "name": "Rivers, Streams, Drainage",
+        "url": "https://kaart.maaamet.ee/wms/alus?",
+        "layer": "kpo_vk2",
+        "format": "image/png",
+        "projection": "EPSG:3301",
+        "minZoom": 15,
+        "maxZoom": 18,
+        "zIndex": "7",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",
+        "crossOrigin": "anonymous",
+        "version": "1.1.1"
+    },
+    {
+        "id": 150,
+        "type": "wms",
+        "layerType": "data",
+        "name": "Water protection zones",
+        "url": "https://kaart.maaamet.ee/wms/alus?",
+        "layer": "voond_veekaitse",
+        "format": "image/png",
+        "projection": "EPSG:3301",
+        "minZoom": 15,
+        "maxZoom": 18,
+        "zIndex": "6",
+        "visibility": false,
+        "styleName": "default",
+        "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",
+        "crossOrigin": "anonymous",
+        "version": "1.1.1"
+    },
+    {
         "id": 140,
         "type": "geojsonurl",
         "layerType": "data",
-        "name": "Landboard DEM grids",
-        "source": "/webgis-performance/geojson/dem_grid_cells.geojson",
+        "name": "Processing zones",
+        "source": "/webgis-performance/geojson/processing_zones.geojson",
         "minZoom": 2,
         "maxZoom": 18,
         "zIndex": "5",
         "visibility": false,
         "style": {
-            "strokeColor": "rgba(255, 235, 59, 0.9)",
+            "strokeColor": "rgba(102, 187, 106, 0.9)",
             "strokeWidth": 1,
             "fillColor": "transparent"
         }
@@ -36,14 +72,14 @@
         "id": 130,
         "type": "geojsonurl",
         "layerType": "data",
-        "name": "Processing zones",
-        "source": "/webgis-performance/geojson/processing_zones.geojson",
+        "name": "Landboard DEM grids",
+        "source": "/webgis-performance/geojson/dem_grid_cells.geojson",
         "minZoom": 2,
         "maxZoom": 18,
         "zIndex": "4",
         "visibility": false,
         "style": {
-            "strokeColor": "rgba(102, 187, 106, 0.9)",
+            "strokeColor": "rgba(255, 235, 59, 0.9)",
             "strokeWidth": 1,
             "fillColor": "transparent"
         }
@@ -77,7 +113,7 @@
         "zIndex": "2",
         "visibility": false,
         "styleName": "default",
-        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "attribution": "&copy; <a href='https://www.pria.ee/'>PRIA</a> | Veebikaardi abitelefon 737 7618 | maa@pria.ee",
         "crossOrigin": "anonymous",
         "version": "1.3.1"
     },
@@ -181,7 +217,7 @@
         "zIndex": "0",
         "visibility": false,
         "styleName": "default",
-        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",
         "crossOrigin": "null",
         "version": "1.1.1"
     },
@@ -199,7 +235,7 @@
         "zIndex": "0",
         "visibility": false,
         "styleName": "default",
-        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",
         "crossOrigin": "null",
         "version": "1.1.1"
     },
@@ -217,7 +253,7 @@
         "zIndex": "0",
         "visibility": false,
         "styleName": "default",
-        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",
         "crossOrigin": "null",
         "version": "1.1.1"
     },
@@ -235,7 +271,7 @@
         "zIndex": "0",
         "visibility": false,
         "styleName": "default",
-        "attribution": "WMS: <a href='https://https://geoportaal.maaamet.ee/eng/'>Estonian Landboard WMS</a>",
+        "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",
         "crossOrigin": "null",
         "version": "1.1.1"
     },
@@ -270,7 +306,7 @@
         "name": "ESRI World Imagery",
         "source": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
         "minZoom": 2,
-        "maxZoom": 18,
+        "maxZoom": 17,
         "zIndex": "0",
         "visibility": false,
         "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
