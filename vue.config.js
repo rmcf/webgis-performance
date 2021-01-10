@@ -1,5 +1,5 @@
 module.exports = {
     publicPath: '/webgis-performance/',
     crossorigin: 'anonymous',
-    productionSourceMap: false
+    productionSourceMap: false,
 }

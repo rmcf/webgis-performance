@@ -21,7 +21,7 @@ Vue.use(MdDialogAlert)
 Vue.use(MdContent)
 
 // vue-layers
-import { Map, VectorLayer, VectorSource, StyleBox, StrokeStyle, FillStyle, VectorTileLayer, VectorTileSource, TileLayer, WmtsSource, WmsSource, XyzSource } from 'vuelayers'
+import { Map, VectorLayer, VectorSource, StyleBox, StrokeStyle, FillStyle, StyleFunc, VectorTileLayer, VectorTileSource, TileLayer, WmtsSource, WmsSource, XyzSource } from 'vuelayers'
 import 'vuelayers/lib/style.css'
 Vue.use(Map)
 Vue.use(VectorLayer)
@@ -29,6 +29,7 @@ Vue.use(VectorSource)
 Vue.use(StyleBox)
 Vue.use(StrokeStyle)
 Vue.use(FillStyle)
+Vue.use(StyleFunc)
 Vue.use(VectorTileLayer)
 Vue.use(VectorTileSource)
 Vue.use(TileLayer)

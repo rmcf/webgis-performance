@@ -5,6 +5,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
+
     <!-- spinner geoJSON services loading -->
     <div
       v-show="dataLoadingStatus"
@@ -41,8 +42,8 @@
       <div v-if="!dataLoadingStatus">
         <!-- block for map info -->
         <div class="map-info">
-          <!-- table with attributes -->
           <transition-group name="fade">
+            <!-- table with attributes of selected Soil PygeoAPI Docker features -->
             <div
               v-if="
                 this.geoJSONdata.length > 0 && this.geoJSONserviceLayerComputed
@@ -77,7 +78,6 @@
                       >Zoom to selected features</md-tooltip
                     >
                   </md-button>
-
                   <md-button
                     v-on:click="resetGeoJSONdata()"
                     class="md-dense md-raised md-accent"
@@ -170,10 +170,11 @@
         </md-badge>
       </div>
       <vl-map
+        ref="map"
         :data-projection="projComputed"
         :load-tiles-while-animating="true"
         :load-tiles-while-interacting="true"
-        @click="spatialQueryOnClick($event.coordinate)"
+        @click="spatialQueryOnClick($event)"
       >
         <vl-view
           :zoom.sync="zoomComputed"
@@ -233,13 +234,9 @@
             v-if="layer.type === 'vectortile'"
           >
             <vl-source-vector-tile :url="layer.source"></vl-source-vector-tile>
-            <vl-style-box>
-              <vl-style-stroke
-                :color="layer.style.strokeColor"
-                :width="layer.style.strokeWidth"
-              ></vl-style-stroke>
-              <vl-style-fill :color="layer.style.fillColor"></vl-style-fill>
-            </vl-style-box> </vl-layer-vector-tile
+            <vl-style-func
+              v-if="layer.id === 'EstoniaSoilMap'"
+              :factory="EstSoilMapVectorTilesStyle" /></vl-layer-vector-tile
         ></template>
 
         <!-- wmts layer -->
@@ -301,6 +298,8 @@
 const axios = require("axios");
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
+// import Style from "ol/style/Style";
+import { createStyle } from "vuelayers/lib/ol-ext";
 
 // new CRS registration
 proj4.defs(
@@ -344,6 +343,7 @@ export default {
       // geoJSON service source error
       geoJSONdataSourceError: false,
       geoJSONdataSourceErrorText: "",
+      vectorTilesTransparency: 0.7,
     };
   },
   computed: {
@@ -393,16 +393,28 @@ export default {
         return false;
       }
     },
+    EstSoilMapVectorTileComputed: function () {
+      let list = this.selectedLayersProp;
+      let vectorTileLayer = list.filter(function (el) {
+        return el.id === "EstoniaSoilMap";
+      });
+      if (vectorTileLayer.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     // bbox query to EST soil map
-    spatialQueryOnClick(cursorCoordinates) {
+    spatialQueryOnClick(event) {
+      // select from Soil PygeoAPI Docker
       if (this.geoJSONserviceLayerComputed) {
         this.geoJSONdata = [];
         this.dataLoadingStatus = true;
-        this.dataCursorCoordinates = cursorCoordinates;
-        let x = cursorCoordinates[0];
-        let y = cursorCoordinates[1];
+        this.dataCursorCoordinates = event.coordinate;
+        let x = event.coordinate[0];
+        let y = event.coordinate[1];
         let bbox = x + "," + y + "," + x + "," + y;
         setTimeout(() => {
           axios
@@ -430,14 +442,129 @@ export default {
         }, 1000);
       }
     },
+    // vector tiles: Estonia soil map styling
+    EstSoilMapVectorTilesStyle() {
+      let transparency = this.vectorTilesTransparency;
+      // unknown
+      const styleUnknown = createStyle({
+        fillColor: "rgba(255,255,255," + transparency + ")",
+        strokeColor: "rgba(255,255,255," + transparency + ")",
+      });
+      // S
+      const styleS = createStyle({
+        fillColor: "rgba(196,4,17," + transparency + ")",
+        strokeColor: "rgba(196,4,17," + transparency + ")",
+      });
+      // LS
+      const styleLS = createStyle({
+        fillColor: "rgba(244,134,0," + transparency + ")",
+        strokeColor: "rgba(244,134,0," + transparency + ")",
+      });
+      // SL
+      const styleSL = createStyle({
+        fillColor: "rgba(243,187,64," + transparency + ")",
+        strokeColor: "rgba(243,187,64," + transparency + ")",
+      });
+      // L
+      const styleL = createStyle({
+        fillColor: "rgba(255,247,78," + transparency + ")",
+        strokeColor: "rgba(255,247,78," + transparency + ")",
+      });
+      // SiL
+      const styleSiL = createStyle({
+        fillColor: "rgba(81,214,177," + transparency + ")",
+        strokeColor: "rgba(81,214,177," + transparency + ")",
+      });
+      // SiCL
+      const styleSiCL = createStyle({
+        fillColor: "rgba(48,175,210," + transparency + ")",
+        strokeColor: "rgba(48,175,210," + transparency + ")",
+      });
+      // CL
+      const styleCL = createStyle({
+        fillColor: "rgba(43,155,162," + transparency + ")",
+        strokeColor: "rgba(43,155,162," + transparency + ")",
+      });
+      // C
+      const styleC = createStyle({
+        fillColor: "rgba(59,123,233," + transparency + ")",
+        strokeColor: "rgba(59,123,233," + transparency + ")",
+      });
+      // HC
+      const styleHC = createStyle({
+        fillColor: "rgba(43,87,186," + transparency + ")",
+        strokeColor: "rgba(43,87,186," + transparency + ")",
+      });
+      // PEAT
+      const stylePEAT = createStyle({
+        fillColor: "rgba(112,71,1," + transparency + ")",
+        strokeColor: "rgba(112,71,1," + transparency + ")",
+      });
+      // GRAVELS
+      const styleGRAVELS = createStyle({
+        fillColor: "rgba(140,164,173," + transparency + ")",
+        strokeColor: "rgba(140,164,173," + transparency + ")",
+      });
+
+      return (feature) => {
+        // S
+        if (feature.get("lxtype1") == "S") {
+          return styleS;
+        }
+        // LS
+        if (feature.get("lxtype1") == "LS") {
+          return styleLS;
+        }
+        // SL
+        if (feature.get("lxtype1") == "SL") {
+          return styleSL;
+        }
+        // L
+        if (feature.get("lxtype1") == "L") {
+          return styleL;
+        }
+        // SiL
+        if (feature.get("lxtype1") == "SiL") {
+          return styleSiL;
+        }
+        // SiCL
+        if (feature.get("lxtype1") == "SiCL") {
+          return styleSiCL;
+        }
+        // CL
+        if (feature.get("lxtype1") == "CL") {
+          return styleCL;
+        }
+        // C
+        if (feature.get("lxtype1") == "C") {
+          return styleC;
+        }
+        // HC
+        if (feature.get("lxtype1") == "HC") {
+          return styleHC;
+        }
+        // PEAT
+        if (feature.get("lxtype1") == "PEAT") {
+          return stylePEAT;
+        }
+        // GRAVELS
+        if (feature.get("lxtype1") == "GRAVELS") {
+          return styleGRAVELS;
+        }
+        return styleUnknown;
+      };
+    },
+
     resetGeoJSONdata() {
       this.geoJSONdata = [];
       this.clickOnMapDetection = false;
     },
+
     fitSelectedJSONfeatures() {
       let geoJsonServicesSourceExtent = this.$refs.geoJsonServicesSource.$source.getExtent();
       this.$refs.view.fit(geoJsonServicesSourceExtent);
     },
+
     fitViewDefault() {
       this.$refs.view.fit([
         2335304.088168705,

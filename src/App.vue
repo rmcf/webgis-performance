@@ -203,12 +203,12 @@ export default {
     cleanMap() {
       let list = this.layersList;
       list.forEach(function (item) {
-        if (item.id !== 50 && item.layerType === "data") {
+        if (item.id !== "OpenStreetMap" && item.layerType === "data") {
           item.visibility = false;
         }
       });
       let selectedLayerArray = list.filter(function (el) {
-        return el.id === 50;
+        return el.id === "OpenStreetMap";
       });
       this.baseLayerSelected = selectedLayerArray[0];
     },
@@ -216,7 +216,7 @@ export default {
     loadBaseLayer() {
       let list = this.layersList;
       let selectedLayerArray = list.filter(function (el) {
-        return el.id === 50;
+        return el.id === "OpenStreetMap";
       });
       this.baseLayerSelected = selectedLayerArray[0];
     },
@@ -293,10 +293,10 @@ export default {
         return el.layerType === "base";
       });
       let sortedLayersList = baseList.sort(function (a, b) {
-        if (a.id < b.id) {
+        if (a.orderInList < b.orderInList) {
           return 1;
         }
-        if (a.id > b.id) {
+        if (a.orderInList > b.orderInList) {
           return -1;
         }
       });
