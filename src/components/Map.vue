@@ -43,6 +43,43 @@
         <!-- block for map info -->
         <div class="map-info">
           <transition-group name="fade">
+            <!-- table with attributes of selected vector tile feature -->
+            <div
+              v-if="EstSoilMapVectorTileComputed && selectedVectorTileFeature"
+              key="tableVectorTiles"
+            >
+              <md-table>
+                <md-table-row>
+                  <md-table-head
+                    v-for="(value, key) in this.selectedVectorTileFeature
+                      .properties_"
+                    :key="key"
+                    >{{ key }}</md-table-head
+                  >
+                </md-table-row>
+                <md-table-row>
+                  <md-table-cell
+                    v-for="(value, key) in this.selectedVectorTileFeature
+                      .properties_"
+                    :key="key"
+                    >{{ value }}
+                  </md-table-cell>
+                </md-table-row>
+              </md-table>
+              <!-- remove table data of selected vector tile feature -->
+              <div class="object-align-right">
+                <div class="object-item">
+                  <md-button
+                    v-on:click="selectedVectorTileFeature = false"
+                    class="md-dense md-raised md-accent"
+                    ><md-icon>cancel</md-icon> REMOVE
+                    <md-tooltip md-direction="bottom"
+                      >Remove selected feature</md-tooltip
+                    >
+                  </md-button>
+                </div>
+              </div>
+            </div>
             <!-- table with attributes of selected Soil PygeoAPI Docker features -->
             <div
               v-if="
@@ -344,6 +381,8 @@ export default {
       geoJSONdataSourceError: false,
       geoJSONdataSourceErrorText: "",
       vectorTilesTransparency: 0.7,
+      // selected Vector Tile Feature
+      selectedVectorTileFeature: false,
     };
   },
   computed: {
@@ -440,6 +479,17 @@ export default {
             )
             .finally(() => (this.dataLoadingStatus = false));
         }, 1000);
+      }
+      // vector tiles: Estonia soil map select single feature
+      if (
+        this.EstSoilMapVectorTileComputed &&
+        !this.geoJSONserviceLayerComputed
+      ) {
+        let features = this.$refs.map.getFeaturesAtPixel(event.pixel);
+        if (features && features.length > 0) {
+          let feature = features[0];
+          this.selectedVectorTileFeature = feature;
+        }
       }
     },
     // vector tiles: Estonia soil map styling
