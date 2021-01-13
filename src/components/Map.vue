@@ -231,13 +231,13 @@
             v-if="layer.type === 'geojsonurl'"
           >
             <vl-source-vector :url="layer.source"></vl-source-vector>
-            <vl-style-box>
-              <vl-style-stroke
-                :color="layer.style.strokeColor"
-                :width="layer.style.strokeWidth"
-              ></vl-style-stroke>
-              <vl-style-fill :color="layer.style.fillColor"></vl-style-fill>
-            </vl-style-box>
+            <vl-style-func
+              v-if="layer.id === 'ProcessingZones'"
+              :factory="ProcessingZonesStyles"
+            /><vl-style-func
+              v-if="layer.id === 'LandboardDEMGrids'"
+              :factory="LandboardDEMGridsStyles"
+            />
           </vl-layer-vector>
         </template>
 
@@ -822,6 +822,42 @@ export default {
           }
         }
         return styleUnknown;
+      };
+    },
+
+    ProcessingZonesStyles() {
+      return (feature) => {
+        let number = feature.get("id") + "";
+        let processingZonesStyle = createStyle({
+          strokeColor: "rgba(102, 187, 106, 0.9)",
+          text: new Text({
+            text: number,
+            font: "16px roboto",
+            overflow: false,
+            fill: new Fill({
+              color: "rgb(66,66,66)",
+            }),
+          }),
+        });
+        return processingZonesStyle;
+      };
+    },
+
+    LandboardDEMGridsStyles() {
+      return (feature) => {
+        let number = feature.get("grid_id") + "";
+        let processingZonesStyle = createStyle({
+          strokeColor: "rgba(255, 235, 59, 0.9)",
+          text: new Text({
+            text: number,
+            font: "12px roboto",
+            overflow: false,
+            fill: new Fill({
+              color: "rgb(66,66,66)",
+            }),
+          }),
+        });
+        return processingZonesStyle;
       };
     },
 
