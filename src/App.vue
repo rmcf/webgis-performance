@@ -77,6 +77,19 @@
                   </select>
                 </div>
               </div>
+              <!-- layer labels -->
+              <div class="input" v-if="layer.labels !== undefined">
+                <label
+                  ><input
+                    type="checkbox"
+                    v-model="layer.labels"
+                    :true-value="true"
+                    :false-value="false"
+                    :value="true"
+                  />
+                  labels</label
+                >
+              </div>
               <!-- layer's legend -->
               <div class="layer-legend" v-if="layer.legend">
                 <table class="layer-legend__table">
