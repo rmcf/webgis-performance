@@ -312,7 +312,6 @@
               :projection="layer.projection"
               :format="layer.format"
               :version="layer.version"
-              :crossOrigin="layer.crossOrigin"
             ></vl-source-wms>
           </vl-layer-tile>
         </template>

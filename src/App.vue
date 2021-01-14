@@ -50,70 +50,85 @@
             class="drawer-layer"
           >
             <div>
-              <md-checkbox v-model="layer.visibility" class="md-primary">{{
-                layer.name
-              }}</md-checkbox>
+              <md-checkbox v-model="layer.visibility" class="md-primary"
+                >{{ layer.name
+                }}<span class="drawer-layer__zoom">
+                  (<md-icon class="drawer-layer__zoom_icon">crop_free</md-icon
+                  ><sup v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
+                    ><strong>!</strong></sup
+                  >
+                  <span v-if="layer.minZoom == 2 && layer.maxZoom == 18"
+                    >{{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                  >
+                  <span
+                    v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
+                    class="accent-color"
+                  >
+                    {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                  >)
+                  <md-tooltip md-direction="top"
+                    >available at zoom level {{ layer.minZoom }}-{{
+                      layer.maxZoom
+                    }}
+                  </md-tooltip>
+                </span></md-checkbox
+              >
             </div>
             <!-- layer info -->
-            <div class="layer-info-region">
-              <div class="layer-info-text">
-                available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
-              </div>
-              <div v-if="layer.visibility">
-                <div class="layer-info-text_select">
-                  <div class="mdl-selectfield">
-                    <select
-                      v-model="layer.zIndex"
-                      name="zIndex"
-                      id="zIndex"
-                      class="browser-default"
-                    >
-                      <option
-                        v-for="z in sortedDataLayerListComputed.length"
-                        :key="z"
-                        :value="z"
-                      >
-                        z-index: {{ z }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <!-- layer labels -->
-                <div class="input" v-if="layer.labels !== undefined">
-                  <label
-                    ><input
-                      type="checkbox"
-                      v-model="layer.labels"
-                      :true-value="true"
-                      :false-value="false"
-                      :value="true"
-                    />
-                    labels</label
+            <div v-if="layer.visibility" class="layer-info-region">
+              <div class="layer-info-text_select">
+                <div class="mdl-selectfield">
+                  <select
+                    v-model="layer.zIndex"
+                    name="zIndex"
+                    id="zIndex"
+                    class="browser-default"
                   >
+                    <option
+                      v-for="z in sortedDataLayerListComputed.length"
+                      :key="z"
+                      :value="z"
+                    >
+                      z-index: {{ z }}
+                    </option>
+                  </select>
                 </div>
-                <!-- layer's legend -->
-                <div class="layer-legend" v-if="layer.legend">
-                  <table class="layer-legend__table">
-                    <tr v-for="soil in layer.legend" :key="soil.id">
-                      <td>
-                        <div
-                          class="layer-legend__table-color"
-                          :style="{ 'background-color': soil.soilColor }"
-                        ></div>
-                      </td>
-                      <td>
-                        <div class="layer-legend__table-index">
-                          {{ soil.soilIndex }}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="layer-legend__table-title">
-                          {{ soil.soilTitle }}
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
+              </div>
+              <!-- layer labels -->
+              <div class="input" v-if="layer.labels !== undefined">
+                <label
+                  ><input
+                    type="checkbox"
+                    v-model="layer.labels"
+                    :true-value="true"
+                    :false-value="false"
+                    :value="true"
+                  />
+                  labels</label
+                >
+              </div>
+              <!-- layer's legend -->
+              <div class="layer-legend" v-if="layer.legend">
+                <table class="layer-legend__table">
+                  <tr v-for="soil in layer.legend" :key="soil.id">
+                    <td>
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.soilColor }"
+                      ></div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-index">
+                        {{ soil.soilIndex }}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-title">
+                        {{ soil.soilTitle }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
@@ -136,40 +151,28 @@
                 v-model="baseLayerSelected"
                 :value="layer"
                 class="md-primary"
-                >{{ layer.name }}</md-radio
-              >
-            </div>
-            <!-- layer info -->
-            <div class="layer-info-region">
-              <div class="layer-info-text">
-                available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
-                {{ layer.labels }}
-              </div>
-              <div v-if="layer.id == baseLayerSelected.id">
-                <!-- layer's legend -->
-                <div class="layer-legend" v-if="layer.legend">
-                  <table class="layer-legend__table">
-                    <tr v-for="soil in layer.legend" :key="soil.id">
-                      <td>
-                        <div
-                          class="layer-legend__table-color"
-                          :style="{ 'background-color': soil.soilColor }"
-                        ></div>
-                      </td>
-                      <td>
-                        <div class="layer-legend__table-index">
-                          {{ soil.soilIndex }}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="layer-legend__table-title">
-                          {{ soil.soilTitle }}
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
+                >{{ layer.name }}
+                <span class="drawer-layer__zoom">
+                  (<md-icon class="drawer-layer__zoom_icon">crop_free</md-icon
+                  ><sup v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
+                    ><strong>!</strong></sup
+                  >
+                  <span v-if="layer.minZoom == 2 && layer.maxZoom == 18"
+                    >{{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                  >
+                  <span
+                    v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
+                    class="accent-color"
+                  >
+                    {{ layer.minZoom }}-{{ layer.maxZoom }}</span
+                  >)
+                  <md-tooltip md-direction="top"
+                    >available at zoom level {{ layer.minZoom }}-{{
+                      layer.maxZoom
+                    }}
+                  </md-tooltip>
+                </span>
+              </md-radio>
             </div>
           </div>
         </div>
@@ -310,7 +313,6 @@ div.layer-type {
 
 div.drawer-layer {
   padding: 5px 10px 5px 10px;
-  margin-bottom: 0.5rem;
 }
 
 div.drawer-layers-section {
@@ -370,6 +372,19 @@ div.container {
   padding-left: 0.25em;
   color: gray;
   font-size: 0.8rem;
+}
+
+span.drawer-layer__zoom {
+  color: gray;
+  font-size: 0.8rem;
+}
+
+.drawer-layer__zoom_icon {
+  font-size: 1rem !important;
+}
+
+span.drawer-layer__zoom sup {
+  color: #ff5252;
 }
 
 /* legend of tile layers */
@@ -462,10 +477,21 @@ select:focus {
   pointer-events: none;
 }
 
+.accent-color {
+  color: #ff5252;
+}
+
 /* mobile styles */
 @media only screen and (max-width: 768px) {
   div.container {
     padding: 2rem 1rem 2rem 1rem;
   }
+}
+</style>
+
+<style lang="css">
+.md-radio .md-radio-label,
+.md-checkbox .md-checkbox-label {
+  height: auto !important;
 }
 </style>
