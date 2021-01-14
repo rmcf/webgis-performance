@@ -1,22 +1,5 @@
 [
     {
-        "id": "SoilPygeoAPIDocker",
-        "type": "geojsonservice",
-        "layerType": "data",
-        "name": "Soil PygeoAPI Docker",
-        "geoJSONdata": [],
-        "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
-        "minZoom": 2,
-        "maxZoom": 18,
-        "zIndex": "8",
-        "visibility": false,
-        "style": {
-            "strokeColor": "#ff5252",
-            "strokeWidth": 1,
-            "fillColor": "rgb(255, 82, 82, 0.2)"
-        }
-    },
-    {
         "id": "RiversStreamsDrainage",
         "type": "wms",
         "layerType": "data",
@@ -85,13 +68,24 @@
         }
     },
     {
+        "id": "EstoniaSoilMapNew",
+        "type": "vectortile",
+        "layerType": "data",
+        "name": "EstSoil-EH 1.2c (Vector Tiles)",
+        "source": "https://storage.googleapis.com/geo-assets/pub-tiles/soil_12c_nodrop-8-14/{z}/{x}/{y}.pbf",
+        "minZoom": 8,
+        "maxZoom": 16,
+        "zIndex": "3",
+        "visibility": false
+    },
+    {
         "id": "EstoniaSoilMap",
         "type": "vectortile",
         "layerType": "data",
         "name": "Estonia soil map",
         "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/vector-tiles/tiles/soil_map/{z}/{x}/{y}.pbf",
-        "minZoom": 2,
-        "maxZoom": 18,
+        "minZoom": 8,
+        "maxZoom": 16,
         "zIndex": "3",
         "labels": false,
         "visibility": false
@@ -117,10 +111,10 @@
         "id": "EstSoilSoilTexture",
         "type": "raster",
         "layerType": "data",
-        "name": "EstSoil-EH soil texture classes",
-        "source": "https://storage.googleapis.com/www.maerchenland-rostock.de/tms-tiles/{z}/{x}/{y}.png",
-        "minZoom": 8,
-        "maxZoom": 14,
+        "name": "EstSoil-EH 1.2c USDA (TMS/WMTS)",
+        "source": "https://storage.googleapis.com/geo-assets/pub-tiles/soil_12c_lxtype1_rgba_8-16/{z}/{x}/{y}.png",
+        "minZoom": 6,
+        "maxZoom": 16,
         "zIndex": "1",
         "visibility": false,
         "legend": [

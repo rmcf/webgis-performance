@@ -55,63 +55,65 @@
               }}</md-checkbox>
             </div>
             <!-- layer info -->
-            <div class="layer-info-region" v-if="layer.visibility">
+            <div class="layer-info-region">
               <div class="layer-info-text">
                 available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
               </div>
-              <div class="layer-info-text_select">
-                <div class="mdl-selectfield">
-                  <select
-                    v-model="layer.zIndex"
-                    name="zIndex"
-                    id="zIndex"
-                    class="browser-default"
-                  >
-                    <option
-                      v-for="z in sortedDataLayerListComputed.length"
-                      :key="z"
-                      :value="z"
+              <div v-if="layer.visibility">
+                <div class="layer-info-text_select">
+                  <div class="mdl-selectfield">
+                    <select
+                      v-model="layer.zIndex"
+                      name="zIndex"
+                      id="zIndex"
+                      class="browser-default"
                     >
-                      z-index: {{ z }}
-                    </option>
-                  </select>
+                      <option
+                        v-for="z in sortedDataLayerListComputed.length"
+                        :key="z"
+                        :value="z"
+                      >
+                        z-index: {{ z }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <!-- layer labels -->
-              <div class="input" v-if="layer.labels !== undefined">
-                <label
-                  ><input
-                    type="checkbox"
-                    v-model="layer.labels"
-                    :true-value="true"
-                    :false-value="false"
-                    :value="true"
-                  />
-                  labels</label
-                >
-              </div>
-              <!-- layer's legend -->
-              <div class="layer-legend" v-if="layer.legend">
-                <table class="layer-legend__table">
-                  <tr v-for="soil in layer.legend" :key="soil.id">
-                    <td>
-                      <div
-                        class="layer-legend__table-color"
-                        :style="{ 'background-color': soil.soilColor }"
-                      ></div>
-                    </td>
-                    <td>
-                      <div class="layer-legend__table-index">
-                        {{ soil.soilIndex }}
-                      </div>
-                    </td>
-                    <td>
-                      <div class="layer-legend__table-title">
-                        {{ soil.soilTitle }}
-                      </div>
-                    </td>
-                  </tr>
-                </table>
+                <!-- layer labels -->
+                <div class="input" v-if="layer.labels !== undefined">
+                  <label
+                    ><input
+                      type="checkbox"
+                      v-model="layer.labels"
+                      :true-value="true"
+                      :false-value="false"
+                      :value="true"
+                    />
+                    labels</label
+                  >
+                </div>
+                <!-- layer's legend -->
+                <div class="layer-legend" v-if="layer.legend">
+                  <table class="layer-legend__table">
+                    <tr v-for="soil in layer.legend" :key="soil.id">
+                      <td>
+                        <div
+                          class="layer-legend__table-color"
+                          :style="{ 'background-color': soil.soilColor }"
+                        ></div>
+                      </td>
+                      <td>
+                        <div class="layer-legend__table-index">
+                          {{ soil.soilIndex }}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="layer-legend__table-title">
+                          {{ soil.soilTitle }}
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -138,35 +140,35 @@
               >
             </div>
             <!-- layer info -->
-            <div
-              class="layer-info-region"
-              v-if="layer.id == baseLayerSelected.id"
-            >
+            <div class="layer-info-region">
               <div class="layer-info-text">
                 available at zoom: {{ layer.minZoom }}-{{ layer.maxZoom }}
+                {{ layer.labels }}
               </div>
-              <!-- layer's legend -->
-              <div class="layer-legend" v-if="layer.legend">
-                <table class="layer-legend__table">
-                  <tr v-for="soil in layer.legend" :key="soil.id">
-                    <td>
-                      <div
-                        class="layer-legend__table-color"
-                        :style="{ 'background-color': soil.soilColor }"
-                      ></div>
-                    </td>
-                    <td>
-                      <div class="layer-legend__table-index">
-                        {{ soil.soilIndex }}
-                      </div>
-                    </td>
-                    <td>
-                      <div class="layer-legend__table-title">
-                        {{ soil.soilTitle }}
-                      </div>
-                    </td>
-                  </tr>
-                </table>
+              <div v-if="layer.id == baseLayerSelected.id">
+                <!-- layer's legend -->
+                <div class="layer-legend" v-if="layer.legend">
+                  <table class="layer-legend__table">
+                    <tr v-for="soil in layer.legend" :key="soil.id">
+                      <td>
+                        <div
+                          class="layer-legend__table-color"
+                          :style="{ 'background-color': soil.soilColor }"
+                        ></div>
+                      </td>
+                      <td>
+                        <div class="layer-legend__table-index">
+                          {{ soil.soilIndex }}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="layer-legend__table-title">
+                          {{ soil.soilTitle }}
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -180,7 +182,6 @@
         :selectedLayersProp="activeLayerListComputed"
         :mapZoomProp="mapZoomDefault"
         :mapCenterProp="mapCenterDefault"
-        :zoomMinMaxProp="zoomsArray"
         v-on:update-zoom="mapZoomDefault = $event"
         v-on:update-minzoom="mapMinZoomDefault = $event"
         v-on:update-center="mapCenterDefault = $event"
@@ -238,38 +239,6 @@ export default {
     this.loadBaseLayer();
   },
   computed: {
-    // returning min&max zoom of selected raster layer
-    zoomsArray: function () {
-      if (this.activeLayerListComputed.length > 0) {
-        let list = this.activeLayerListComputed;
-        let listSortedbyZoom = list.sort(function (a, b) {
-          if (a.minZoom < b.minZoom) {
-            return -1;
-          }
-          if (a.minZoom > b.minZoom) {
-            return 1;
-          }
-          if (a.minZoom == b.minZoom) {
-            if (a.maxZoom < b.maxZoom) {
-              return -1;
-            }
-            if (a.maxZoom > b.maxZoom) {
-              return 1;
-            }
-          }
-          return 0;
-        });
-        let lastLayerInSortedByZoom =
-          listSortedbyZoom[listSortedbyZoom.length - 1];
-        let minMaxZoom = [
-          lastLayerInSortedByZoom.minZoom,
-          lastLayerInSortedByZoom.maxZoom,
-        ];
-        return minMaxZoom;
-      } else {
-        return [2, 18];
-      }
-    },
     // layer list in sidebar
     sortedLayerListComputed: function () {
       let list = this.layersList;

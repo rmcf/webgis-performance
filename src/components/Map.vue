@@ -215,8 +215,8 @@
         <vl-view
           :zoom.sync="zoomComputed"
           :center.sync="centerComputed"
-          :min-zoom="minZoomComputed"
-          :max-zoom="maxZoomComputed"
+          :min-zoom="2"
+          :max-zoom="18"
           v-on:update:zoom="$emit('update-zoom', dataZoom)"
           v-on:update:center="$emit('update-center', dataCenter)"
           ref="view"
@@ -271,10 +271,13 @@
           >
             <vl-source-vector-tile :url="layer.source"></vl-source-vector-tile>
             <vl-style-func
-              v-if="layer.id === 'EstoniaSoilMap'"
-              :factory="
-                EstSoilMapVectorTilesStyleComputed
-              " /></vl-layer-vector-tile
+              v-if="layer.id === 'EstoniaSoilMap' && layer.labels === false"
+              :factory="EstSoilMapVectorTilesStyle"
+            />
+            <vl-style-func
+              v-if="layer.id === 'EstoniaSoilMap' && layer.labels === true"
+              :factory="EstSoilMapVectorTilesStyleExperimental"
+            /> </vl-layer-vector-tile
         ></template>
 
         <!-- wmts layer -->
@@ -337,6 +340,7 @@ const axios = require("axios");
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
 import Text from "ol/style/Text";
+import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
 import { createStyle } from "vuelayers/lib/ol-ext";
 
@@ -353,7 +357,6 @@ export default {
     selectedLayersProp: Array,
     mapZoomProp: Number,
     mapCenterProp: Array,
-    zoomMinMaxProp: Array,
   },
   // watching for geoJsonServicesProp changes
   watch: {
@@ -409,12 +412,6 @@ export default {
     // computed projection
     projComputed: function () {
       return "EPSG:4326";
-    },
-    minZoomComputed: function () {
-      return this.zoomMinMaxProp[0];
-    },
-    maxZoomComputed: function () {
-      return this.zoomMinMaxProp[1];
     },
     selectedLayersComputed: function () {
       return this.selectedLayersProp;
@@ -516,312 +513,213 @@ export default {
     },
     // vector tiles: Estonia soil map styling
     EstSoilMapVectorTilesStyle() {
-      var transparency = 0.7;
-      var colorText = "rgb(66,66,66)";
-
-      // unknown
+      let transparency = 0.7;
+      // soil types colors
+      let colorS = "rgba(196,4,17," + transparency + ")";
+      let colorLS = "rgba(244,134,0," + transparency + ")";
+      let colorSL = "rgba(243,187,64," + transparency + ")";
+      let colorL = "rgba(255,247,78," + transparency + ")";
+      let colorSiL = "rgba(81,214,177," + transparency + ")";
+      let colorSiCL = "rgba(48,175,210," + transparency + ")";
+      let colorCL = "rgba(43,155,162," + transparency + ")";
+      let colorC = "rgba(59,123,233," + transparency + ")";
+      let colorHC = "rgba(43,87,186," + transparency + ")";
+      let colorPEAT = "rgba(112,71,1," + transparency + ")";
+      let colorGRAVELS = "rgba(140,164,173," + transparency + ")";
+      let colorUnknown = "rgba(0,0,0," + transparency + ")";
+      // unknown soil type
       const styleUnknown = createStyle({
-        fillColor: "rgba(255,255,255," + transparency + ")",
-        strokeColor: "rgba(255,255,255," + transparency + ")",
+        fillColor: colorUnknown,
+        strokeColor: colorUnknown,
       });
-
+      // S
+      const styleS = createStyle({
+        fillColor: colorS,
+        strokeColor: colorS,
+      });
+      // LS
+      const styleLS = createStyle({
+        fillColor: colorLS,
+        strokeColor: colorLS,
+      });
+      // SL
+      const styleSL = createStyle({
+        fillColor: colorSL,
+        strokeColor: colorSL,
+      });
+      // L
+      const styleL = createStyle({
+        fillColor: colorL,
+        strokeColor: colorL,
+      });
+      // SiL
+      const styleSiL = createStyle({
+        fillColor: colorSiL,
+        strokeColor: colorSiL,
+      });
+      // SiCL
+      const styleSiCL = createStyle({
+        fillColor: colorSiCL,
+        strokeColor: colorSiCL,
+      });
+      // CL
+      const styleCL = createStyle({
+        fillColor: colorCL,
+        strokeColor: colorCL,
+      });
+      // C
+      const styleC = createStyle({
+        fillColor: colorC,
+        strokeColor: colorC,
+      });
+      // HC
+      const styleHC = createStyle({
+        fillColor: colorHC,
+        strokeColor: colorHC,
+      });
+      // PEAT
+      const stylePEAT = createStyle({
+        fillColor: colorPEAT,
+        strokeColor: colorPEAT,
+      });
+      // GRAVELS
+      const styleGRAVELS = createStyle({
+        fillColor: colorGRAVELS,
+        strokeColor: colorGRAVELS,
+      });
       return (feature) => {
         // S
         if (feature.get("lxtype1") == "S") {
-          let colorBasic = "196,4,17";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleS;
         }
-
         // LS
         if (feature.get("lxtype1") == "LS") {
-          let colorBasic = "244,134,0";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleLS;
         }
-
         // SL
         if (feature.get("lxtype1") == "SL") {
-          let colorBasic = "243,187,64";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleSL;
         }
-
         // L
         if (feature.get("lxtype1") == "L") {
-          let colorBasic = "255,247,78";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleL;
         }
-
         // SiL
         if (feature.get("lxtype1") == "SiL") {
-          let colorBasic = "81,214,177";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleSiL;
         }
-
         // SiCL
         if (feature.get("lxtype1") == "SiCL") {
-          let colorBasic = "48,175,210";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleSiCL;
         }
-
         // CL
         if (feature.get("lxtype1") == "CL") {
-          let colorBasic = "43,155,162";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleCL;
         }
-
         // C
         if (feature.get("lxtype1") == "C") {
-          let colorBasic = "59,123,233";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleC;
         }
-
         // HC
         if (feature.get("lxtype1") == "HC") {
-          let colorBasic = "43,87,186";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleHC;
         }
-
         // PEAT
         if (feature.get("lxtype1") == "PEAT") {
-          let colorBasic = "112,71,1";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return stylePEAT;
         }
         // GRAVELS
         if (feature.get("lxtype1") == "GRAVELS") {
-          let colorBasic = "140,164,173";
-          let colorRGBA = "rgba(" + colorBasic + "," + transparency + ")"; // rgba
-          let type = feature.get("lxtype1");
-          const stylePeat = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-          });
-          const stylePeatLables = createStyle({
-            fillColor: colorRGBA,
-            strokeColor: colorRGBA,
-            text: new Text({
-              text: type,
-              overflow: false,
-              fill: new Fill({
-                color: colorText,
-              }),
-            }),
-          });
-          if (this.EstSoilMapVectorTileComputed.labels) {
-            return stylePeatLables;
-          } else {
-            return stylePeat;
-          }
+          return styleGRAVELS;
         }
         return styleUnknown;
+      };
+    },
+
+    // vector tiles: Estonia soil map styling
+    EstSoilMapVectorTilesStyleExperimental() {
+      // transparency
+      const transparency = 0.7;
+      // soil types colors
+      const colorS = "rgba(196,4,17," + transparency + ")";
+      const colorLS = "rgba(244,134,0," + transparency + ")";
+      const colorSL = "rgba(243,187,64," + transparency + ")";
+      const colorL = "rgba(255,247,78," + transparency + ")";
+      const colorSiL = "rgba(81,214,177," + transparency + ")";
+      const colorSiCL = "rgba(48,175,210," + transparency + ")";
+      const colorCL = "rgba(43,155,162," + transparency + ")";
+      const colorC = "rgba(59,123,233," + transparency + ")";
+      const colorHC = "rgba(43,87,186," + transparency + ")";
+      const colorPEAT = "rgba(112,71,1," + transparency + ")";
+      const colorGRAVELS = "rgba(140,164,173," + transparency + ")";
+      const colorUnknown = "rgba(0,0,0," + transparency + ")";
+      // text color
+      const colorText = "rgb(33,33,33)";
+      // text font
+      const fontText = "11px Roboto,Calibri,sans-serif";
+      // style
+      var style = new Style({
+        fill: new Fill({}),
+        text: new Text({
+          font: fontText,
+          fill: new Fill({
+            color: colorText,
+          }),
+          overflow: false,
+        }),
+      });
+      // each feature styling
+      return (feature) => {
+        switch (feature.get("lxtype1")) {
+          case "S":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorS);
+            return style;
+          case "LS":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorLS);
+            return style;
+          case "SL":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorSL);
+            return style;
+          case "L":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorL);
+            return style;
+          case "SiL":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorSiL);
+            return style;
+          case "SiCL":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorSiCL);
+            return style;
+          case "CL":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorCL);
+            return style;
+          case "C":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorC);
+            return style;
+          case "HC":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorHC);
+            return style;
+          case "PEAT":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorPEAT);
+            return style;
+          case "GRAVELS":
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorGRAVELS);
+            return style;
+          default:
+            style.getText().setText(feature.get("lxtype1"));
+            style.getFill().setColor(colorUnknown);
+            return style;
+        }
       };
     },
 
