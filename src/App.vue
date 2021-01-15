@@ -242,10 +242,11 @@ export default {
     this.loadBaseLayer();
   },
   computed: {
-    // layer list in sidebar
+    // layers sorted list in sidebar
     sortedLayerListComputed: function () {
       let list = this.layersList;
       let sortedLayersList = list.sort(function (a, b) {
+        // visibility comparison
         if (a.visibility < b.visibility) {
           return 1;
         }
@@ -253,11 +254,21 @@ export default {
           return -1;
         }
         if (a.visibility == b.visibility) {
-          if (a.zIndex < b.zIndex) {
+          // z-index comparison
+          if (parseInt(a.zIndex) < parseInt(b.zIndex)) {
             return 1;
           }
-          if (a.zIndex > b.zIndex) {
+          if (parseInt(a.zIndex) > parseInt(b.zIndex)) {
             return -1;
+          }
+          if (parseInt(a.zIndex) == parseInt(b.zIndex)) {
+            // orderInList comparison
+            if (a.orderInList < b.orderInList) {
+              return 1;
+            }
+            if (a.orderInList > b.orderInList) {
+              return -1;
+            }
           }
         }
       });

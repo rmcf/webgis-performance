@@ -43,10 +43,39 @@
         <div class="map-info">
           <transition-group name="fade">
             <!-- table with attributes of selected vector tile feature -->
-            <div
-              v-if="EstSoilMapVectorTileComputed && selectedVectorTileFeature"
-              key="tableVectorTiles"
-            >
+            <div v-if="selectedVectorTileFeature" key="tableVectorTiles">
+              <div
+                class="map-info_layer-name"
+                v-if="
+                  this.selectedVectorTileFeature &&
+                  this.selectedVectorTileFeature.properties_.layer ==
+                    'msr_kaitsepuhver'
+                "
+              >
+                <span>Layer: </span>MSR Kaitsepuhver (Vector Tiles)
+              </div>
+              <div
+                class="map-info_layer-name"
+                v-if="
+                  this.selectedVectorTileFeature &&
+                  this.selectedVectorTileFeature.properties_.layer ==
+                    'kpo_kaitsepuhver'
+                "
+              >
+                <span>Layer: </span>KPO Kaitsepuhver (Vector Tiles)
+              </div>
+              <div
+                class="map-info_layer-name"
+                v-if="
+                  this.selectedVectorTileFeature &&
+                  this.selectedVectorTileFeature.properties_.layer ==
+                    'soil_12c_all'
+                "
+              >
+                <span>Layer: </span>EstSoil-EH 1.2c (Vector Tiles)
+              </div>
+              <div></div>
+              <div></div>
               <md-table>
                 <md-table-row>
                   <md-table-head
@@ -79,6 +108,82 @@
                 </div>
               </div>
             </div>
+            <!-- table with attributes of selected vector tile feature KPOKaitsepuhver -->
+            <!-- <div
+              v-if="KPOKaitsepuhverSingleComputed && selectedVectorTileFeature"
+              key="tableVectorTiles"
+            >
+              <md-table>
+                <md-table-row>
+                  <md-table-head
+                    v-for="(value, key) in this.selectedVectorTileFeature
+                      .properties_"
+                    :key="key"
+                    >{{ key }}</md-table-head
+                  >
+                </md-table-row>
+                <md-table-row>
+                  <md-table-cell
+                    v-for="(value, key) in this.selectedVectorTileFeature
+                      .properties_"
+                    :key="key"
+                    >{{ value }}
+                  </md-table-cell>
+                </md-table-row>
+              </md-table> -->
+            <!-- remove table data of selected vector tile feature -->
+            <!-- <div class="object-align-right">
+                <div class="object-item">
+                  <md-button
+                    v-on:click="selectedVectorTileFeature = false"
+                    class="md-dense md-raised md-accent"
+                    ><md-icon>cancel</md-icon> REMOVE
+                    <md-tooltip md-direction="bottom"
+                      >Remove selected feature</md-tooltip
+                    >
+                  </md-button>
+                </div>
+              </div>
+            </div> -->
+            <!-- table with attributes of selected vector tile feature 12cdropdenser816 -->
+            <!-- <div
+              v-if="
+                EstSoilMapVectorTileSingleComputed && selectedVectorTileFeature
+              "
+              key="tableVectorTiles"
+            >
+              <md-table>
+                <md-table-row>
+                  <md-table-head
+                    v-for="(value, key) in this.selectedVectorTileFeature
+                      .properties_"
+                    :key="key"
+                    >{{ key }}</md-table-head
+                  >
+                </md-table-row>
+                <md-table-row>
+                  <md-table-cell
+                    v-for="(value, key) in this.selectedVectorTileFeature
+                      .properties_"
+                    :key="key"
+                    >{{ value }}
+                  </md-table-cell>
+                </md-table-row>
+              </md-table> -->
+            <!-- remove table data of selected vector tile feature -->
+            <!-- <div class="object-align-right">
+                <div class="object-item">
+                  <md-button
+                    v-on:click="selectedVectorTileFeature = false"
+                    class="md-dense md-raised md-accent"
+                    ><md-icon>cancel</md-icon> REMOVE
+                    <md-tooltip md-direction="bottom"
+                      >Remove selected feature</md-tooltip
+                    >
+                  </md-button>
+                </div>
+              </div>
+            </div> -->
             <!-- table with attributes of selected Soil PygeoAPI Docker features -->
             <div
               v-if="
@@ -271,11 +376,11 @@
           >
             <vl-source-vector-tile :url="layer.source"></vl-source-vector-tile>
             <vl-style-func
-              v-if="layer.id === 'EstoniaSoilMap' && layer.labels === false"
+              v-if="layer.id === '12cdropdenser816' && layer.labels === false"
               :factory="EstSoilMapVectorTilesStyle"
             />
             <vl-style-func
-              v-if="layer.id === 'EstoniaSoilMap' && layer.labels === true"
+              v-if="layer.id === '12cdropdenser816' && layer.labels === true"
               :factory="EstSoilMapVectorTilesStyleExperimental"
             /> </vl-layer-vector-tile
         ></template>
@@ -386,7 +491,6 @@ export default {
       geoJSONdataSourceErrorText: "",
       // selected Vector Tile Feature
       selectedVectorTileFeature: false,
-      lables: false,
     };
   },
   computed: {
@@ -434,7 +538,7 @@ export default {
     EstSoilMapVectorTileComputed: function () {
       let list = this.selectedLayersProp;
       let vectorTileLayer = list.filter(function (el) {
-        return el.id === "EstoniaSoilMap";
+        return el.id === "12cdropdenser816";
       });
       if (vectorTileLayer.length > 0) {
         return vectorTileLayer[0];
@@ -442,13 +546,61 @@ export default {
         return false;
       }
     },
-    // returning true if only EstSoilMapVectorTile data layer is selected
+    // returning Landboard DEM grids layer if it is selected
+    LandboardDEMGridsComputed: function () {
+      let list = this.selectedLayersProp;
+      let vectorTileLayer = list.filter(function (el) {
+        return el.id === "LandboardDEMGrids";
+      });
+      if (vectorTileLayer.length > 0) {
+        return vectorTileLayer[0];
+      } else {
+        return false;
+      }
+    },
+    // returning Processing zones layer if it is selected
+    ProcessingZonesComputed: function () {
+      let list = this.selectedLayersProp;
+      let vectorTileLayer = list.filter(function (el) {
+        return el.id === "ProcessingZones";
+      });
+      if (vectorTileLayer.length > 0) {
+        return vectorTileLayer[0];
+      } else {
+        return false;
+      }
+    },
+    // returning true if only 12cdropdenser816 data layer is selected
     EstSoilMapVectorTileSingleComputed: function () {
       let layers = this.selectedLayersComputed;
       let dataLayers = layers.filter(function (el) {
         return el.layerType === "data";
       });
-      if (dataLayers.length == 1 && dataLayers[0].id == "EstoniaSoilMap") {
+      if (dataLayers.length == 1 && dataLayers[0].id == "12cdropdenser816") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    // returning true if only KPOKaitsepuhver data layer is selected
+    KPOKaitsepuhverSingleComputed: function () {
+      let layers = this.selectedLayersComputed;
+      let dataLayers = layers.filter(function (el) {
+        return el.layerType === "data";
+      });
+      if (dataLayers.length == 1 && dataLayers[0].id == "KPOKaitsepuhver") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    // returning true if only MSRKaitsepuhver data layer is selected
+    MSRKaitsepuhverSingleComputed: function () {
+      let layers = this.selectedLayersComputed;
+      let dataLayers = layers.filter(function (el) {
+        return el.layerType === "data";
+      });
+      if (dataLayers.length == 1 && dataLayers[0].id == "MSRKaitsepuhver") {
         return true;
       } else {
         return false;
@@ -500,8 +652,8 @@ export default {
             .finally(() => (this.dataLoadingStatus = false));
         }, 1000);
       }
-      // vector tiles: Estonia soil map select single feature
-      if (this.EstSoilMapVectorTileSingleComputed) {
+      // vector tiles: 12cdropdenser816 select single feature
+      if (!this.LandboardDEMGridsComputed && !this.ProcessingZonesComputed) {
         this.selectedVectorTileFeature = false;
         let features = this.$refs.map.getFeaturesAtPixel(event.pixel);
         if (features && features.length > 0) {
@@ -509,6 +661,24 @@ export default {
           this.selectedVectorTileFeature = feature;
         }
       }
+      // // vector tiles: KPOKaitsepuhver select single feature
+      // if (this.KPOKaitsepuhverSingleComputed) {
+      //   this.selectedVectorTileFeature = false;
+      //   let features = this.$refs.map.getFeaturesAtPixel(event.pixel);
+      //   if (features && features.length > 0) {
+      //     let feature = features[0];
+      //     this.selectedVectorTileFeature = feature;
+      //   }
+      // }
+      // // vector tiles: MSRKaitsepuhver select single feature
+      // if (this.MSRKaitsepuhverSingleComputed) {
+      //   this.selectedVectorTileFeature = false;
+      //   let features = this.$refs.map.getFeaturesAtPixel(event.pixel);
+      //   if (features && features.length > 0) {
+      //     let feature = features[0];
+      //     this.selectedVectorTileFeature = feature;
+      //   }
+      // }
     },
     // vector tiles: Estonia soil map styling
     EstSoilMapVectorTilesStyle() {
@@ -839,6 +1009,17 @@ div.loading-block {
 
 div.overlay-content {
   z-index: 100;
+}
+
+div.map-info_layer-name {
+  background-color: #fff;
+  padding: 1.3rem 0rem 1.3rem 0rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+div.map-info_layer-name span {
+  color: grey;
 }
 
 @media only screen and (max-width: 768px) {
