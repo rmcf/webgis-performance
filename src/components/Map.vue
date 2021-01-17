@@ -298,14 +298,28 @@
     <!-- map object -->
     <div class="map-image">
       <div class="map-informer">
+        <!-- remove all layers button -->
+        <md-button
+          v-on:click="removeLayersInMap"
+          class="md-icon-button md-raised button-margin"
+          ><md-icon>layers_clear</md-icon
+          ><md-tooltip
+            class="md-xsmall-hide md-small-hide"
+            md-direction="bottom"
+            >Remove all layers</md-tooltip
+          ></md-button
+        >
         <!-- current zoom badge -->
         <md-badge class="button-margin md-primary" :md-content="zoomComputed">
-          <md-button @click="fitViewDefault()" class="md-raised md-icon-button">
+          <md-button
+            @click="setDefaultMapZoom()"
+            class="md-raised md-icon-button"
+          >
             <md-icon>crop_free</md-icon>
             <md-tooltip
               class="md-xsmall-hide md-small-hide"
               md-direction="bottom"
-              >Current map zoom</md-tooltip
+              >Default map zoom</md-tooltip
             >
           </md-button>
         </md-badge>
@@ -617,6 +631,15 @@ export default {
     },
   },
   methods: {
+    // emit remove layers action
+    removeLayersInMap() {
+      this.$emit("remove-maplayers", "");
+      this.selectedVectorTileFeature = false;
+    },
+    // emit default map zoom
+    setDefaultMapZoom() {
+      this.$emit("default-mapzoom", "");
+    },
     // bbox query to EST soil map
     spatialQueryOnClick(event) {
       // select from Soil PygeoAPI Docker
@@ -938,14 +961,14 @@ export default {
       this.$refs.view.fit(geoJsonServicesSourceExtent);
     },
 
-    fitViewDefault() {
-      this.$refs.view.fit([
-        2335304.088168705,
-        7825928.703949485,
-        3161129.7417617496,
-        8401958.149106573,
-      ]);
-    },
+    // fitViewDefault() {
+    //   this.$refs.view.fit([
+    //     2335304.088168705,
+    //     7825928.703949485,
+    //     3161129.7417617496,
+    //     8401958.149106573,
+    //   ]);
+    // },
   },
 };
 </script>

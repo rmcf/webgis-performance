@@ -13,19 +13,15 @@
           >Layers navigation</md-tooltip
         >
       </md-button>
-      <span class="md-title">Web GIS SPA</span>
+      <span class="md-title">Web GIS</span>
       <div class="md-toolbar-section-end">
-        <!-- remove all layers button -->
-        <md-button
-          @click="cleanMap()"
-          class="md-icon-button md-raised md-primary button-margin"
-          ><md-icon>layers_clear</md-icon
-          ><md-tooltip
-            class="md-xsmall-hide md-small-hide"
-            md-direction="bottom"
-            >Remove all layers</md-tooltip
-          ></md-button
-        >
+        <!-- info button here -->
+        <md-button @click="aboutProject = !aboutProject" class="md-icon-button">
+          <md-icon>info_outline</md-icon>
+          <md-tooltip class="md-xsmall-hide md-small-hide" md-direction="bottom"
+            >About project</md-tooltip
+          >
+        </md-button>
       </div>
     </md-toolbar>
 
@@ -180,6 +176,11 @@
     </md-drawer>
 
     <div class="container">
+      <!-- about project -->
+      <transition name="fade">
+        <About v-if="aboutProject" v-on:close-about="aboutProject = false" />
+      </transition>
+
       <!-- Map -->
       <Map
         :selectedLayersProp="activeLayerListComputed"
@@ -188,6 +189,8 @@
         v-on:update-zoom="mapZoomDefault = $event"
         v-on:update-minzoom="mapMinZoomDefault = $event"
         v-on:update-center="mapCenterDefault = $event"
+        v-on:remove-maplayers="cleanMap()"
+        v-on:default-mapzoom="defaultMapZoom()"
       />
     </div>
   </div>
@@ -195,12 +198,14 @@
 
 <script>
 import Map from "./components/Map.vue";
+import About from "./components/About.vue";
 import Layers from "./store/layers.json";
 
 export default {
   name: "App",
   components: {
     Map,
+    About,
   },
 
   data: () => ({
@@ -213,6 +218,8 @@ export default {
     mapCenterDefault: [24.728699075440534, 58.699046154309144],
     // menu in left sidebar
     menuVisible: false,
+    // about project visibility
+    aboutProject: false,
   }),
 
   methods: {
@@ -228,6 +235,11 @@ export default {
         return el.id === "OpenStreetMap";
       });
       this.baseLayerSelected = selectedLayerArray[0];
+    },
+    // return default map zoom
+    defaultMapZoom() {
+      this.mapZoomDefault = 7;
+      this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
     },
     // selecting base layer on page load
     loadBaseLayer() {
@@ -490,6 +502,19 @@ select:focus {
 
 .accent-color {
   color: #ff5252;
+}
+
+.fade-enter-active {
+  transition: opacity 1s;
+}
+
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 
 /* mobile styles */
