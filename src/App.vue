@@ -49,24 +49,35 @@
               <md-checkbox v-model="layer.visibility" class="md-primary"
                 >{{ layer.name
                 }}<span class="drawer-layer__zoom">
-                  (<md-icon class="drawer-layer__zoom_icon">crop_free</md-icon
-                  ><sup v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
-                    ><strong>!</strong></sup
-                  >
-                  <span v-if="layer.minZoom == 2 && layer.maxZoom == 18"
-                    >{{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                  >
+                  <!-- invisible layer -->
                   <span
-                    v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
+                    v-if="
+                      layer.minZoom > mapZoomDefault ||
+                      layer.maxZoom < mapZoomDefault
+                    "
                     class="accent-color"
                   >
-                    {{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                  >)
-                  <md-tooltip md-direction="top"
-                    >available at zoom level {{ layer.minZoom }}-{{
-                      layer.maxZoom
-                    }}
-                  </md-tooltip>
+                    (<md-icon class="drawer-layer__zoom_icon-red"
+                      >crop_free</md-icon
+                    >{{ layer.minZoom }}-{{ layer.maxZoom }})
+                    <!-- tooltip -->
+                    <md-tooltip md-direction="top"
+                      >available at zoom level {{ layer.minZoom }}-{{
+                        layer.maxZoom
+                      }}</md-tooltip
+                    >
+                  </span>
+                  <!-- visible layer -->
+                  <span v-else>
+                    (<md-icon class="drawer-layer__zoom_icon">crop_free</md-icon
+                    >{{ layer.minZoom }}-{{ layer.maxZoom }})
+                    <!-- tooltip -->
+                    <md-tooltip md-direction="top"
+                      >available at zoom level {{ layer.minZoom }}-{{
+                        layer.maxZoom
+                      }}</md-tooltip
+                    >
+                  </span>
                 </span></md-checkbox
               >
             </div>
@@ -149,24 +160,35 @@
                 class="md-primary"
                 >{{ layer.name }}
                 <span class="drawer-layer__zoom">
-                  (<md-icon class="drawer-layer__zoom_icon">crop_free</md-icon
-                  ><sup v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
-                    ><strong>!</strong></sup
-                  >
-                  <span v-if="layer.minZoom == 2 && layer.maxZoom == 18"
-                    >{{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                  >
+                  <!-- invisible layer -->
                   <span
-                    v-if="layer.minZoom !== 2 || layer.maxZoom !== 18"
+                    v-if="
+                      layer.minZoom > mapZoomDefault ||
+                      layer.maxZoom < mapZoomDefault
+                    "
                     class="accent-color"
                   >
-                    {{ layer.minZoom }}-{{ layer.maxZoom }}</span
-                  >)
-                  <md-tooltip md-direction="top"
-                    >available at zoom level {{ layer.minZoom }}-{{
-                      layer.maxZoom
-                    }}
-                  </md-tooltip>
+                    (<md-icon class="drawer-layer__zoom_icon-red"
+                      >crop_free</md-icon
+                    >{{ layer.minZoom }}-{{ layer.maxZoom }})
+                    <!-- tooltip -->
+                    <md-tooltip md-direction="top"
+                      >available at zoom level {{ layer.minZoom }}-{{
+                        layer.maxZoom
+                      }}</md-tooltip
+                    >
+                  </span>
+                  <!-- visible layer -->
+                  <span v-else>
+                    (<md-icon class="drawer-layer__zoom_icon">crop_free</md-icon
+                    >{{ layer.minZoom }}-{{ layer.maxZoom }})
+                    <!-- tooltip -->
+                    <md-tooltip md-direction="top"
+                      >available at zoom level {{ layer.minZoom }}-{{
+                        layer.maxZoom
+                      }}</md-tooltip
+                    >
+                  </span>
                 </span>
               </md-radio>
             </div>
@@ -403,6 +425,12 @@ span.drawer-layer__zoom {
 }
 
 .drawer-layer__zoom_icon {
+  color: gray;
+  font-size: 1rem !important;
+}
+
+.drawer-layer__zoom_icon-red {
+  color: #ff5252 !important;
   font-size: 1rem !important;
 }
 
