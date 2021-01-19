@@ -1,22 +1,5 @@
 [
     {
-        "id": "LandboardDEMGrids",
-        "type": "geojsonurl",
-        "layerType": "data",
-        "name": "Landboard DEM grids",
-        "source": "/webgis-performance/geojson/dem_grid_cells.geojson",
-        "minZoom": 2,
-        "maxZoom": 18,
-        "zIndex": "11",
-        "orderInList": 11,
-        "visibility": false,
-        "style": {
-            "strokeColor": "rgba(255, 235, 59, 0.9)",
-            "strokeWidth": 1,
-            "fillColor": "transparent"
-        }
-    },
-    {
         "id": "ProcessingZones",
         "type": "geojsonurl",
         "layerType": "data",
@@ -100,25 +83,6 @@
         "maxZoom": 18,
         "zIndex": "5",
         "orderInList": 5,
-        "visibility": false,
-        "styleName": "default",
-        "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",
-        "crossOrigin": "anonymous",
-        "version": "1.1.1"
-    },
-    {
-        "id": "WaterProtectionZones",
-        "type": "wms",
-        "layerType": "data",
-        "name": "Water protection zones",
-        "url": "https://kaart.maaamet.ee/wms/alus?",
-        "layer": "voond_veekaitse",
-        "format": "image/png",
-        "projection": "EPSG:3301",
-        "minZoom": 15,
-        "maxZoom": 18,
-        "zIndex": "4",
-        "orderInList": 4,
         "visibility": false,
         "styleName": "default",
         "attribution": "&copy; <a href='https://www.maaamet.ee/en'>Maa-amet / Estonian Land Board</a>",

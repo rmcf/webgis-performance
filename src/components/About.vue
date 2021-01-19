@@ -111,8 +111,8 @@
                 </div>
                 <div class="margin-top-bottom">
                   <span class="md-body-1">
-                    <strong>Veebiarenduse prototüüp: </strong>Alexander Kmoch,
-                    Alexander Matsibora
+                    <strong>Veebiarenduse prototüüp: </strong><br />Alexander
+                    Kmoch, Alexander Matsibora
                   </span>
                 </div>
               </div>

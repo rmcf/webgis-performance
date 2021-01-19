@@ -389,13 +389,25 @@
             v-if="layer.type === 'vectortile'"
           >
             <vl-source-vector-tile :url="layer.source"></vl-source-vector-tile>
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer without labels -->
             <vl-style-func
               v-if="layer.id === '12cdropdenser816' && layer.labels === false"
               :factory="EstSoilMapVectorTilesStyle"
             />
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer with labels -->
             <vl-style-func
               v-if="layer.id === '12cdropdenser816' && layer.labels === true"
               :factory="EstSoilMapVectorTilesStyleExperimental"
+            />
+            <!-- styles for KPO Kaitsepuhver (Vector Tiles) layer -->
+            <vl-style-func
+              v-if="layer.id === 'KPOKaitsepuhver'"
+              :factory="KPOKaitsepuhverVectorTilesStyle"
+            />
+            <!-- styles for MSR Kaitsepuhver (Vector Tiles) layer -->
+            <vl-style-func
+              v-if="layer.id === 'MSRKaitsepuhver'"
+              :factory="MSRKaitsepuhverVectorTilesStyle"
             /> </vl-layer-vector-tile
         ></template>
 
@@ -911,6 +923,40 @@ export default {
             style.getText().setText(feature.get("lxtype1"));
             style.getFill().setColor(colorUnknown);
             return style;
+        }
+      };
+    },
+
+    KPOKaitsepuhverVectorTilesStyle() {
+      let transparency = 0.4;
+      let KPOKaitsepuhverColor = "93, 102, 7";
+      const KPOKaitsepuhverStrokeColor = "rgb(" + KPOKaitsepuhverColor + ")";
+      const KPOKaitsepuhverFillColor =
+        "rgba(" + KPOKaitsepuhverColor + "," + transparency + ")";
+      const KPOKaitsepuhverStyle = createStyle({
+        fillColor: KPOKaitsepuhverFillColor,
+        strokeColor: KPOKaitsepuhverStrokeColor,
+      });
+      return (feature) => {
+        if (feature) {
+          return KPOKaitsepuhverStyle;
+        }
+      };
+    },
+
+    MSRKaitsepuhverVectorTilesStyle() {
+      let transparency = 0.4;
+      let MSRKaitsepuhverColor = "128, 69, 6";
+      const MSRKaitsepuhverStrokeColor = "rgb(" + MSRKaitsepuhverColor + ")";
+      const MSRKaitsepuhverFillColor =
+        "rgba(" + MSRKaitsepuhverColor + "," + transparency + ")";
+      const MSRKaitsepuhverStyle = createStyle({
+        fillColor: MSRKaitsepuhverFillColor,
+        strokeColor: MSRKaitsepuhverStrokeColor,
+      });
+      return (feature) => {
+        if (feature) {
+          return MSRKaitsepuhverStyle;
         }
       };
     },
