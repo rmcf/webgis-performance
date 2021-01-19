@@ -83,36 +83,38 @@
             </div>
             <!-- layer info -->
             <div v-if="layer.visibility" class="layer-info-region">
-              <div class="layer-info-text_select">
-                <div class="mdl-selectfield">
-                  <select
-                    v-model="layer.zIndex"
-                    name="zIndex"
-                    id="zIndex"
-                    class="browser-default"
-                  >
-                    <option
-                      v-for="z in sortedDataLayerListComputed.length"
-                      :key="z"
-                      :value="z"
-                    >
-                      z-index: {{ z }}
-                    </option>
-                  </select>
-                </div>
+              <!-- z-index buttons -->
+              <div class="layer-info-region_zindex">
+                <md-button
+                  v-on:click="layer.zIndex = parseInt(layer.zIndex) + 1"
+                  class="md-icon-button md-dense md-primary"
+                >
+                  <md-icon>keyboard_arrow_up</md-icon>
+                </md-button>
+                <md-button
+                  v-on:click="layer.zIndex = parseInt(layer.zIndex) - 1"
+                  class="md-icon-button md-dense md-primary"
+                >
+                  <md-icon>keyboard_arrow_down</md-icon>
+                </md-button>
+                <md-button class="md-dense md-primary"
+                  >z-index: {{ layer.zIndex }}</md-button
+                >
               </div>
               <!-- layer labels -->
-              <div class="input" v-if="layer.labels !== undefined">
-                <label
-                  ><input
-                    type="checkbox"
-                    v-model="layer.labels"
-                    :true-value="true"
-                    :false-value="false"
-                    :value="true"
-                  />
-                  labels</label
-                >
+              <div v-if="layer.labels !== undefined" class="layer-labels">
+                <div class="input">
+                  <label
+                    ><input
+                      type="checkbox"
+                      v-model="layer.labels"
+                      :true-value="true"
+                      :false-value="false"
+                      :value="true"
+                    />
+                    labels</label
+                  >
+                </div>
               </div>
               <!-- layer's legend -->
               <div class="layer-legend" v-if="layer.legend">
@@ -472,62 +474,6 @@ div.layer-legend__table-index {
   text-align: center;
 }
 
-/* custom material select */
-
-div.layer-info-text_select {
-  width: 9rem;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-div.layer-info-text_select select {
-  font-family: inherit;
-  background-color: transparent;
-  width: 100%;
-  padding: 0px;
-  font-size: 0.8rem;
-  color: gray;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-/* Remove focus */
-select:focus {
-  outline: none;
-}
-
-/* Hide label */
-.mdl-selectfield label {
-  display: none;
-}
-
-/* Use custom arrow */
-.mdl-selectfield select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.mdl-selectfield {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  position: relative;
-}
-
-.mdl-selectfield:after {
-  position: absolute;
-  top: 0.75em;
-  right: 0.5em;
-  /* Styling the down arrow */
-  width: 0;
-  height: 0;
-  padding: 0;
-  content: "";
-  border-left: 0.25em solid transparent;
-  border-right: 0.25em solid transparent;
-  border-top: 0.375em solid rgba(0, 0, 0, 0.12);
-  pointer-events: none;
-}
-
 .accent-color {
   color: #ff5252;
 }
@@ -543,6 +489,15 @@ select:focus {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+div.layer-labels {
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+div.layer-info-region_zindex .md-button {
+  margin: 0px !important;
 }
 
 /* mobile styles */
