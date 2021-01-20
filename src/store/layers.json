@@ -3,7 +3,7 @@
         "id": "ProcessingZones",
         "type": "geojsonurl",
         "layerType": "data",
-        "name": "Processing zones",
+        "name": "Andmetöötluse tsoonid",
         "source": "/webgis-performance/geojson/processing_zones.geojson",
         "minZoom": 2,
         "maxZoom": 18,
@@ -20,7 +20,7 @@
         "id": "MSRKaitsepuhver",
         "type": "vectortile",
         "layerType": "data",
-        "name": "MSR Kaitsepuhver (Vector Tiles)",
+        "name": "Peakraavide ja maaparandussüsteemide avatud eesvoolude soovituslik puhverriba laius (Vector Tiles)",
         "source": "https://storage.googleapis.com/geo-assets/pub-tiles/msr_kaitsepuhver_def-8-16/{z}/{x}/{y}.pbf",
         "minZoom": 10,
         "maxZoom": 16,
@@ -32,7 +32,7 @@
         "id": "KPOKaitsepuhver",
         "type": "vectortile",
         "layerType": "data",
-        "name": "KPO Kaitsepuhver (Vector Tiles)",
+        "name": "Looduslike veekogude soovituslik puhverriba laius (Vector Tiles)",
         "source": "https://storage.googleapis.com/geo-assets/pub-tiles/kpo_kaitsepuhver_def-8-16/{z}/{x}/{y}.pbf",
         "minZoom": 10,
         "maxZoom": 16,
@@ -51,7 +51,280 @@
         "zIndex": "7",
         "orderInList": 7,
         "labels": false,
-        "visibility": false
+        "visibility": false,
+        "layerColorScheme": "legendUSDA",
+        "colorSchemes": [
+            {
+                "title": "USDA Lõimisklass",
+                "value": "legendUSDA"
+            },
+            {
+                "title": "Ajalooline varv",
+                "value": "legendVARV"
+            },
+            {
+                "title": "WRB mullatüüp",
+                "value": "legendWRB"
+            }
+        ],
+        "legendUSDA": [
+            {
+                "id": 1,
+                "soilIndex": "S",
+                "soilTitle": "S - Sand",
+                "soilColor": "#c40411"
+            },
+            {
+                "id": 2,
+                "soilIndex": "LS",
+                "soilTitle": "LS - Loamy Sand",
+                "soilColor": "#f48600"
+            },
+            {
+                "id": 3,
+                "soilIndex": "SL",
+                "soilTitle": "SL - Sandy Loam",
+                "soilColor": "#f3bb40"
+            },
+            {
+                "id": 4,
+                "soilIndex": "L",
+                "soilTitle": "L - Loam",
+                "soilColor": "#fff74e"
+            },
+            {
+                "id": 5,
+                "soilIndex": "SiL",
+                "soilTitle": "SiL - Silt Loam",
+                "soilColor": "#51d6b1"
+            },
+            {
+                "id": 6,
+                "soilIndex": "SiCL",
+                "soilTitle": "SiCL - Silty Clay Loam",
+                "soilColor": "#30afd2"
+            },
+            {
+                "id": 7,
+                "soilIndex": "CL",
+                "soilTitle": "CL - Clay Loam",
+                "soilColor": "#2b9ba2"
+            },
+            {
+                "id": 8,
+                "soilIndex": "C",
+                "soilTitle": "C - Clay",
+                "soilColor": "#3b7be9"
+            },
+            {
+                "id": 9,
+                "soilIndex": "HC",
+                "soilTitle": "HC - Heavy Clay",
+                "soilColor": "#2b57ba"
+            },
+            {
+                "id": 10,
+                "soilIndex": "PEAT",
+                "soilTitle": "PEAT - Peatlands or highly organic soils",
+                "soilColor": "#704701"
+            },
+            {
+                "id": 11,
+                "soilIndex": "GRAVELS",
+                "soilTitle": "GRAVELS - Gravels or mainly rocky soils",
+                "soilColor": "#8ca4ad"
+            },
+            {
+                "id": 12,
+                "soilIndex": "none",
+                "soilTitle": "no texture information",
+                "soilColor": "#ffffff"
+            }
+        ],
+        "legendVARV": [
+            {
+                "varv": 1,
+                "title": "1: LkI LkII LkIII",
+                "color": "#ffe852"
+            },
+            {
+                "varv": 2,
+                "title": "2: Kr K Kk",
+                "color": "#edeeee"
+            },
+            {
+                "varv": 3,
+                "title": "3: Kh' Kh''",
+                "color": "#cad7d7"
+            },
+            {
+                "varv": 4,
+                "title": "4: Kor Ko KI",
+                "color": "#fff982"
+            },
+            {
+                "varv": 5,
+                "title": "5: L(k)I L(k)II L(k)III, L(), LI LII LIII Ls",
+                "color": "#ffffdf"
+            },
+            {
+                "varv": 6,
+                "title": "6: LP",
+                "color": "#ff8893"
+            },
+            {
+                "varv": 7,
+                "title": "7: LPg",
+                "color": "#ffb2fa"
+            },
+            {
+                "varv": 8,
+                "title": "8: LkIg LkIIg LkIIIg, L(k)Ig L(k)IIg L(k)IIIg, LIg LIIg LIIIg Lsg",
+                "color": "#ffe6fa"
+            },
+            {
+                "varv": 9,
+                "title": "9: LPG, LkG LG",
+                "color": "#ede6fa"
+            },
+            {
+                "varv": 10,
+                "title": "10: LG1",
+                "color": "#e3bbff"
+            },
+            {
+                "varv": 11,
+                "title": "11: S, R",
+                "color": "#cfc8ff"
+            },
+            {
+                "varv": 12,
+                "title": "12: Krg, Kg Kkg, Korg, Kog KIg",
+                "color": "#edf4d1"
+            },
+            {
+                "varv": 13,
+                "title": "13: Kh'g Kh''g, Gh' Gh'', Gh1",
+                "color": "#d5e0a8"
+            },
+            {
+                "varv": 14,
+                "title": "14: Gkr Gk, Gor, Go GI, Gr",
+                "color": "#bbffbb"
+            },
+            {
+                "varv": 15,
+                "title": "15: Ag, AG AG1, Ar ArG ArG1",
+                "color": "#e0e18d"
+            },
+            {
+                "varv": 16,
+                "title": "16: Go1 GI1,  Gr1",
+                "color": "#96fedc"
+            },
+            {
+                "varv": 17,
+                "title": "17: M, AM, Mr",
+                "color": "#b2ffff"
+            },
+            {
+                "varv": 18,
+                "title": "18: E",
+                "color": "#f7e8bf"
+            },
+            {
+                "varv": 19,
+                "title": "19: D Dg, DG",
+                "color": "#ffcea3"
+            },
+            {
+                "varv": 20,
+                "title": "20: Tx",
+                "color": "#a33a17"
+            },
+            {
+                "varv": "no value",
+                "title": "no data/not classified",
+                "color": "#544646"
+            }
+        ],
+        "legendWRB": [
+            {
+                "wrb_main": "CM",
+                "title": "CM - Cambisols",
+                "color": "#f1740d"
+            },
+            {
+                "wrb_main": "LV",
+                "title": "LV - Luvisols",
+                "color": "#df82ba"
+            },
+            {
+                "wrb_main": "RG",
+                "title": "RG - Regosols",
+                "color": "#ecb976"
+            },
+            {
+                "wrb_main": "GL",
+                "title": "GL - Gleysols",
+                "color": "#7839b3"
+            },
+            {
+                "wrb_main": "HS",
+                "title": "HS - Histosols",
+                "color": "#4359d2"
+            },
+            {
+                "wrb_main": "UM",
+                "title": "UM - Umbrisols",
+                "color": "#703c29"
+            },
+            {
+                "wrb_main": "RT",
+                "title": "RT - Retisols",
+                "color": "#2dd035"
+            },
+            {
+                "wrb_main": "LP",
+                "title": "LP - Leptosols",
+                "color": "#858585"
+            },
+            {
+                "wrb_main": "FL",
+                "title": "FL - Fluvisols",
+                "color": "#2bf3f9"
+            },
+            {
+                "wrb_main": "PZ",
+                "title": "PZ - Podzols",
+                "color": "#88b752"
+            },
+            {
+                "wrb_main": "TC",
+                "title": "TC - Technosols",
+                "color": "#d3d3d3"
+            },
+            {
+                "wrb_main": "AR",
+                "title": "AR - Arenosols",
+                "color": "#d5b43c"
+            },
+            {
+                "wrb_main": "VR",
+                "title": "VR - Vertisols",
+                "color": "#a47158"
+            },
+            {
+                "wrb_main": "PL",
+                "title": "PL - Planosols",
+                "color": "#85b66f"
+            },
+            {
+                "wrb_main": "no value",
+                "title": "no data/not classified",
+                "color": "#ffffff"
+            }
+        ]
     },
     {
         "id": "PRIAPollumassiivid",
@@ -74,7 +347,7 @@
         "id": "RiversStreamsDrainage",
         "type": "wms",
         "layerType": "data",
-        "name": "Rivers, Streams, Drainage",
+        "name": "Veekogud",
         "url": "https://kaart.maaamet.ee/wms/alus?",
         "layer": "kpo_vk2",
         "format": "image/png",
@@ -99,7 +372,115 @@
         "maxZoom": 16,
         "zIndex": "3",
         "orderInList": 3,
-        "visibility": false
+        "visibility": false,
+        "layerColorScheme": "legendVARV",
+        "legendVARV": [
+            {
+                "varv": 1,
+                "title": "1: LkI LkII LkIII",
+                "color": "#ffe852"
+            },
+            {
+                "varv": 2,
+                "title": "2: Kr K Kk",
+                "color": "#edeeee"
+            },
+            {
+                "varv": 3,
+                "title": "3: Kh' Kh''",
+                "color": "#cad7d7"
+            },
+            {
+                "varv": 4,
+                "title": "4: Kor Ko KI",
+                "color": "#fff982"
+            },
+            {
+                "varv": 5,
+                "title": "5: L(k)I L(k)II L(k)III, L(), LI LII LIII Ls",
+                "color": "#ffffdf"
+            },
+            {
+                "varv": 6,
+                "title": "6: LP",
+                "color": "#ff8893"
+            },
+            {
+                "varv": 7,
+                "title": "7: LPg",
+                "color": "#ffb2fa"
+            },
+            {
+                "varv": 8,
+                "title": "8: LkIg LkIIg LkIIIg, L(k)Ig L(k)IIg L(k)IIIg, LIg LIIg LIIIg Lsg",
+                "color": "#ffe6fa"
+            },
+            {
+                "varv": 9,
+                "title": "9: LPG, LkG LG",
+                "color": "#ede6fa"
+            },
+            {
+                "varv": 10,
+                "title": "10: LG1",
+                "color": "#e3bbff"
+            },
+            {
+                "varv": 11,
+                "title": "11: S, R",
+                "color": "#cfc8ff"
+            },
+            {
+                "varv": 12,
+                "title": "12: Krg, Kg Kkg, Korg, Kog KIg",
+                "color": "#edf4d1"
+            },
+            {
+                "varv": 13,
+                "title": "13: Kh'g Kh''g, Gh' Gh'', Gh1",
+                "color": "#d5e0a8"
+            },
+            {
+                "varv": 14,
+                "title": "14: Gkr Gk, Gor, Go GI, Gr",
+                "color": "#bbffbb"
+            },
+            {
+                "varv": 15,
+                "title": "15: Ag, AG AG1, Ar ArG ArG1",
+                "color": "#e0e18d"
+            },
+            {
+                "varv": 16,
+                "title": "16: Go1 GI1,  Gr1",
+                "color": "#96fedc"
+            },
+            {
+                "varv": 17,
+                "title": "17: M, AM, Mr",
+                "color": "#b2ffff"
+            },
+            {
+                "varv": 18,
+                "title": "18: E",
+                "color": "#f7e8bf"
+            },
+            {
+                "varv": 19,
+                "title": "19: D Dg, DG",
+                "color": "#ffcea3"
+            },
+            {
+                "varv": 20,
+                "title": "20: Tx",
+                "color": "#a33a17"
+            },
+            {
+                "varv": "no value",
+                "title": "no data/not classified",
+                "color": "#544646"
+            }
+        ]
     },
     {
         "id": "EstSoilEHWRB",
@@ -111,7 +492,85 @@
         "maxZoom": 16,
         "zIndex": "2",
         "orderInList": 2,
-        "visibility": false
+        "visibility": false,
+        "layerColorScheme": "legendWRB",
+        "legendWRB": [
+            {
+                "wrb_main": "CM",
+                "title": "CM - Cambisols",
+                "color": "#f1740d"
+            },
+            {
+                "wrb_main": "LV",
+                "title": "LV - Luvisols",
+                "color": "#df82ba"
+            },
+            {
+                "wrb_main": "RG",
+                "title": "RG - Regosols",
+                "color": "#ecb976"
+            },
+            {
+                "wrb_main": "GL",
+                "title": "GL - Gleysols",
+                "color": "#7839b3"
+            },
+            {
+                "wrb_main": "HS",
+                "title": "HS - Histosols",
+                "color": "#4359d2"
+            },
+            {
+                "wrb_main": "UM",
+                "title": "UM - Umbrisols",
+                "color": "#703c29"
+            },
+            {
+                "wrb_main": "RT",
+                "title": "RT - Retisols",
+                "color": "#2dd035"
+            },
+            {
+                "wrb_main": "LP",
+                "title": "LP - Leptosols",
+                "color": "#858585"
+            },
+            {
+                "wrb_main": "FL",
+                "title": "FL - Fluvisols",
+                "color": "#2bf3f9"
+            },
+            {
+                "wrb_main": "PZ",
+                "title": "PZ - Podzols",
+                "color": "#88b752"
+            },
+            {
+                "wrb_main": "TC",
+                "title": "TC - Technosols",
+                "color": "#d3d3d3"
+            },
+            {
+                "wrb_main": "AR",
+                "title": "AR - Arenosols",
+                "color": "#d5b43c"
+            },
+            {
+                "wrb_main": "VR",
+                "title": "VR - Vertisols",
+                "color": "#a47158"
+            },
+            {
+                "wrb_main": "PL",
+                "title": "PL - Planosols",
+                "color": "#85b66f"
+            },
+            {
+                "wrb_main": "no value",
+                "title": "no data/not classified",
+                "color": "#ffffff"
+            }
+        ]
     },
     {
         "id": "EstSoilSoilTexture",
@@ -124,71 +583,72 @@
         "zIndex": "1",
         "orderInList": 1,
         "visibility": false,
-        "legend": [
+        "layerColorScheme": "legendUSDA",
+        "legendUSDA": [
             {
                 "id": 1,
                 "soilIndex": "S",
-                "soilTitle": "Sand",
+                "soilTitle": "S - Sand",
                 "soilColor": "#c40411"
             },
             {
                 "id": 2,
                 "soilIndex": "LS",
-                "soilTitle": "Loamy Sand",
+                "soilTitle": "LS - Loamy Sand",
                 "soilColor": "#f48600"
             },
             {
                 "id": 3,
                 "soilIndex": "SL",
-                "soilTitle": "Sandy Loam",
+                "soilTitle": "SL - Sandy Loam",
                 "soilColor": "#f3bb40"
             },
             {
                 "id": 4,
                 "soilIndex": "L",
-                "soilTitle": "Loam",
+                "soilTitle": "L - Loam",
                 "soilColor": "#fff74e"
             },
             {
                 "id": 5,
                 "soilIndex": "SiL",
-                "soilTitle": "Silt Loam",
+                "soilTitle": "SiL - Silt Loam",
                 "soilColor": "#51d6b1"
             },
             {
                 "id": 6,
                 "soilIndex": "SiCL",
-                "soilTitle": "Silty Clay Loam",
+                "soilTitle": "SiCL - Silty Clay Loam",
                 "soilColor": "#30afd2"
             },
             {
                 "id": 7,
                 "soilIndex": "CL",
-                "soilTitle": "Clay Loam",
+                "soilTitle": "CL - Clay Loam",
                 "soilColor": "#2b9ba2"
             },
             {
                 "id": 8,
                 "soilIndex": "C",
-                "soilTitle": "Clay",
+                "soilTitle": "C - Clay",
                 "soilColor": "#3b7be9"
             },
             {
                 "id": 9,
                 "soilIndex": "HC",
-                "soilTitle": "Heavy Clay",
+                "soilTitle": "HC - Heavy Clay",
                 "soilColor": "#2b57ba"
             },
             {
                 "id": 10,
                 "soilIndex": "PEAT",
-                "soilTitle": "Peatlands or highly organic soils",
+                "soilTitle": "PEAT - Peatlands or highly organic soils",
                 "soilColor": "#704701"
             },
             {
                 "id": 11,
                 "soilIndex": "GRAVELS",
-                "soilTitle": "Gravels or mainly rocky soils",
+                "soilTitle": "GRAVELS - Gravels or mainly rocky soils",
                 "soilColor": "#8ca4ad"
             },
             {
@@ -204,7 +664,7 @@
         "id": "MAALUSHalduspiirid",
         "type": "wms",
         "layerType": "base",
-        "name": "MA-ALUS: Halduspiirid",
+        "name": "Maa-amet: Halduspiirid",
         "url": "https://kaart.maaamet.ee/wms/alus?",
         "layer": "Halduspiirid",
         "format": "image/png",
@@ -223,7 +683,7 @@
         "id": "MAALUSPohikaart",
         "type": "wms",
         "layerType": "base",
-        "name": "MA-ALUS: Põhikaart",
+        "name": "Maa-amet: Põhikaart",
         "url": "https://kaart.maaamet.ee/wms/alus?",
         "layer": "pohi_vr2",
         "format": "image/png",

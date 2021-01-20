@@ -389,15 +389,59 @@
             v-if="layer.type === 'vectortile'"
           >
             <vl-source-vector-tile :url="layer.source"></vl-source-vector-tile>
-            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer without labels -->
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer: USDA -->
             <vl-style-func
-              v-if="layer.id === '12cdropdenser816' && layer.labels === false"
-              :factory="EstSoilMapVectorTilesStyle"
+              v-if="
+                layer.id === '12cdropdenser816' &&
+                layer.layerColorScheme == 'legendUSDA' &&
+                layer.labels === false
+              "
+              :factory="EstSoilMapVectorTilesStyleUSDA"
             />
-            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer with labels -->
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer: USDA labels -->
             <vl-style-func
-              v-if="layer.id === '12cdropdenser816' && layer.labels === true"
-              :factory="EstSoilMapVectorTilesStyleExperimental"
+              v-if="
+                layer.id === '12cdropdenser816' &&
+                layer.layerColorScheme === 'legendUSDA' &&
+                layer.labels === true
+              "
+              :factory="EstSoilMapVectorTilesStyleUSDAlabels"
+            />
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer: VARV -->
+            <vl-style-func
+              v-if="
+                layer.id === '12cdropdenser816' &&
+                layer.layerColorScheme == 'legendVARV' &&
+                layer.labels === false
+              "
+              :factory="EstSoilMapVectorTilesStyleVARV"
+            />
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer: VARV labels -->
+            <vl-style-func
+              v-if="
+                layer.id === '12cdropdenser816' &&
+                layer.layerColorScheme == 'legendVARV' &&
+                layer.labels === true
+              "
+              :factory="EstSoilMapVectorTilesStyleVARVlabels"
+            />
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer: WRB -->
+            <vl-style-func
+              v-if="
+                layer.id === '12cdropdenser816' &&
+                layer.layerColorScheme == 'legendWRB' &&
+                layer.labels === false
+              "
+              :factory="EstSoilMapVectorTilesStyleWRB"
+            />
+            <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer: WRB labels -->
+            <vl-style-func
+              v-if="
+                layer.id === '12cdropdenser816' &&
+                layer.layerColorScheme == 'legendWRB' &&
+                layer.labels === true
+              "
+              :factory="EstSoilMapVectorTilesStyleWRBlabels"
             />
             <!-- styles for KPO Kaitsepuhver (Vector Tiles) layer -->
             <vl-style-func
@@ -716,7 +760,7 @@ export default {
       // }
     },
     // vector tiles: Estonia soil map styling
-    EstSoilMapVectorTilesStyle() {
+    EstSoilMapVectorTilesStyleUSDA() {
       let transparency = 0.7;
       // soil types colors
       let colorS = "rgba(196,4,17," + transparency + ")";
@@ -840,8 +884,8 @@ export default {
       };
     },
 
-    // vector tiles: Estonia soil map styling
-    EstSoilMapVectorTilesStyleExperimental() {
+    // vector tiles: Estonia soil map styling: USDA labels
+    EstSoilMapVectorTilesStyleUSDAlabels() {
       // transparency
       const transparency = 0.7;
       // soil types colors
@@ -922,6 +966,416 @@ export default {
           default:
             style.getText().setText(feature.get("lxtype1"));
             style.getFill().setColor(colorUnknown);
+            return style;
+        }
+      };
+    },
+
+    // vector tiles: Estonia soil map styling: VARV
+    EstSoilMapVectorTilesStyleVARV() {
+      // transparency
+      const transparency = 0.7;
+      // soil types colors
+      const color1 = "rgba(255, 232, 82," + transparency + ")";
+      const color2 = "rgba(237, 238, 238," + transparency + ")";
+      const color3 = "rgba(202, 215, 215," + transparency + ")";
+      const color4 = "rgba(255, 249, 130," + transparency + ")";
+      const color5 = "rgba(255, 255, 223," + transparency + ")";
+      const color6 = "rgba(255, 136, 147," + transparency + ")";
+      const color7 = "rgba(255, 178, 250," + transparency + ")";
+      const color8 = "rgba(255, 230, 250," + transparency + ")";
+      const color9 = "rgba(237, 230, 250," + transparency + ")";
+      const color10 = "rgba(227, 187, 255," + transparency + ")";
+      const color11 = "rgba(207, 200, 255," + transparency + ")";
+      const color12 = "rgba(237, 244, 209," + transparency + ")";
+      const color13 = "rgba(213, 224, 168," + transparency + ")";
+      const color14 = "rgba(187, 255, 187," + transparency + ")";
+      const color15 = "rgba(224, 225, 141," + transparency + ")";
+      const color16 = "rgba(150, 254, 220," + transparency + ")";
+      const color17 = "rgba(178, 255, 255," + transparency + ")";
+      const color18 = "rgba(247, 232, 191," + transparency + ")";
+      const color19 = "rgba(255, 206, 163," + transparency + ")";
+      const color20 = "rgba(163, 58, 23," + transparency + ")";
+      const color21 = "rgba(84, 70, 70," + transparency + ")";
+      // style
+      var style = new Style({
+        fill: new Fill({}),
+      });
+      // each feature styling
+      return (feature) => {
+        switch (feature.get("varv")) {
+          case 1:
+            style.getFill().setColor(color1);
+            return style;
+          case 2:
+            style.getFill().setColor(color2);
+            return style;
+          case 3:
+            style.getFill().setColor(color3);
+            return style;
+          case 4:
+            style.getFill().setColor(color4);
+            return style;
+          case 5:
+            style.getFill().setColor(color5);
+            return style;
+          case 6:
+            style.getFill().setColor(color6);
+            return style;
+          case 7:
+            style.getFill().setColor(color7);
+            return style;
+          case 8:
+            style.getFill().setColor(color8);
+            return style;
+          case 9:
+            style.getFill().setColor(color9);
+            return style;
+          case 10:
+            style.getFill().setColor(color10);
+            return style;
+          case 11:
+            style.getFill().setColor(color11);
+            return style;
+          case 12:
+            style.getFill().setColor(color12);
+            return style;
+          case 13:
+            style.getFill().setColor(color13);
+            return style;
+          case 14:
+            style.getFill().setColor(color14);
+            return style;
+          case 15:
+            style.getFill().setColor(color15);
+            return style;
+          case 16:
+            style.getFill().setColor(color16);
+            return style;
+          case 17:
+            style.getFill().setColor(color17);
+            return style;
+          case 18:
+            style.getFill().setColor(color18);
+            return style;
+          case 19:
+            style.getFill().setColor(color19);
+            return style;
+          case 20:
+            style.getFill().setColor(color20);
+            return style;
+          default:
+            style.getFill().setColor(color21);
+            return style;
+        }
+      };
+    },
+
+    // vector tiles: Estonia soil map styling: VARV labels
+    EstSoilMapVectorTilesStyleVARVlabels() {
+      // transparency
+      const transparency = 0.7;
+      // soil types colors
+      const color1 = "rgba(255, 232, 82," + transparency + ")";
+      const color2 = "rgba(237, 238, 238," + transparency + ")";
+      const color3 = "rgba(202, 215, 215," + transparency + ")";
+      const color4 = "rgba(255, 249, 130," + transparency + ")";
+      const color5 = "rgba(255, 255, 223," + transparency + ")";
+      const color6 = "rgba(255, 136, 147," + transparency + ")";
+      const color7 = "rgba(255, 178, 250," + transparency + ")";
+      const color8 = "rgba(255, 230, 250," + transparency + ")";
+      const color9 = "rgba(237, 230, 250," + transparency + ")";
+      const color10 = "rgba(227, 187, 255," + transparency + ")";
+      const color11 = "rgba(207, 200, 255," + transparency + ")";
+      const color12 = "rgba(237, 244, 209," + transparency + ")";
+      const color13 = "rgba(213, 224, 168," + transparency + ")";
+      const color14 = "rgba(187, 255, 187," + transparency + ")";
+      const color15 = "rgba(224, 225, 141," + transparency + ")";
+      const color16 = "rgba(150, 254, 220," + transparency + ")";
+      const color17 = "rgba(178, 255, 255," + transparency + ")";
+      const color18 = "rgba(247, 232, 191," + transparency + ")";
+      const color19 = "rgba(255, 206, 163," + transparency + ")";
+      const color20 = "rgba(163, 58, 23," + transparency + ")";
+      const color21 = "rgba(84, 70, 70," + transparency + ")";
+      // text color
+      const colorText = "rgb(33,33,33)";
+      // text font
+      const fontText = "11px Roboto,Calibri,sans-serif";
+      // style
+      var style = new Style({
+        fill: new Fill({}),
+        text: new Text({
+          font: fontText,
+          fill: new Fill({
+            color: colorText,
+          }),
+          overflow: false,
+        }),
+      });
+      // each feature styling
+      return (feature) => {
+        switch (feature.get("varv")) {
+          case 1:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color1);
+            return style;
+          case 2:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color2);
+            return style;
+          case 3:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color3);
+            return style;
+          case 4:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color4);
+            return style;
+          case 5:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color5);
+            return style;
+          case 6:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color6);
+            return style;
+          case 7:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color7);
+            return style;
+          case 8:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color8);
+            return style;
+          case 9:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color9);
+            return style;
+          case 10:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color10);
+            return style;
+          case 11:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color11);
+            return style;
+          case 12:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color12);
+            return style;
+          case 13:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color13);
+            return style;
+          case 14:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color14);
+            return style;
+          case 15:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color15);
+            return style;
+          case 16:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color16);
+            return style;
+          case 17:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color17);
+            return style;
+          case 18:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color18);
+            return style;
+          case 19:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color19);
+            return style;
+          case 20:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color20);
+            return style;
+          default:
+            style.getText().setText(feature.get("est_soiltype") + "");
+            style.getFill().setColor(color21);
+            return style;
+        }
+      };
+    },
+
+    // vector tiles: Estonia soil map styling: WRB
+    EstSoilMapVectorTilesStyleWRB() {
+      // transparency
+      const transparency = 0.7;
+      // soil types colors
+      const colorCM = "rgba(241, 116, 13," + transparency + ")";
+      const colorLV = "rgba(223, 130, 186," + transparency + ")";
+      const colorRG = "rgba(236, 185, 118," + transparency + ")";
+      const colorGL = "rgba(120, 57, 179," + transparency + ")";
+      const colorHS = "rgba(67, 89, 210," + transparency + ")";
+      const colorUM = "rgba(112, 60, 41," + transparency + ")";
+      const colorRT = "rgba(45, 208, 53," + transparency + ")";
+      const colorLP = "rgba(133, 133, 133," + transparency + ")";
+      const colorFL = "rgba(43, 243, 249," + transparency + ")";
+      const colorPZ = "rgba(136, 183, 82," + transparency + ")";
+      const colorTC = "rgba(211, 211, 211," + transparency + ")";
+      const colorAR = "rgba(213, 180, 60," + transparency + ")";
+      const colorVR = "rgba(164, 113, 88," + transparency + ")";
+      const colorPL = "rgba(133, 182, 111," + transparency + ")";
+      const colorNoValue = "rgba(255, 255, 255," + transparency + ")";
+      // style
+      var style = new Style({
+        fill: new Fill({}),
+      });
+      // each feature styling
+      return (feature) => {
+        switch (feature.get("wrb_main")) {
+          case "CM":
+            style.getFill().setColor(colorCM);
+            return style;
+          case "LV":
+            style.getFill().setColor(colorLV);
+            return style;
+          case "RG":
+            style.getFill().setColor(colorRG);
+            return style;
+          case "GL":
+            style.getFill().setColor(colorGL);
+            return style;
+          case "HS":
+            style.getFill().setColor(colorHS);
+            return style;
+          case "UM":
+            style.getFill().setColor(colorUM);
+            return style;
+          case "RT":
+            style.getFill().setColor(colorRT);
+            return style;
+          case "LP":
+            style.getFill().setColor(colorLP);
+            return style;
+          case "FL":
+            style.getFill().setColor(colorFL);
+            return style;
+          case "PZ":
+            style.getFill().setColor(colorPZ);
+            return style;
+          case "TC":
+            style.getFill().setColor(colorTC);
+            return style;
+          case "AR":
+            style.getFill().setColor(colorAR);
+            return style;
+          case "VR":
+            style.getFill().setColor(colorVR);
+            return style;
+          case "PL":
+            style.getFill().setColor(colorPL);
+            return style;
+          default:
+            style.getFill().setColor(colorNoValue);
+            return style;
+        }
+      };
+    },
+
+    // vector tiles: Estonia soil map styling: WRB labels
+    EstSoilMapVectorTilesStyleWRBlabels() {
+      // transparency
+      const transparency = 0.7;
+      // soil types colors
+      const colorCM = "rgba(241, 116, 13," + transparency + ")";
+      const colorLV = "rgba(223, 130, 186," + transparency + ")";
+      const colorRG = "rgba(236, 185, 118," + transparency + ")";
+      const colorGL = "rgba(120, 57, 179," + transparency + ")";
+      const colorHS = "rgba(67, 89, 210," + transparency + ")";
+      const colorUM = "rgba(112, 60, 41," + transparency + ")";
+      const colorRT = "rgba(45, 208, 53," + transparency + ")";
+      const colorLP = "rgba(133, 133, 133," + transparency + ")";
+      const colorFL = "rgba(43, 243, 249," + transparency + ")";
+      const colorPZ = "rgba(136, 183, 82," + transparency + ")";
+      const colorTC = "rgba(211, 211, 211," + transparency + ")";
+      const colorAR = "rgba(213, 180, 60," + transparency + ")";
+      const colorVR = "rgba(164, 113, 88," + transparency + ")";
+      const colorPL = "rgba(133, 182, 111," + transparency + ")";
+      const colorNoValue = "rgba(255, 255, 255," + transparency + ")";
+      // text color
+      const colorText = "rgb(33,33,33)";
+      // text font
+      const fontText = "11px Roboto,Calibri,sans-serif";
+      // style
+      var style = new Style({
+        fill: new Fill({}),
+        text: new Text({
+          font: fontText,
+          fill: new Fill({
+            color: colorText,
+          }),
+          overflow: false,
+        }),
+      });
+      // each feature styling
+      return (feature) => {
+        switch (feature.get("wrb_main")) {
+          case "CM":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorCM);
+            return style;
+          case "LV":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorLV);
+            return style;
+          case "RG":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorRG);
+            return style;
+          case "GL":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorGL);
+            return style;
+          case "HS":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorHS);
+            return style;
+          case "UM":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorUM);
+            return style;
+          case "RT":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorRT);
+            return style;
+          case "LP":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorLP);
+            return style;
+          case "FL":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorFL);
+            return style;
+          case "PZ":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorPZ);
+            return style;
+          case "TC":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorTC);
+            return style;
+          case "AR":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorAR);
+            return style;
+          case "VR":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorVR);
+            return style;
+          case "PL":
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorPL);
+            return style;
+          default:
+            style.getText().setText(feature.get("wrb_main") + "");
+            style.getFill().setColor(colorNoValue);
             return style;
         }
       };

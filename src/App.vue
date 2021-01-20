@@ -101,39 +101,121 @@
                   >z-index: {{ layer.zIndex }}</md-button
                 >
               </div>
-              <!-- layer labels -->
-              <div v-if="layer.labels !== undefined" class="layer-labels">
-                <div class="input">
-                  <label
-                    ><input
-                      type="checkbox"
-                      v-model="layer.labels"
-                      :true-value="true"
-                      :false-value="false"
-                      :value="true"
-                    />
-                    labels</label
-                  >
+              <!-- color schemes -->
+              <div v-if="layer.colorSchemes" class="color-shemes">
+                <div v-for="schema in layer.colorSchemes" :key="schema.value">
+                  <input
+                    type="radio"
+                    :id="schema.value"
+                    v-model="layer.layerColorScheme"
+                    v-bind:value="schema.value"
+                  />
+                  <label :for="schema.value"> {{ schema.title }}</label>
                 </div>
               </div>
-              <!-- layer's legend -->
-              <div class="layer-legend" v-if="layer.legend">
+              <!-- legend for USDA scheme -->
+              <div
+                class="layer-legend"
+                v-if="layer.layerColorScheme == 'legendUSDA'"
+              >
+                <!-- layer labels -->
+                <div v-if="layer.labels !== undefined" class="layer-labels">
+                  <div class="input">
+                    <label
+                      ><input
+                        type="checkbox"
+                        v-model="layer.labels"
+                        :true-value="true"
+                        :false-value="false"
+                        :value="true"
+                      />
+                      labels</label
+                    >
+                  </div>
+                </div>
                 <table class="layer-legend__table">
-                  <tr v-for="soil in layer.legend" :key="soil.id">
-                    <td>
+                  <tr v-for="soil in layer.legendUSDA" :key="soil.id">
+                    <td class="soil-color">
                       <div
                         class="layer-legend__table-color"
                         :style="{ 'background-color': soil.soilColor }"
                       ></div>
                     </td>
                     <td>
-                      <div class="layer-legend__table-index">
-                        {{ soil.soilIndex }}
+                      <div class="layer-legend__table-title">
+                        {{ soil.soilTitle }}
                       </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <!-- legend for VARV scheme -->
+              <div
+                class="layer-legend"
+                v-if="layer.layerColorScheme == 'legendVARV'"
+              >
+                <!-- layer labels -->
+                <div v-if="layer.labels !== undefined" class="layer-labels">
+                  <div class="input">
+                    <label
+                      ><input
+                        type="checkbox"
+                        v-model="layer.labels"
+                        :true-value="true"
+                        :false-value="false"
+                        :value="true"
+                      />
+                      labels</label
+                    >
+                  </div>
+                </div>
+                <table class="layer-legend__table">
+                  <tr v-for="soil in layer.legendVARV" :key="soil.varv">
+                    <td class="soil-color">
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.color }"
+                      ></div>
                     </td>
                     <td>
                       <div class="layer-legend__table-title">
-                        {{ soil.soilTitle }}
+                        {{ soil.title }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <!-- legend for WRB scheme -->
+              <div
+                class="layer-legend"
+                v-if="layer.layerColorScheme == 'legendWRB'"
+              >
+                <!-- layer labels -->
+                <div v-if="layer.labels !== undefined" class="layer-labels">
+                  <div class="input">
+                    <label
+                      ><input
+                        type="checkbox"
+                        v-model="layer.labels"
+                        :true-value="true"
+                        :false-value="false"
+                        :value="true"
+                      />
+                      labels</label
+                    >
+                  </div>
+                </div>
+                <table class="layer-legend__table">
+                  <tr v-for="soil in layer.legendWRB" :key="soil.wrb_main">
+                    <td class="soil-color">
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.color }"
+                      ></div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-title">
+                        {{ soil.title }}
                       </div>
                     </td>
                   </tr>
@@ -461,7 +543,11 @@ table.layer-legend__table tr:hover {
 table.layer-legend__table td {
   padding-left: 2px;
   padding-right: 2px;
-  vertical-align: middle;
+  vertical-align: top;
+}
+
+td.soil-color {
+  width: 40px;
 }
 
 div.layer-legend__table-color {
@@ -494,10 +580,24 @@ div.layer-legend__table-index {
 div.layer-labels {
   margin-top: 0.5rem;
   padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #dcdcdc;
+  padding-bottom: 0.5rem;
 }
 
 div.layer-info-region_zindex .md-button {
   margin: 0px !important;
+}
+
+div.color-shemes {
+  border-top: 1px solid #dcdcdc;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+div.color-shemes > div {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 /* mobile styles */
