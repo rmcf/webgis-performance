@@ -321,7 +321,7 @@ export default {
     baseLayerSelected: {},
     // map options
     mapZoomDefault: 7,
-    mapCenterDefault: [24.728699075440534, 58.699046154309144],
+    mapCenterDefault: [25.423976698208374, 58.71616523767932],
     // menu in left sidebar
     menuVisible: false,
     // about project visibility
@@ -345,7 +345,7 @@ export default {
     // return default map zoom
     defaultMapZoom() {
       this.mapZoomDefault = 7;
-      this.mapCenterDefault = [24.728699075440534, 58.699046154309144];
+      this.mapCenterDefault = [25.423976698208374, 58.71616523767932];
     },
     // selecting base layer on page load
     loadBaseLayer() {

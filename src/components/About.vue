@@ -149,10 +149,6 @@
 export default {
   name: "About",
 
-  data() {
-    return {};
-  },
-
   methods: {
     // emit close about action
     closeAbout() {

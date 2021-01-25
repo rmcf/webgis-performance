@@ -6,26 +6,7 @@
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
     <!-- spinner geoJSON services loading -->
-    <div
-      v-show="dataLoadingStatus"
-      class="md-layout md-alignment-center-center"
-    >
-      <div class="md-layout-item md-size-100">
-        <div class="md-layout md-alignment-center-center loading-block">
-          <md-progress-spinner
-            :md-diameter="100"
-            :md-stroke="3"
-            md-mode="indeterminate"
-            class="md-accent"
-          ></md-progress-spinner>
-        </div>
-      </div>
-      <div class="md-layout-item md-size-100">
-        <div class="md-layout md-alignment-center-center loading-block">
-          <span class="md-display-1">Loading...</span>
-        </div>
-      </div>
-    </div>
+    <Spinner v-show="dataLoadingStatus" />
 
     <!-- alert about JSON services layer -->
     <div>
@@ -43,147 +24,12 @@
         <div class="map-info">
           <transition-group name="fade">
             <!-- table with attributes of selected vector tile feature -->
-            <div v-if="selectedVectorTileFeature" key="tableVectorTiles">
-              <div
-                class="map-info_layer-name"
-                v-if="
-                  this.selectedVectorTileFeature &&
-                  this.selectedVectorTileFeature.properties_.layer ==
-                    'msr_kaitsepuhver'
-                "
-              >
-                <span>Layer: </span>MSR Kaitsepuhver (Vector Tiles)
-              </div>
-              <div
-                class="map-info_layer-name"
-                v-if="
-                  this.selectedVectorTileFeature &&
-                  this.selectedVectorTileFeature.properties_.layer ==
-                    'kpo_kaitsepuhver'
-                "
-              >
-                <span>Layer: </span>KPO Kaitsepuhver (Vector Tiles)
-              </div>
-              <div
-                class="map-info_layer-name"
-                v-if="
-                  this.selectedVectorTileFeature &&
-                  this.selectedVectorTileFeature.properties_.layer ==
-                    'soil_12c_all'
-                "
-              >
-                <span>Layer: </span>EstSoil-EH 1.2c (Vector Tiles)
-              </div>
-              <div></div>
-              <div></div>
-              <md-table>
-                <md-table-row>
-                  <md-table-head
-                    v-for="(value, key) in this.selectedVectorTileFeature
-                      .properties_"
-                    :key="key"
-                    >{{ key }}</md-table-head
-                  >
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell
-                    v-for="(value, key) in this.selectedVectorTileFeature
-                      .properties_"
-                    :key="key"
-                    >{{ value }}
-                  </md-table-cell>
-                </md-table-row>
-              </md-table>
-              <!-- remove table data of selected vector tile feature -->
-              <div class="object-align-right">
-                <div class="object-item">
-                  <md-button
-                    v-on:click="selectedVectorTileFeature = false"
-                    class="md-dense md-raised md-accent"
-                    ><md-icon>cancel</md-icon> REMOVE
-                    <md-tooltip md-direction="bottom"
-                      >Remove selected feature</md-tooltip
-                    >
-                  </md-button>
-                </div>
-              </div>
-            </div>
-            <!-- table with attributes of selected vector tile feature KPOKaitsepuhver -->
-            <!-- <div
-              v-if="KPOKaitsepuhverSingleComputed && selectedVectorTileFeature"
-              key="tableVectorTiles"
-            >
-              <md-table>
-                <md-table-row>
-                  <md-table-head
-                    v-for="(value, key) in this.selectedVectorTileFeature
-                      .properties_"
-                    :key="key"
-                    >{{ key }}</md-table-head
-                  >
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell
-                    v-for="(value, key) in this.selectedVectorTileFeature
-                      .properties_"
-                    :key="key"
-                    >{{ value }}
-                  </md-table-cell>
-                </md-table-row>
-              </md-table> -->
-            <!-- remove table data of selected vector tile feature -->
-            <!-- <div class="object-align-right">
-                <div class="object-item">
-                  <md-button
-                    v-on:click="selectedVectorTileFeature = false"
-                    class="md-dense md-raised md-accent"
-                    ><md-icon>cancel</md-icon> REMOVE
-                    <md-tooltip md-direction="bottom"
-                      >Remove selected feature</md-tooltip
-                    >
-                  </md-button>
-                </div>
-              </div>
-            </div> -->
-            <!-- table with attributes of selected vector tile feature 12cdropdenser816 -->
-            <!-- <div
-              v-if="
-                EstSoilMapVectorTileSingleComputed && selectedVectorTileFeature
-              "
-              key="tableVectorTiles"
-            >
-              <md-table>
-                <md-table-row>
-                  <md-table-head
-                    v-for="(value, key) in this.selectedVectorTileFeature
-                      .properties_"
-                    :key="key"
-                    >{{ key }}</md-table-head
-                  >
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell
-                    v-for="(value, key) in this.selectedVectorTileFeature
-                      .properties_"
-                    :key="key"
-                    >{{ value }}
-                  </md-table-cell>
-                </md-table-row>
-              </md-table> -->
-            <!-- remove table data of selected vector tile feature -->
-            <!-- <div class="object-align-right">
-                <div class="object-item">
-                  <md-button
-                    v-on:click="selectedVectorTileFeature = false"
-                    class="md-dense md-raised md-accent"
-                    ><md-icon>cancel</md-icon> REMOVE
-                    <md-tooltip md-direction="bottom"
-                      >Remove selected feature</md-tooltip
-                    >
-                  </md-button>
-                </div>
-              </div>
-            </div> -->
+            <TableAttributes
+              v-if="selectedVectorTileFeature"
+              :selectedVectorTileFeatureProp="selectedVectorTileFeature"
+              key="tableAttributes"
+              v-on:close-table="selectedVectorTileFeature = false"
+            />
             <!-- table with attributes of selected Soil PygeoAPI Docker features -->
             <div
               v-if="
@@ -517,6 +363,8 @@ import Text from "ol/style/Text";
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
 import { createStyle } from "vuelayers/lib/ol-ext";
+import TableAttributes from "./TableAttributes.vue";
+import Spinner from "./Spinner.vue";
 
 // new CRS registration
 proj4.defs(
@@ -531,6 +379,10 @@ export default {
     selectedLayersProp: Array,
     mapZoomProp: Number,
     mapCenterProp: Array,
+  },
+  components: {
+    TableAttributes,
+    Spinner,
   },
   // watching for geoJsonServicesProp changes
   watch: {
@@ -1494,17 +1346,6 @@ div.informer {
   text-align: right;
 }
 
-div.object-align-right {
-  display: flex;
-  justify-content: flex-end;
-}
-
-div.object-align-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 div.object-item {
   margin: 5px 0px 5px 5px;
 }
@@ -1526,23 +1367,8 @@ div.object-item {
   opacity: 0;
 }
 
-div.loading-block {
-  padding: 1rem;
-}
-
 div.overlay-content {
   z-index: 100;
-}
-
-div.map-info_layer-name {
-  background-color: #fff;
-  padding: 1.3rem 0rem 1.3rem 0rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: center;
-}
-
-div.map-info_layer-name span {
-  color: grey;
 }
 
 @media only screen and (max-width: 768px) {
