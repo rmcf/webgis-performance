@@ -23,6 +23,22 @@
         "
         >EstSoil-EH 1.2c (Vector Tiles)</span
       >
+      <span
+        v-if="
+          this.selectedVectorTileFeatureProp.properties_.layer ==
+          'MSR_veekaitsevoondi_reostustundlikkus'
+        "
+        >Peakraavide ja maaparandussüsteemide avatud eesvoolude
+        veekaitsevööndite reostustundlikkus (Vector Tiles)</span
+      >
+      <span
+        v-if="
+          this.selectedVectorTileFeatureProp.properties_.layer ==
+          'LVK_veekaitsevoondi_reostustundlikkus'
+        "
+        >Looduslike veekogude veekaitsevööndi reostustundlikkus (Vector
+        Tiles)</span
+      >
     </div>
     <!-- table of attributes -->
     <md-table>

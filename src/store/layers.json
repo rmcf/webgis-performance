@@ -7,7 +7,7 @@
         "source": "/webgis-performance/geojson/processing_zones.geojson",
         "minZoom": 2,
         "maxZoom": 18,
-        "zIndex": "10",
+        "zIndex": "12",
         "orderInList": 10,
         "visibility": false,
         "style": {
@@ -15,6 +15,86 @@
             "strokeWidth": 1,
             "fillColor": "transparent"
         }
+    },
+    {
+        "id": "MSRVeekaitse",
+        "type": "vectortile",
+        "layerType": "data",
+        "name": "Peakraavide ja maaparandussüsteemide avatud eesvoolude veekaitsevööndite reostustundlikkus (Vector Tiles)",
+        "source": "https://storage.googleapis.com/geo-assets/pub-tiles/msr_veekaitse_reo-8-16/{z}/{x}/{y}.pbf",
+        "minZoom": 8,
+        "maxZoom": 16,
+        "zIndex": "11",
+        "orderInList": 9,
+        "visibility": false,
+        "layerColorScheme": "legendMSRVeekaitse",
+        "legendMSRVeekaitse": [
+            {
+                "klassid": 1,
+                "title": "1 – väga madal",
+                "color": "#1a9641"
+            },
+            {
+                "klassid": 2,
+                "title": "2 – madal",
+                "color": "#a6d96a"
+            },
+            {
+                "klassid": 3,
+                "title": "3 – keskmine",
+                "color": "#ffffc0"
+            },
+            {
+                "klassid": 4,
+                "title": "4 – kõrge",
+                "color": "#fdae61"
+            },
+            {
+                "klassid": 5,
+                "title": "5 – väga kõrge",
+                "color": "#d7191c"
+            }
+        ]
+    },
+    {
+        "id": "LVKVeekaitse",
+        "type": "vectortile",
+        "layerType": "data",
+        "name": "Looduslike veekogude veekaitsevööndi reostustundlikkus (Vector Tiles)",
+        "source": "https://storage.googleapis.com/geo-assets/pub-tiles/lvk_veekaitse_reo-8-16/{z}/{x}/{y}.pbf",
+        "minZoom": 8,
+        "maxZoom": 16,
+        "zIndex": "10",
+        "orderInList": 9,
+        "visibility": false,
+        "layerColorScheme": "legendLVKVeekaitse",
+        "legendLVKVeekaitse": [
+            {
+                "klassid": 1,
+                "title": "1 – väga madal",
+                "color": "#1a9641"
+            },
+            {
+                "klassid": 2,
+                "title": "2 – madal",
+                "color": "#a6d96a"
+            },
+            {
+                "klassid": 3,
+                "title": "3 – keskmine",
+                "color": "#ffffc0"
+            },
+            {
+                "klassid": 4,
+                "title": "4 – kõrge",
+                "color": "#fdae61"
+            },
+            {
+                "klassid": 5,
+                "title": "5 – väga kõrge",
+                "color": "#d7191c"
+            }
+        ]
     },
     {
         "id": "MSRKaitsepuhver",

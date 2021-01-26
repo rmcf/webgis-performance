@@ -92,7 +92,7 @@
 
             <div class="md-layout md-alignment-top-center md-gutter">
               <div
-                class="md-layout-item md-large-size-50 md-medium-size-50 md-small-size-100 md-xsmall-size-100"
+                class="md-layout-item md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100"
               >
                 <div>
                   <a href="https://www.geograafia.ut.ee/et"
@@ -111,25 +111,9 @@
                 </div>
                 <div class="margin-top-bottom">
                   <span class="md-body-1">
-                    <strong>Veebiarenduse prototüüp: </strong><br />Alexander
-                    Kmoch, Alexander Matsibora
+                    <strong>Veebiarenduse prototüüp: </strong>Alexander Kmoch,
+                    Alexander Matsibora
                   </span>
-                </div>
-              </div>
-              <div
-                class="md-layout-item md-large-size-50 md-medium-size-50 md-small-size-100 md-xsmall-size-100"
-              >
-                <div>
-                  <a href="#"
-                    ><img
-                      class="about-card-logo"
-                      src="/webgis-performance/img/msca-logo.png"
-                      alt="msca-logo"
-                  /></a>
-                </div>
-                <div class="margin-top-bottom">
-                  <span class="md-body-1">Lisainfo: </span
-                  ><a href="#">url...</a>
                 </div>
               </div>
             </div>

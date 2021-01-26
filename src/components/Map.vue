@@ -298,6 +298,16 @@
             <vl-style-func
               v-if="layer.id === 'MSRKaitsepuhver'"
               :factory="MSRKaitsepuhverVectorTilesStyle"
+            />
+            <!-- styles for MSRVeekaitse (Vector Tiles) layer -->
+            <vl-style-func
+              v-if="layer.id === 'MSRVeekaitse'"
+              :factory="MSRVeekaitseVectorTilesStyle"
+            />
+            <!-- styles for LVKVeekaitse (Vector Tiles) layer -->
+            <vl-style-func
+              v-if="layer.id === 'LVKVeekaitse'"
+              :factory="LVKVeekaitseVectorTilesStyle"
             /> </vl-layer-vector-tile
         ></template>
 
@@ -362,6 +372,7 @@ import proj4 from "proj4";
 import Text from "ol/style/Text";
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
 import { createStyle } from "vuelayers/lib/ol-ext";
 import TableAttributes from "./TableAttributes.vue";
 import Spinner from "./Spinner.vue";
@@ -1233,9 +1244,133 @@ export default {
       };
     },
 
+    // vector tiles: MSRVeekaitse
+    MSRVeekaitseVectorTilesStyle() {
+      // transparency
+      const transparency = 1;
+      // colors
+      const color1 = "26,150,65";
+      const color2 = "166,217,106";
+      const color3 = "255,255,192";
+      const color4 = "253,174,97";
+      const color5 = "215,25,28";
+      const colorNoValue = "rgba(255, 255, 255," + transparency + ")";
+      // stroke colors
+      const strokeColor1 = "rgb(" + color1 + ")";
+      const strokeColor2 = "rgb(" + color2 + ")";
+      const strokeColor3 = "rgb(" + color3 + ")";
+      const strokeColor4 = "rgb(" + color4 + ")";
+      const strokeColor5 = "rgb(" + color5 + ")";
+      const strokeColorNoValue = "rgb(" + colorNoValue + ")";
+      // fill colors
+      const fillColor1 = "rgba(" + color1 + "," + transparency + ")";
+      const fillColor2 = "rgba(" + color2 + "," + transparency + ")";
+      const fillColor3 = "rgba(" + color3 + "," + transparency + ")";
+      const fillColor4 = "rgba(" + color4 + "," + transparency + ")";
+      const fillColor5 = "rgba(" + color5 + "," + transparency + ")";
+      const fillColorNoValue =
+        "rgba(" + colorNoValue + "," + transparency + ")";
+      // style
+      var style = new Style({
+        fill: new Fill({}),
+        stroke: new Stroke({}),
+      });
+      // each feature styling
+      return (feature) => {
+        switch (feature.get("RT_klass")) {
+          case 1:
+            style.getFill().setColor(fillColor1);
+            style.getStroke().setColor(strokeColor1);
+            return style;
+          case 2:
+            style.getFill().setColor(fillColor2);
+            style.getStroke().setColor(strokeColor2);
+            return style;
+          case 3:
+            style.getFill().setColor(fillColor3);
+            style.getStroke().setColor(strokeColor3);
+            return style;
+          case 4:
+            style.getFill().setColor(fillColor4);
+            style.getStroke().setColor(strokeColor4);
+            return style;
+          case 5:
+            style.getFill().setColor(fillColor5);
+            style.getStroke().setColor(strokeColor5);
+            return style;
+          default:
+            style.getFill().setColor(fillColorNoValue);
+            style.getStroke().setColor(strokeColorNoValue);
+            return style;
+        }
+      };
+    },
+
+    // vector tiles: LVKVeekaitse
+    LVKVeekaitseVectorTilesStyle() {
+      // transparency
+      const transparency = 1;
+      // colors
+      const color1 = "26,150,65";
+      const color2 = "166,217,106";
+      const color3 = "255,255,192";
+      const color4 = "253,174,97";
+      const color5 = "215,25,28";
+      const colorNoValue = "rgba(255, 255, 255," + transparency + ")";
+      // stroke colors
+      const strokeColor1 = "rgb(" + color1 + ")";
+      const strokeColor2 = "rgb(" + color2 + ")";
+      const strokeColor3 = "rgb(" + color3 + ")";
+      const strokeColor4 = "rgb(" + color4 + ")";
+      const strokeColor5 = "rgb(" + color5 + ")";
+      const strokeColorNoValue = "rgb(" + colorNoValue + ")";
+      // fill colors
+      const fillColor1 = "rgba(" + color1 + "," + transparency + ")";
+      const fillColor2 = "rgba(" + color2 + "," + transparency + ")";
+      const fillColor3 = "rgba(" + color3 + "," + transparency + ")";
+      const fillColor4 = "rgba(" + color4 + "," + transparency + ")";
+      const fillColor5 = "rgba(" + color5 + "," + transparency + ")";
+      const fillColorNoValue =
+        "rgba(" + colorNoValue + "," + transparency + ")";
+      // style
+      var style = new Style({
+        fill: new Fill({}),
+        stroke: new Stroke({}),
+      });
+      // each feature styling
+      return (feature) => {
+        switch (feature.get("RT_klass")) {
+          case 1:
+            style.getFill().setColor(fillColor1);
+            style.getStroke().setColor(strokeColor1);
+            return style;
+          case 2:
+            style.getFill().setColor(fillColor2);
+            style.getStroke().setColor(strokeColor2);
+            return style;
+          case 3:
+            style.getFill().setColor(fillColor3);
+            style.getStroke().setColor(strokeColor3);
+            return style;
+          case 4:
+            style.getFill().setColor(fillColor4);
+            style.getStroke().setColor(strokeColor4);
+            return style;
+          case 5:
+            style.getFill().setColor(fillColor5);
+            style.getStroke().setColor(strokeColor5);
+            return style;
+          default:
+            style.getFill().setColor(fillColorNoValue);
+            style.getStroke().setColor(strokeColorNoValue);
+            return style;
+        }
+      };
+    },
+
     KPOKaitsepuhverVectorTilesStyle() {
       let transparency = 0.4;
-      let KPOKaitsepuhverColor = "93, 102, 7";
+      let KPOKaitsepuhverColor = "190, 47, 246";
       const KPOKaitsepuhverStrokeColor = "rgb(" + KPOKaitsepuhverColor + ")";
       const KPOKaitsepuhverFillColor =
         "rgba(" + KPOKaitsepuhverColor + "," + transparency + ")";
@@ -1252,7 +1387,7 @@ export default {
 
     MSRKaitsepuhverVectorTilesStyle() {
       let transparency = 0.4;
-      let MSRKaitsepuhverColor = "128, 69, 6";
+      let MSRKaitsepuhverColor = "190, 47, 246";
       const MSRKaitsepuhverStrokeColor = "rgb(" + MSRKaitsepuhverColor + ")";
       const MSRKaitsepuhverFillColor =
         "rgba(" + MSRKaitsepuhverColor + "," + transparency + ")";

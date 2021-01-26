@@ -15,13 +15,14 @@
       </md-button>
       <span class="md-title">Web GIS</span>
       <div class="md-toolbar-section-end">
-        <!-- info button here -->
+        <!-- info button here
         <md-button @click="aboutProject = !aboutProject" class="md-icon-button">
           <md-icon>info_outline</md-icon>
           <md-tooltip class="md-xsmall-hide md-small-hide" md-direction="bottom"
             >About project</md-tooltip
           >
-        </md-button>
+        </md-button> -->
+        <md-button @click="aboutProject = !aboutProject">About</md-button>
       </div>
     </md-toolbar>
 
@@ -207,6 +208,54 @@
                 </div>
                 <table class="layer-legend__table">
                   <tr v-for="soil in layer.legendWRB" :key="soil.wrb_main">
+                    <td class="soil-color">
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.color }"
+                      ></div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-title">
+                        {{ soil.title }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <!-- legend for MSRVeekaitse -->
+              <div
+                class="layer-legend"
+                v-if="layer.layerColorScheme == 'legendMSRVeekaitse'"
+              >
+                <table class="layer-legend__table">
+                  <tr
+                    v-for="soil in layer.legendMSRVeekaitse"
+                    :key="soil.klassid"
+                  >
+                    <td class="soil-color">
+                      <div
+                        class="layer-legend__table-color"
+                        :style="{ 'background-color': soil.color }"
+                      ></div>
+                    </td>
+                    <td>
+                      <div class="layer-legend__table-title">
+                        {{ soil.title }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <!-- legend for LVKVeekaitse -->
+              <div
+                class="layer-legend"
+                v-if="layer.layerColorScheme == 'legendLVKVeekaitse'"
+              >
+                <table class="layer-legend__table">
+                  <tr
+                    v-for="soil in layer.legendLVKVeekaitse"
+                    :key="soil.klassid"
+                  >
                     <td class="soil-color">
                       <div
                         class="layer-legend__table-color"
