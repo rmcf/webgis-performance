@@ -13,7 +13,10 @@
           >Layers navigation</md-tooltip
         >
       </md-button>
-      <span class="md-title">Web GIS</span>
+      <span class="md-title md-xsmall-hide md-small-hide"
+        >Veekaitsevööndite reostustundlikkus (ja soovituslik puhverriba
+        laius)</span
+      >
       <div class="md-toolbar-section-end">
         <!-- info button here
         <md-button @click="aboutProject = !aboutProject" class="md-icon-button">
@@ -31,7 +34,9 @@
       <div class="manage">
         <div class="layers-group">
           <div class="md-layout md-alignment-center-center">
-            <div class="layers-title"><md-icon>layers</md-icon> Navigation</div>
+            <div class="layers-title">
+              <md-icon>layers</md-icon> Kaardikihid
+            </div>
           </div>
         </div>
 

@@ -31,39 +31,34 @@
                 loomine"</span
               >
             </div>
-            <div class="md-layout md-alignment-top-right">
+            <div class="md-layout md-alignment-top-left">
               <div class="margin-top-bottom">
                 <span class="md-subheading"
-                  >Evelyn Uuemaa, Ain Kull, Kiira Mõisja, Alexander Kmoch</span
+                  >Evelyn Uuemaa, Ain Kull, Kiira Mõisja, Alexander Kmoch,
+                  Hanna-Ingrid Nurm</span
                 >
               </div>
             </div>
-            <div><span class="md-headline">Projekti eesmärgiks oli:</span></div>
+            <div>
+              <span class="md-headline"
+                >Käesoleva projekti peamised eesmärgid olid:</span
+              >
+            </div>
             <ol>
               <li>
                 <span class="md-body-1"
-                  >tekitada veekaitsevööndite reostustundlikkuse hinnagu
-                  kaardikiht mullakaardi (lõimis, mullatüüp) ja LiDARil
-                  põhinevate reljeefi näitajate (nõlva kalle, märguse indeks
-                  jms) ning taimkatte kõrguse mudeli alusel;</span
+                  >lisada Eesti digitaalsele mullastikukaardile
+                  reostustundlikkuse hinnangu andmiseks ja toitainete väljakande
+                  modelleerimiseks vajalikud numbrilised parameetrid (savi ja
+                  liiva osakaal, orgaanilise süsiniku sisaldus jms), mida saab
+                  kasutada enamlevinud mudelite arvutustes;</span
                 >
               </li>
               <li>
                 <span class="md-body-1"
-                  >veekaitsevööndite reostustundlikkuse hinnagu põhjal luua
-                  kaldakaitseribade rajamise soovituste kaardikiht, mis annaks
-                  hinnangu iga veekaitsevööndi kohta, kas ja kui palju oleks
-                  sinna vaja rajada kaldakaitse riba ning kui lai ja millise
-                  struktuuriga see võiks olla;</span
-                >
-              </li>
-              <li>
-                <span class="md-body-1"
-                  >lisada Eesti digitaalsele mullakaardile toitainete väljakande
-                  modelleerimiseks vajalikud numbrilised parameetrid, mida saab
-                  kasutada enamlevinud mudelite (sh Veeveebis kasutusel olev
-                  EstModel) arvutustes (erinevate lõimisega muldade osakaal,
-                  lähendid mulla lasuvustihedusele).</span
+                  >luua mulla ja reljeefi näitajate põhjal veekaitsevööndite
+                  reostustundlikkuse ja soovitusliku puhverriba laiuse hinnangu
+                  kaardikiht;</span
                 >
               </li>
             </ol>
@@ -73,13 +68,7 @@
                 põllumajanduslikust hajureostusest tulenevat koormust
                 veekogudes. Loodavate kaardikihtide abil on võimalik kiiresti
                 tuvastada probleemsed ja väga reostustundlikud kaldavööndid,
-                kuhu oleks soovituslik laiem veekaitsevöönd ja/või rajada
-                kaldavööndi puhverriba. Kuna puhverribade rajamine on kulukas ja
-                nende alla jääv põllumajanduslik maa jääb tootmisest välja, siis
-                on mõistlik rajada puhverribasid eelkõige probleemsematesse
-                kohtadesse. Lisandväärtusena kaasnevad digitaalse mullakaardi
-                numbrilised parameetrid ja soovituslikud arvutusvalemid
-                toitainete ärakande paremaks modelleerimiseks.
+                kuhu oleks soovituslik luua laiem puhverriba.
               </span>
             </div>
             <div class="margin-top-bottom">
@@ -165,7 +154,7 @@ img.about-card-logo:hover {
 }
 
 img.about-card_kik-logo {
-  width: 100%;
+  width: 350px;
   height: auto;
 }
 
@@ -185,6 +174,18 @@ div.about li {
 .margin-top-bottom {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+/* mobile styles */
+@media only screen and (max-width: 768px) {
+  img.about-card_kik-logo {
+    width: 250px;
+  }
+
+  .md-display-1 {
+    font-size: 25px !important;
+    line-height: 30px !important;
+  }
 }
 </style>
 

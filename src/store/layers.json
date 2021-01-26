@@ -54,7 +54,8 @@
                 "title": "5 – väga kõrge",
                 "color": "#d7191c"
             }
-        ]
+        ],
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
     },
     {
         "id": "LVKVeekaitse",
@@ -94,7 +95,8 @@
                 "title": "5 – väga kõrge",
                 "color": "#d7191c"
             }
-        ]
+        ],
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
     },
     {
         "id": "MSRKaitsepuhver",
@@ -106,7 +108,8 @@
         "maxZoom": 16,
         "zIndex": "9",
         "orderInList": 9,
-        "visibility": false
+        "visibility": false,
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
     },
     {
         "id": "KPOKaitsepuhver",
@@ -118,7 +121,8 @@
         "maxZoom": 16,
         "zIndex": "8",
         "orderInList": 8,
-        "visibility": false
+        "visibility": false,
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
     },
     {
         "id": "12cdropdenser816",
@@ -404,7 +408,8 @@
                 "title": "no data/not classified",
                 "color": "#ffffff"
             }
-        ]
+        ],
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
     },
     {
         "id": "PRIAPollumassiivid",
@@ -560,7 +565,8 @@
                 "title": "no data/not classified",
                 "color": "#544646"
             }
-        ]
+        ],
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
     },
     {
         "id": "EstSoilEHWRB",
@@ -650,7 +656,8 @@
                 "title": "no data/not classified",
                 "color": "#ffffff"
             }
-        ]
+        ],
+        "attribution": "&copy; <a href='https://landscape-geoinformatics.ut.ee'>Landscape Geoinformatics</a>"
     },
     {
         "id": "EstSoilSoilTexture",
@@ -782,7 +789,7 @@
         "id": "MAFOTOKAARTReljeefvarjutus",
         "type": "wms",
         "layerType": "base",
-        "name": "MA-FOTOKAART: Reljeefvarjutus",
+        "name": "Maa-amet: Reljeefvarjutus",
         "url": "https://kaart.maaamet.ee/wms/fotokaart?",
         "layer": "vreljeef",
         "format": "image/jpeg",
@@ -801,7 +808,7 @@
         "id": "MAFOTOKAARTOrtofoto",
         "type": "wms",
         "layerType": "base",
-        "name": "MA-FOTOKAART: Ortofoto",
+        "name": "Maa-amet: Ortofoto",
         "url": "https://kaart.maaamet.ee/wms/fotokaart?",
         "layer": "EESTIFOTO",
         "format": "image/jpeg",

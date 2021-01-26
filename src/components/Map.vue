@@ -234,7 +234,10 @@
             :key="layer.id"
             v-if="layer.type === 'vectortile'"
           >
-            <vl-source-vector-tile :url="layer.source"></vl-source-vector-tile>
+            <vl-source-vector-tile
+              :url="layer.source"
+              :attributions="layer.attribution"
+            ></vl-source-vector-tile>
             <!-- styles for EstSoil-EH 1.2c (Vector Tiles) layer: USDA -->
             <vl-style-func
               v-if="
