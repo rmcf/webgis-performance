@@ -5,17 +5,16 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
-    <!-- spinner geoJSON services loading -->
-    <Spinner v-show="dataLoadingStatus" />
 
     <!-- alert about JSON services layer -->
-    <div>
-      <md-dialog-alert
-        :md-active.sync="geoJsonUrlAlert"
-        :md-title="geoJSONserviceLayerComputed.name"
-        md-content="click on map and wait until vector objects are loaded"
-      />
-    </div>
+    <md-dialog-alert
+      :md-active.sync="geoJsonUrlAlert"
+      :md-title="geoJSONserviceLayerComputed.name"
+      md-content="click on map and wait until vector objects are loaded"
+    />
+
+    <!-- spinner geoJSON services loading -->
+    <Spinner v-show="dataLoadingStatus" />
 
     <!-- map and notification regions -->
     <transition name="fade">
@@ -30,112 +29,38 @@
               key="tableAttributes"
               v-on:close-table="selectedVectorTileFeature = false"
             />
+
             <!-- table with attributes of selected Soil PygeoAPI Docker features -->
-            <div
+            <TableAttributesGeoJSON
               v-if="
                 this.geoJSONdata.length > 0 && this.geoJSONserviceLayerComputed
               "
-              key="table"
-            >
-              <md-table>
-                <md-table-row>
-                  <md-table-head
-                    v-for="(value, key) in this.geoJSONdataSingleFeature
-                      .properties"
-                    :key="key"
-                    >{{ key }}</md-table-head
-                  >
-                </md-table-row>
-                <md-table-row v-for="item in this.geoJSONdata" :key="item.id">
-                  <md-table-cell
-                    v-for="(value, key) in item.properties"
-                    :key="key"
-                    >{{ value }}
-                  </md-table-cell>
-                </md-table-row>
-              </md-table>
-              <!-- remove map and table data of Soil PygeoAPI Docker layer -->
-              <div class="object-align-right">
-                <div class="object-item">
-                  <md-button
-                    v-on:click="fitSelectedJSONfeatures()"
-                    class="md-dense md-raised md-primary"
-                    ><md-icon>filter_center_focus</md-icon> ZOOM
-                    <md-tooltip md-direction="bottom"
-                      >Zoom to selected features</md-tooltip
-                    >
-                  </md-button>
-                  <md-button
-                    v-on:click="resetGeoJSONdata()"
-                    class="md-dense md-raised md-accent"
-                    ><md-icon>cancel</md-icon> REMOVE
-                    <md-tooltip md-direction="bottom"
-                      >Remove selected features</md-tooltip
-                    >
-                  </md-button>
-                </div>
-              </div>
-            </div>
+              key="TableAttributesGeoJSON"
+              v-on:fit-features="fitSelectedJSONfeatures()"
+              v-on:reset-geojson="resetGeoJSONdata()"
+              :geoJSONdataSingleFeatureProps="geoJSONdataSingleFeature"
+              :geoJSONdataProps="geoJSONdata"
+            />
 
             <!-- informer when no objects -->
-            <div
+            <AlertNoObjects
               v-if="
                 this.geoJSONdata.length === 0 &&
                 this.geoJSONserviceLayerComputed &&
                 this.clickOnMapDetection == true &&
                 this.geoJSONdataSourceError !== true
               "
-              class="md-layout md-alignment-top-center informer"
-              key="noobjects"
-            >
-              <div
-                class="md-layout-item md-large-size-40 md-medium-size-40 md-small-size-100 md-xsmall-size-100"
-              >
-                <md-card>
-                  <md-card-header>
-                    <div class="md-title">Nothing found</div>
-                  </md-card-header>
-                  <md-card-content>
-                    Unfortunately, no objects were found in that location,
-                    please try another one...
-                  </md-card-content>
-                  <md-card-actions>
-                    <md-button
-                      v-on:click="clickOnMapDetection = false"
-                      class="md-accent"
-                      ><md-icon>cancel</md-icon> CLOSE</md-button
-                    >
-                  </md-card-actions>
-                </md-card>
-              </div>
-            </div>
+              v-on:close-alert="clickOnMapDetection = false"
+              key="AlertNoObjects"
+            />
 
             <!-- error source -->
-            <div
+            <AlertErrorSource
               v-if="this.geoJSONdataSourceError"
-              class="md-layout md-alignment-top-center informer"
-              key="error"
-            >
-              <div
-                class="md-layout-item md-large-size-40 md-medium-size-40 md-small-size-100 md-xsmall-size-100"
-              >
-                <md-card>
-                  <md-card-header>
-                    <div class="md-title">Source error</div>
-                  </md-card-header>
-                  <md-card-content>
-                    {{ geoJSONdataSourceErrorText }}
-                  </md-card-content>
-                  <md-card-actions>
-                    <md-button
-                      v-on:click="geoJSONdataSourceError = false"
-                      class="md-accent"
-                      ><md-icon>cancel</md-icon> CLOSE</md-button
-                    >
-                  </md-card-actions>
-                </md-card>
-              </div>
-            </div>
+              v-on:close-alert="geoJSONdataSourceError = false"
+              :errorTextProps="geoJSONdataSourceErrorText"
+              key="AlertErrorSource"
+            />
           </transition-group>
         </div>
       </div>
@@ -379,6 +304,9 @@ import Stroke from "ol/style/Stroke";
 import { createStyle } from "vuelayers/lib/ol-ext";
 import TableAttributes from "./TableAttributes.vue";
 import Spinner from "./Spinner.vue";
+import AlertNoObjects from "./AlertNoObjects.vue";
+import AlertErrorSource from "./AlertErrorSource.vue";
+import TableAttributesGeoJSON from "./TableAttributesGeoJSON.vue";
 
 // new CRS registration
 proj4.defs(
@@ -397,6 +325,9 @@ export default {
   components: {
     TableAttributes,
     Spinner,
+    AlertNoObjects,
+    AlertErrorSource,
+    TableAttributesGeoJSON,
   },
   // watching for geoJsonServicesProp changes
   watch: {
