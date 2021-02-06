@@ -1,5 +1,22 @@
 [
     {
+        "id": "SoilPygeoAPIDocker",
+        "type": "geojsonservice",
+        "layerType": "data",
+        "name": "Soil PygeoAPI Docker",
+        "geoJSONdata": [],
+        "source": "https://soil-pygeoapi-docker-bozea3cspa-ew.a.run.app/collections/estsoil/items/",
+        "minZoom": 2,
+        "maxZoom": 18,
+        "zIndex": "8",
+        "visibility": false,
+        "style": {
+            "strokeColor": "#ff5252",
+            "strokeWidth": 1,
+            "fillColor": "rgb(255, 82, 82, 0.2)"
+        }
+    },
+    {
         "id": "ProcessingZones",
         "type": "geojsonurl",
         "layerType": "data",

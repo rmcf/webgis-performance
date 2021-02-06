@@ -18,13 +18,6 @@
         laius)</span
       >
       <div class="md-toolbar-section-end">
-        <!-- info button here
-        <md-button @click="aboutProject = !aboutProject" class="md-icon-button">
-          <md-icon>info_outline</md-icon>
-          <md-tooltip class="md-xsmall-hide md-small-hide" md-direction="bottom"
-            >About project</md-tooltip
-          >
-        </md-button> -->
         <md-button @click="aboutProject = !aboutProject">About</md-button>
       </div>
     </md-toolbar>

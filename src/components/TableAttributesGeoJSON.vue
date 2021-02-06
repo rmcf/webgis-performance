@@ -42,7 +42,7 @@
 export default {
   name: "TableAttributesGeoJSON",
   props: {
-    geoJSONdataSingleFeatureProps: Array,
+    geoJSONdataSingleFeatureProps: Object,
     geoJSONdataProps: Array,
   },
   methods: {
