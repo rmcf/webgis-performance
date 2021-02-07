@@ -24,7 +24,7 @@
           <transition-group name="fade">
             <!-- table with attributes of selected vector tile feature -->
             <TableAttributes
-              v-if="selectedVectorTileFeature"
+              v-if="selectedVectorTileFeature && !geoJSONserviceLayerComputed"
               :selectedVectorTileFeatureProp="selectedVectorTileFeature"
               key="tableAttributes"
               v-on:close-table="selectedVectorTileFeature = false"
@@ -141,15 +141,8 @@
             :features.sync="geoJSONdata"
             ref="geoJsonServicesSource"
           ></vl-source-vector>
-          <vl-style-box>
-            <vl-style-stroke
-              :color="geoJSONserviceLayerComputed.style.strokeColor"
-              :width="geoJSONserviceLayerComputed.style.strokeWidth"
-            ></vl-style-stroke>
-            <vl-style-fill
-              :color="geoJSONserviceLayerComputed.style.fillColor"
-            ></vl-style-fill>
-          </vl-style-box>
+          <!-- styles USDA -->
+          <vl-style-func :factory="EstSoilMapVectorTilesStyleUSDAlabels" />
         </vl-layer-vector>
 
         <!-- vector tile layer -->
