@@ -5,6 +5,7 @@
       rel="stylesheet"
       href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
     />
+
     <!-- toolbar -->
     <md-toolbar>
       <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
@@ -39,6 +40,8 @@
           <div class="md-layout md-alignment-top-right">
             <div class="drawer-layers-section_subtitle">data layers</div>
           </div>
+
+          <!-- layers list -->
           <div
             v-for="layer in sortedDataLayerListComputed"
             :key="layer.id"
@@ -48,7 +51,7 @@
               <md-checkbox v-model="layer.visibility" class="md-primary"
                 >{{ layer.name
                 }}<span class="drawer-layer__zoom">
-                  <!-- invisible layer -->
+                  <!-- zoom for invisible layer -->
                   <span
                     v-if="
                       layer.minZoom > mapZoomDefault ||
@@ -66,7 +69,7 @@
                       }}</md-tooltip
                     >
                   </span>
-                  <!-- visible layer -->
+                  <!-- zoom for visible layer -->
                   <span v-else>
                     (<md-icon class="drawer-layer__zoom_icon">crop_free</md-icon
                     >{{ layer.minZoom }}-{{ layer.maxZoom }})
@@ -83,23 +86,10 @@
             <!-- layer info -->
             <div v-if="layer.visibility" class="layer-info-region">
               <!-- z-index buttons -->
-              <div class="layer-info-region_zindex">
-                <md-button
-                  v-on:click="layer.zIndex = parseInt(layer.zIndex) + 1"
-                  class="md-icon-button md-dense md-primary"
-                >
-                  <md-icon>keyboard_arrow_up</md-icon>
-                </md-button>
-                <md-button
-                  v-on:click="layer.zIndex = parseInt(layer.zIndex) - 1"
-                  class="md-icon-button md-dense md-primary"
-                >
-                  <md-icon>keyboard_arrow_down</md-icon>
-                </md-button>
-                <md-button class="md-dense md-primary"
-                  >z-index: {{ layer.zIndex }}</md-button
-                >
-              </div>
+              <LayerZindex
+                :layerZindexProp="layer.zIndex"
+                v-on:change-z="layer.zIndex = $event"
+              />
               <!-- color schemes -->
               <div v-if="layer.colorSchemes" class="color-shemes">
                 <div v-for="schema in layer.colorSchemes" :key="schema.value">
@@ -353,12 +343,14 @@
 import Map from "./components/Map.vue";
 import About from "./components/About.vue";
 import Layers from "./store/layers.json";
+import LayerZindex from "./components/LayerZindex.vue";
 
 export default {
   name: "App",
   components: {
     Map,
     About,
+    LayerZindex,
   },
 
   data: () => ({
@@ -630,10 +622,6 @@ div.layer-labels {
   margin-bottom: 0.5rem;
   border-bottom: 1px solid #dcdcdc;
   padding-bottom: 0.5rem;
-}
-
-div.layer-info-region_zindex .md-button {
-  margin: 0px !important;
 }
 
 div.color-shemes {
